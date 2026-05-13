@@ -1,0 +1,500 @@
+﻿@* Views/Tools/PromptTemplates.cshtml *@
+@{
+    ViewData["Title"] = "Prompt Templates";
+}
+<link rel="stylesheet" href="~/css/prompt-templates.css" />
+
+<div class="container-fluid py-3">
+
+    <!-- Hero -->
+    <div class="pt-hero">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h1>🧩 Prompt Templates</h1>
+                <p>Ready-made prompts with image settings — use directly in Image Editor</p>
+            </div>
+            <a href="/Tools/ImageEditor" target="_blank"
+                   style="background:rgba(255,255,255,.15);color:#fff;padding:.5rem 1.1rem;border-radius:.6rem;text-decoration:none;font-weight:600;border:1.5px solid rgba(255,255,255,.3)">
+                🎨 Open Image Editor ↗
+            </a>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('public',this)">🌐 Gallery</button>
+        <button class="tab-btn" onclick="switchTab('mine',this)">👤 My Templates</button>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+        <input id="searchInput" type="text" placeholder="🔍 Search..." oninput="debounceSearch()">
+        <select id="catFilter" onchange="loadTemplates()">
+            <option value="">All Categories</option>
+            <option>Cinematic</option>
+            <option>Digital Art</option>
+            <option>Photography</option>
+            <option>Code</option>
+            <option>Writing</option>
+            <option>Analysis</option>
+            <option>Translate</option>
+            <option>Tamil</option>
+            <option>image</option>
+        </select>
+        <select id="sortFilter" onchange="loadTemplates()">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="popular">Popular</option>
+        </select>
+        <button class="btn-primary" style="padding:.4rem 1rem;font-size:.88rem" onclick="openCreate()">+ New Template</button>
+        <label class="btn-secondary" style="padding:.4rem 1rem;font-size:.88rem;cursor:pointer">
+            📥 Import .apt<input type="file" accept=".apt,.json" style="display:none" onchange="importApt(this)">
+        </label>
+    </div>
+
+    <!-- Grid -->
+    <div id="templateGrid" class="template-grid"></div>
+    <div id="pagination" class="pagination"></div>
+    <div id="emptyState" class="empty-state" style="display:none">
+        <div class="icon">🧩</div><p>No templates found</p>
+    </div>
+</div>
+
+<!-- ══════════════ CREATE / EDIT MODAL ══════════════ -->
+<div id="modalOverlay" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+        <h3 id="modalTitle">✨ Create Template</h3>
+
+        <div class="form-grid">
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Title *</label>
+                <input id="fTitle" placeholder="e.g. Cinematic Portrait" maxlength="200">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Prompt *</label>
+                <textarea id="fPrompt" rows="4" placeholder="Describe what to generate..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="fCategory">
+                    <option value="">— Select —</option>
+                    <option>Cinematic</option>
+                    <option>Digital Art</option>
+                    <option>Photography</option>
+                    <option>Code</option>
+                    <option>Writing</option>
+                    <option>Analysis</option>
+                    <option>Translate</option>
+                    <option>Tamil</option>
+                    <option>image</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Style</label>
+                <input id="fStyle" placeholder="e.g. Realistic, Anime, Sketch">
+            </div>
+
+            <!-- Thumbnail URL + Random button -->
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Thumbnail URL <span style="font-weight:400;color:#9ca3af">(optional)</span></label>
+                <div style="display:flex;gap:.5rem">
+                    <input id="fThumb" placeholder="https://... or click 🎲 for random" style="flex:1">
+                    <button type="button" class="btn-rand" onclick="randomThumb()" title="Generate random thumbnail">🎲 Random</button>
+                    <button type="button" class="btn-rand" onclick="previewThumb()" title="Preview thumbnail">👁</button>
+                </div>
+                <img id="thumbPreview" src="" alt="" style="display:none;margin-top:.4rem;height:60px;border-radius:.4rem;border:1px solid #e5e7eb">
+            </div>
+
+            <div class="form-group" style="grid-column:1/-1">
+                <label style="display:flex;align-items:center;gap:.5rem">
+                    <input type="checkbox" id="fPublic" checked>
+                    Make public (earn +2 coins) 🪙
+                </label>
+            </div>
+        </div>
+
+        <!-- Advanced Image Settings -->
+        <div class="adv-toggle" id="advToggle" onclick="toggleAdv()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6" /></svg>
+            🎨 Image Generation Settings
+        </div>
+        <div class="adv-panel" id="advPanel">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Flux Model</label>
+                    <select id="fModel">
+                        <option value="flux">flux (default)</option>
+                        <option value="turbo">turbo (fast)</option>
+                        <option value="flux-realism">flux-realism</option>
+                        <option value="flux-anime">flux-anime</option>
+                        <option value="flux-3d">flux-3d</option>
+                        <option value="flux-cablyai">flux-cablyai</option>
+                        <option value="any-dark">any-dark</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Size (Width × Height)</label>
+                    <div style="display:flex;gap:.5rem">
+                        <input id="fWidth" type="number" min="256" max="2048" step="64" value="1024" style="width:50%">
+                        <input id="fHeight" type="number" min="256" max="2048" step="64" value="1024" style="width:50%">
+                    </div>
+                    <div class="size-presets">
+                        <button class="size-preset active" onclick="setSize(1024,1024,this)">1:1</button>
+                        <button class="size-preset" onclick="setSize(1152,896,this)">4:3</button>
+                        <button class="size-preset" onclick="setSize(1344,768,this)">16:9</button>
+                        <button class="size-preset" onclick="setSize(768,1344,this)">9:16</button>
+                        <button class="size-preset" onclick="setSize(896,1152,this)">3:4</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Steps (Quality) <span class="range-val" id="stepsVal">20</span></label>
+                    <div class="range-row">
+                        <span style="font-size:.75rem;color:#9ca3af">10</span>
+                        <input type="range" id="fSteps" min="10" max="50" value="20"
+                               oninput="document.getElementById('stepsVal').textContent=this.value">
+                        <span style="font-size:.75rem;color:#9ca3af">50</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Guidance Scale (CFG) <span class="range-val" id="cfgVal">7.5</span></label>
+                    <div class="range-row">
+                        <span style="font-size:.75rem;color:#9ca3af">1</span>
+                        <input type="range" id="fCfg" min="1" max="20" step="0.5" value="7.5"
+                               oninput="document.getElementById('cfgVal').textContent=parseFloat(this.value).toFixed(1)">
+                        <span style="font-size:.75rem;color:#9ca3af">20</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Seed <span style="font-weight:400;color:#9ca3af">(blank = random)</span></label>
+                    <div class="seed-row">
+                        <input id="fSeed" type="number" min="1" max="9999999" placeholder="e.g. 42">
+                        <button class="btn-rand" onclick="randomSeed()">🎲</button>
+                    </div>
+                </div>
+                <div class="form-group" style="grid-column:1/-1">
+                    <label>Negative Prompt <span style="font-weight:400;color:#9ca3af">(what to avoid)</span></label>
+                    <textarea id="fNeg" rows="2" placeholder="blurry, low quality, deformed, watermark..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="btn-primary" id="saveBtn" onclick="saveTemplate()">💾 Save Template</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+@section Scripts {
+    <script>
+        // ════════════════════════════════════════════
+        //  State
+        // ════════════════════════════════════════════
+        let currentTab  = 'public';
+        let currentPage = 1;
+        let searchTimer = null;
+        let editingId   = null;   // null=create, number=edit
+        let thumbSeed   = Math.floor(Math.random() * 1000);
+
+        document.addEventListener('DOMContentLoaded', loadTemplates);
+
+        // ════════════════════════════════════════════
+        //  Tab / Search
+        // ════════════════════════════════════════════
+        function switchTab(tab, btn) {
+            currentTab = tab; currentPage = 1;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadTemplates();
+        }
+        function debounceSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => { currentPage = 1; loadTemplates(); }, 400);
+        }
+
+        // ════════════════════════════════════════════
+        //  Load
+        // ════════════════════════════════════════════
+        async function loadTemplates() {
+            const search   = document.getElementById('searchInput').value;
+            const category = document.getElementById('catFilter').value;
+            const sort     = document.getElementById('sortFilter').value;
+            const endpoint = currentTab === 'mine' ? 'mine' : 'public';
+            const url = `/api/PromptTemplate/${endpoint}?page=${currentPage}&pageSize=24`
+                      + `&search=${encodeURIComponent(search)}`
+                      + `&category=${encodeURIComponent(category)}&sort=${sort}`;
+            try {
+                const res  = await fetch(url, { headers: { 'Accept': 'application/json' } });
+                if (res.status === 401) { showToast('⚠️ Please login again','warn'); return; }
+                if (!res.ok) { showToast('❌ Server error ' + res.status,'error'); return; }
+                const data = await res.json();
+                renderGrid(data.items ?? data.Items ?? [], data.totalPages ?? data.TotalPages ?? 1);
+            } catch(e) { showToast('❌ Network error','error'); }
+        }
+
+        // ════════════════════════════════════════════
+        //  Render
+        // ════════════════════════════════════════════
+        function renderGrid(items, totalPages) {
+            const grid  = document.getElementById('templateGrid');
+            const empty = document.getElementById('emptyState');
+            const pager = document.getElementById('pagination');
+            if (!items.length) {
+                grid.innerHTML = ''; pager.innerHTML = '';
+                empty.style.display = 'block'; return;
+            }
+            empty.style.display = 'none';
+
+            grid.innerHTML = items.map(t => {
+                const thumb = t.thumbnailUrl
+                    ? `<img src="${t.thumbnailUrl}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='${getCategoryEmoji(t.category)}'"`  + `>`
+                    : getCategoryEmoji(t.category);
+
+                const modelBadge = (t.fluxModel && t.fluxModel !== 'flux')
+                    ? `<span class="badge badge-model">${t.fluxModel}</span>` : '';
+                const catBadge   = t.category ? `<span class="badge badge-cat">${t.category}</span>` : '';
+                const sysBadge   = t.isSystem ? `<span class="badge badge-sys">⭐ System</span>` : '';
+
+                // Edit button — only for user's own non-system templates
+                const editBtn = (!t.isSystem && currentTab === 'mine')
+                    ? `<button class="btn-edit" onclick='openEdit(${JSON.stringify(t)})'>✏️</button>` : '';
+
+                const delBtn = (!t.isSystem)
+                    ? `<button class="btn-del" onclick="deleteTemplate(${t.id})">🗑</button>` : '';
+
+                return `
+                <div class="tpl-card">
+                    <div class="tpl-thumb">${thumb}</div>
+                    <div class="tpl-body">
+                        <div class="tpl-title" title="${esc(t.title)}">${esc(t.title)}</div>
+                        <div class="tpl-meta">by ${esc(t.userName||'system')} · ${t.width}×${t.height}</div>
+                        <div class="tpl-badges">${catBadge}${modelBadge}${sysBadge}</div>
+                        <div class="tpl-actions">
+                            <button class="btn-use" onclick='useInEditor(${JSON.stringify(t)})'>🎨 Use</button>
+                            <button class="btn-copy" onclick="copyPrompt(\`${esc(t.prompt)}\`)">📋</button>
+                            ${editBtn}${delBtn}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Pagination
+            pager.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+                btn.textContent = i;
+                btn.onclick = () => { currentPage = i; loadTemplates(); scrollTo(0,0); };
+                pager.appendChild(btn);
+            }
+        }
+
+        // ════════════════════════════════════════════
+        //  🎯 USE IN EDITOR — Full data transfer
+        // ════════════════════════════════════════════
+        function useInEditor(t) {
+            const params = new URLSearchParams({
+                prompt:    t.prompt         || '',
+                model:     t.fluxModel      || 'flux',
+                neg:       t.negativePrompt || '',
+                width:     t.width          || 1024,
+                height:    t.height         || 1024,
+                steps:     t.steps          || 20,
+                cfg:       t.guidanceScale  || 7.5,
+                seed:      t.seed           || ''
+            });
+            window.open(`/Tools/ImageEditor?${params}`, '_blank');
+        }
+
+        // ════════════════════════════════════════════
+        //  Copy prompt
+        // ════════════════════════════════════════════
+        async function copyPrompt(prompt) {
+            try { await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copied!'); }
+            catch { showToast('❌ Copy failed','error'); }
+        }
+
+        // ════════════════════════════════════════════
+        //  Create modal
+        // ════════════════════════════════════════════
+        function openCreate() {
+            editingId = null;
+            document.getElementById('modalTitle').textContent = '✨ Create Template';
+            document.getElementById('saveBtn').textContent    = '💾 Save Template';
+            clearForm();
+            document.getElementById('modalOverlay').classList.add('open');
+        }
+
+        // ════════════════════════════════════════════
+        //  Edit modal — pre-fill form
+        // ════════════════════════════════════════════
+        function openEdit(t) {
+            editingId = t.id;
+            document.getElementById('modalTitle').textContent = '✏️ Edit Template';
+            document.getElementById('saveBtn').textContent    = '💾 Update Template';
+
+            document.getElementById('fTitle').value    = t.title    || '';
+            document.getElementById('fPrompt').value   = t.prompt   || '';
+            document.getElementById('fCategory').value = t.category || '';
+            document.getElementById('fStyle').value    = t.style    || '';
+            document.getElementById('fThumb').value    = t.thumbnailUrl || '';
+            document.getElementById('fPublic').checked = t.isPublic ?? true;
+            document.getElementById('fModel').value    = t.fluxModel || 'flux';
+            document.getElementById('fNeg').value      = t.negativePrompt || '';
+            document.getElementById('fWidth').value    = t.width  || 1024;
+            document.getElementById('fHeight').value   = t.height || 1024;
+            document.getElementById('fSteps').value    = t.steps  || 20;
+            document.getElementById('stepsVal').textContent = t.steps || 20;
+            document.getElementById('fCfg').value      = t.guidanceScale || 7.5;
+            document.getElementById('cfgVal').textContent   = (t.guidanceScale || 7.5).toFixed(1);
+            document.getElementById('fSeed').value     = t.seed || '';
+
+            if (t.thumbnailUrl) previewThumb();
+
+            // Open advanced panel automatically if settings are non-default
+            if (t.fluxModel !== 'flux' || t.negativePrompt || t.steps !== 20) {
+                document.getElementById('advPanel').classList.add('open');
+                document.getElementById('advToggle').classList.add('open');
+            }
+
+            document.getElementById('modalOverlay').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('open');
+        }
+
+        function clearForm() {
+            ['fTitle','fPrompt','fStyle','fThumb','fNeg','fSeed'].forEach(id =>
+                document.getElementById(id).value = '');
+            document.getElementById('fCategory').value = '';
+            document.getElementById('fModel').value    = 'flux';
+            document.getElementById('fPublic').checked = true;
+            document.getElementById('fWidth').value    = 1024;
+            document.getElementById('fHeight').value   = 1024;
+            document.getElementById('fSteps').value    = 20; document.getElementById('stepsVal').textContent = '20';
+            document.getElementById('fCfg').value      = 7.5; document.getElementById('cfgVal').textContent  = '7.5';
+            document.getElementById('thumbPreview').style.display = 'none';
+            document.querySelectorAll('.size-preset').forEach((b,i) => b.classList.toggle('active',i===0));
+        }
+
+        // ════════════════════════════════════════════
+        //  Save (Create or Edit)
+        // ════════════════════════════════════════════
+        async function saveTemplate() {
+            const title  = document.getElementById('fTitle').value.trim();
+            const prompt = document.getElementById('fPrompt').value.trim();
+            if (!title || !prompt) { showToast('⚠️ Title and Prompt are required','warn'); return; }
+
+            const seedVal = document.getElementById('fSeed').value.trim();
+            const payload = {
+                title, prompt,
+                category:      document.getElementById('fCategory').value,
+                style:         document.getElementById('fStyle').value.trim(),
+                thumbnailUrl:  document.getElementById('fThumb').value.trim() || null,
+                isPublic:      document.getElementById('fPublic').checked,
+                fluxModel:     document.getElementById('fModel').value,
+                negativePrompt:document.getElementById('fNeg').value.trim() || null,
+                width:         parseInt(document.getElementById('fWidth').value)  || 1024,
+                height:        parseInt(document.getElementById('fHeight').value) || 1024,
+                steps:         parseInt(document.getElementById('fSteps').value)  || 20,
+                guidanceScale: parseFloat(document.getElementById('fCfg').value)  || 7.5,
+                seed:          seedVal ? parseInt(seedVal) : null
+            };
+
+            // Edit mode → DELETE old + CREATE new (simplest approach)
+            if (editingId !== null) {
+                // First delete
+                await fetch(`/api/PromptTemplate/${editingId}`, { method: 'DELETE' });
+            }
+
+            try {
+                const res = await fetch('/api/PromptTemplate/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!res.ok) { showToast('❌ ' + await res.text(),'error'); return; }
+                showToast(editingId ? '✅ Template updated!' : '✅ Template saved! +2 coins if public 🪙');
+                closeModal();
+                loadTemplates();
+            } catch(e) { showToast('❌ ' + e.message,'error'); }
+        }
+
+        // ════════════════════════════════════════════
+        //  Delete
+        // ════════════════════════════════════════════
+        async function deleteTemplate(id) {
+            if (!confirm('Delete this template?')) return;
+            const res = await fetch(`/api/PromptTemplate/${id}`, { method: 'DELETE' });
+            if (res.ok) { showToast('🗑 Deleted'); loadTemplates(); }
+            else showToast('❌ Delete failed','error');
+        }
+
+        // ════════════════════════════════════════════
+        //  Import .apt
+        // ════════════════════════════════════════════
+        async function importApt(input) {
+            if (!input.files[0]) return;
+            const fd = new FormData();
+            fd.append('file', input.files[0]);
+            showToast('⏳ Importing...');
+            const res = await fetch('/api/PromptTemplate/import', { method: 'POST', body: fd });
+            if (res.ok) { showToast('✅ Imported!'); switchTab('mine', document.querySelectorAll('.tab-btn')[1]); }
+            else showToast('❌ Import failed','error');
+            input.value = '';
+        }
+
+        // ════════════════════════════════════════════
+        //  Helpers
+        // ════════════════════════════════════════════
+        function toggleAdv() {
+            document.getElementById('advPanel').classList.toggle('open');
+            document.getElementById('advToggle').classList.toggle('open');
+        }
+        function setSize(w, h, btn) {
+            document.getElementById('fWidth').value  = w;
+            document.getElementById('fHeight').value = h;
+            document.querySelectorAll('.size-preset').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        function randomSeed() {
+            document.getElementById('fSeed').value = Math.floor(Math.random()*9999999)+1;
+        }
+
+        // 🆕 Random thumbnail from picsum
+        function randomThumb() {
+            thumbSeed = Math.floor(Math.random() * 9000) + 100;
+            const url = `https://picsum.photos/120/80?random=${thumbSeed}`;
+            document.getElementById('fThumb').value = url;
+            previewThumb();
+        }
+        function previewThumb() {
+            const url = document.getElementById('fThumb').value.trim();
+            const img = document.getElementById('thumbPreview');
+            if (url) { img.src = url; img.style.display = 'block'; }
+            else      { img.style.display = 'none'; }
+        }
+
+        function getCategoryEmoji(cat) {
+            const m = { 'Cinematic':'🎬','Digital Art':'🎨','Photography':'📷','Code':'💻',
+                        'Writing':'✍️','Analysis':'📊','Translate':'🌐','Tamil':'🪔','image':'🖼️' };
+            return m[cat] || '🧩';
+        }
+        function esc(s) {
+            if (!s) return '';
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                            .replace(/"/g,'&quot;').replace(/`/g,'&#96;');
+        }
+        function showToast(msg, type='info') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.background = type==='error'?'#991b1b':type==='warn'?'#92400e':'#1f2937';
+            t.style.display = 'block';
+            setTimeout(()=>t.style.display='none', 3000);
+        }
+    </script>
+}

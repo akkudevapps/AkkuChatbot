@@ -1,0 +1,228 @@
+﻿@{
+    ViewData["Title"] = "Image to Text (OCR)";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4" style="max-width:800px">
+    <h4 class="mb-3">📷 Image to Text (Advanced OCR)</h4>
+    <p class="text-muted">Extract text, tables, or structured data. Supports Tamil, English, Hindi.</p>
+
+    <div class="card bg-dark border-secondary mb-4">
+        <div class="card-body">
+            <form id="ocrForm" enctype="multipart/form-data">
+                <!-- File Drop Zone -->
+                <div class="mb-3" id="dropZoneContainer">
+                    <label class="form-label text-light">📎 Upload Image</label>
+                    <div class="upload-area border border-secondary border-2 rounded p-4 text-center"
+                         style="border-style: dashed !important; cursor: pointer; background: rgba(255,255,255,0.05); transition: all 0.3s;"
+                         onclick="document.getElementById('imageInput').click()"
+                         ondrop="dropHandler(event)"
+                         ondragover="dragOverHandler(event)"
+                         ondragleave="dragLeaveHandler(event)">
+                        <i class="fa fa-cloud-upload fa-3x mb-3 text-secondary" id="uploadIcon"></i>
+                        <p class="text-light mb-1 fw-bold" id="dropText">Drag & drop image here</p>
+                        <p class="text-muted small">or click to browse</p>
+                        <small class="text-secondary">JPG, PNG, GIF, BMP, TIFF, WEBP (Max 10MB)</small>
+                        <input type="file" id="imageInput" accept="image/*" hidden onchange="handleFileSelect(this)" required />
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div id="previewSection" class="mb-3 d-none">
+                    <img id="imagePreview" class="img-fluid rounded border border-secondary" style="max-height:250px;" />
+                    <button class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" onclick="clearImage()">×</button>
+                    <div class="d-flex justify-content-between mt-2">
+                        <small id="fileName" class="text-muted"></small>
+                        <span class="badge bg-secondary" id="fileSizeBadge"></span>
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-light">🌐 Language</label>
+                        <select id="ocrLang" class="form-select bg-dark text-light border-secondary">
+                            <option value="eng+tam+hin">Auto (Tamil + English + Hindi)</option>
+                            <option value="eng">English</option>
+                            <option value="tam">தமிழ்</option>
+                            <option value="hin">हिन्दी</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-light">⚙️ Page Segmentation (PSM)</label>
+                        <select id="ocrPsm" class="form-select bg-dark text-light border-secondary">
+                            <option value="6">Single uniform block of text</option>
+                            <option value="3">Fully automatic</option>
+                            <option value="4">Single column</option>
+                            <option value="11">Sparse text</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="useEasyOCR">
+                    <label class="form-check-label text-light" for="useEasyOCR">🔄 Use EasyOCR (better for handwriting)</label>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="button" onclick="extractText()" class="btn btn-primary flex-fill" id="extractBtn">
+                        <i class="fa fa-magic"></i> Extract Text
+                    </button>
+                    <button type="button" onclick="extractTable()" class="btn btn-outline-info" id="tableBtn">
+                        <i class="fa fa-table"></i> Table
+                    </button>
+                </div>
+
+                <div id="processingIndicator" class="text-center mt-2 d-none">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                    <span class="ms-2">Processing...</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Area -->
+    <div id="resultsContainer" class="d-none">
+        <div class="card bg-dark border-secondary">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span id="resultTitle">📝 Extracted Text</span>
+                <div>
+                    <button class="btn btn-sm btn-outline-light me-1" onclick="copyResult()"><i class="fa fa-copy"></i> Copy</button>
+                    <button class="btn btn-sm btn-outline-success me-1" onclick="downloadTxt()"><i class="fa fa-download"></i> .txt</button>
+                    <button class="btn btn-sm btn-outline-warning" onclick="sendToChat()"><i class="fa fa-comments"></i> Ask AI</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <pre id="ocrOutput" style="white-space: pre-wrap; font-family: 'Segoe UI', sans-serif; font-size: 1rem; color: #e6edf3;"></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Result -->
+    <div id="tableContainer" class="d-none mt-4">
+        <div class="card bg-dark border-secondary">
+            <div class="card-header">📊 Table Data</div>
+            <div class="card-body" style="overflow-x: auto;">
+                <table id="tableOutput" class="table table-dark table-bordered"></table>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/" class="btn btn-secondary">← Home</a>
+        <a href="/Chat" class="btn btn-primary">💬 Chat</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let selectedFile = null;
+        const resultsDiv = document.getElementById('resultsContainer');
+        const tableDiv = document.getElementById('tableContainer');
+
+        function dragOverHandler(e) { e.preventDefault(); e.currentTarget.style.background = 'rgba(13,110,253,0.1)'; }
+        function dragLeaveHandler(e) { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }
+        function dropHandler(e) {
+            e.preventDefault();
+            e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+            if (e.dataTransfer.files.length) {
+                document.getElementById('imageInput').files = e.dataTransfer.files;
+                handleFileSelect(document.getElementById('imageInput'));
+            }
+        }
+        function handleFileSelect(input) {
+            if (!input.files[0]) return;
+            const file = input.files[0];
+            if (file.size > 10*1024*1024) { alert('File too large (max 10MB)'); return; }
+            selectedFile = file;
+            document.getElementById('previewSection').classList.remove('d-none');
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSizeBadge').textContent = (file.size/1024).toFixed(1) + ' KB';
+            const reader = new FileReader();
+            reader.onload = e => document.getElementById('imagePreview').src = e.target.result;
+            reader.readAsDataURL(file);
+        }
+        function clearImage() {
+            document.getElementById('imageInput').value = '';
+            document.getElementById('previewSection').classList.add('d-none');
+            selectedFile = null;
+        }
+
+        function updateProcessing(show) {
+            document.getElementById('processingIndicator').classList.toggle('d-none', !show);
+            document.getElementById('extractBtn').disabled = show;
+            document.getElementById('tableBtn').disabled = show;
+        }
+
+        async function extractText() {
+            if (!selectedFile) { alert('Please select an image first.'); return; }
+            updateProcessing(true);
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            formData.append('lang', document.getElementById('ocrLang').value);
+            formData.append('psm', document.getElementById('ocrPsm').value);
+            // EasyOCR not currently used with Native service, but can be extended
+            try {
+                const res = await fetch('/Tools/ExtractText', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Server error');
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('ocrOutput').textContent = data.text;
+                    document.getElementById('resultTitle').innerHTML = '📝 Extracted Text';
+                    resultsDiv.classList.remove('d-none');
+                    tableDiv.classList.add('d-none');
+                } else {
+                    alert('OCR failed: ' + data.error);
+                }
+            } catch(e) { alert('Network error: ' + e.message); }
+            finally { updateProcessing(false); }
+        }
+
+        async function extractTable() {
+            if (!selectedFile) { alert('Please select an image first.'); return; }
+            updateProcessing(true);
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            formData.append('lang', document.getElementById('ocrLang').value);
+            try {
+                const res = await fetch('/Tools/ExtractTable', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Table extraction failed');
+                const data = await res.json();
+                if (data.success && data.data.length) {
+                    let html = '<thead><tr>';
+                    data.data[0].forEach(c => html += `<th>${c}</th>`);
+                    html += '</tr></thead><tbody>';
+                    for (let i = 1; i < data.data.length; i++) {
+                        html += '<tr>';
+                        data.data[i].forEach(c => html += `<td>${c}</td>`);
+                        html += '</tr>';
+                    }
+                    html += '</tbody>';
+                    document.getElementById('tableOutput').innerHTML = html;
+                    tableDiv.classList.remove('d-none');
+                    resultsDiv.classList.add('d-none');
+                } else {
+                    alert('No table found.');
+                }
+            } catch(e) { alert('Error: ' + e.message); }
+            finally { updateProcessing(false); }
+        }
+
+        function copyResult() {
+            const text = document.getElementById('ocrOutput').textContent;
+            navigator.clipboard.writeText(text).then(() => alert('Copied!'));
+        }
+        function downloadTxt() {
+            const blob = new Blob([document.getElementById('ocrOutput').textContent], {type: 'text/plain'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'ocr-result.txt';
+            a.click();
+        }
+        function sendToChat() {
+            const text = document.getElementById('ocrOutput').textContent;
+            if (!text) return;
+            window.location.href = `/Chat?ocrText=${encodeURIComponent(text)}`;
+        }
+    </script>
+}

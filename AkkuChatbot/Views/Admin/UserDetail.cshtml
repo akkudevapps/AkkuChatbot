@@ -1,0 +1,130 @@
+﻿@model AkkuChatbot.Models.ApplicationUser
+@{
+    ViewData["Title"] = "User Detail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-title">
+    <i class="fa fa-user-circle"></i> @Model.FullName
+    <a href="/Admin/Users" class="btn btn-sm btn-outline-secondary ms-3">← Back</a>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="admin-card">
+            <div class="admin-card-head">User Info</div>
+            <div class="p-3">
+                <div><strong>Email:</strong> @Model.Email</div>
+                <div><strong>Registered:</strong> @Model.RegisteredAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</div>
+                <div><strong>Coin Balance:</strong> <span class="coin-pill">@Model.CoinBalance</span></div>
+                <div><strong>Storage Used:</strong> @ViewBag.UsedMB MB / 100 MB</div>
+                <div>
+                    <strong>Role:</strong>
+                    <form method="post" asp-action="SetRole" style="display:inline">
+                        <input type="hidden" name="userId" value="@Model.Id" />
+                        <select name="role" onchange="this.form.submit()" class="form-select form-select-sm d-inline-block w-auto">
+                            <option value="User" selected="@ViewBag.Roles.Contains("User")">User</option>
+                            <option value="Admin" selected="@ViewBag.Roles.Contains("Admin")">Admin</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="admin-card">
+            <div class="admin-card-head">Manage Coins</div>
+            <div class="p-3">
+                <form method="post" asp-action="AddCoins" class="d-flex gap-2 mb-2">
+                    <input type="hidden" name="userId" value="@Model.Id" />
+                    <input type="number" name="amount" class="form-control form-control-sm" placeholder="Amount" required />
+                    <input type="text" name="reason" class="form-control form-control-sm" placeholder="Reason" required />
+                    <button type="submit" class="btn btn-sm btn-success">Add Coins</button>
+                </form>
+                <form method="post" asp-action="DeductCoins" class="d-flex gap-2">
+                    <input type="hidden" name="userId" value="@Model.Id" />
+                    <input type="number" name="amount" class="form-control form-control-sm" placeholder="Amount" required />
+                    <input type="text" name="reason" class="form-control form-control-sm" placeholder="Reason" required />
+                    <button type="submit" class="btn btn-sm btn-danger">Deduct</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sessions -->
+<div class="admin-card mt-3">
+    <div class="admin-card-head">Chat Sessions</div>
+    <div class="p-0">
+        <table class="admin-table">
+            <thead><tr><th>Name</th><th>Model</th><th>Messages</th><th>Tokens</th><th>Coins</th><th>Updated</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var s in (List<AkkuChatbot.Models.ChatSession>)ViewBag.Sessions)
+                {
+                    <tr>
+                        <td><a href="/Admin/SessionDetail/@s.Id">@s.Name</a></td>
+                        <td class="small">@s.ModelUsed</td>
+                        <td>@s.TotalMessages</td>
+                        <td>@s.TotalTokensUsed</td>
+                        <td>@s.TotalCoinsUsed</td>
+                        <td class="small">@s.UpdatedAt.ToLocalTime().ToString("dd MMM")</td>
+                        <td>
+                            <form method="post" asp-action="DeleteSession" onsubmit="return confirm('Archive?')">
+                                <input type="hidden" name="sessionId" value="@s.Id" />
+                                <button class="btn btn-xs btn-outline-danger">🗑</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Transactions -->
+<div class="admin-card">
+    <div class="admin-card-head">Coin Transactions (last 30)</div>
+    <div class="p-0">
+        <table class="admin-table">
+            <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Balance</th><th>Description</th></tr></thead>
+            <tbody>
+                @foreach (var t in (List<AkkuChatbot.Models.CoinTransaction>)ViewBag.Transactions)
+                {
+                    <tr>
+                        <td class="small">@t.CreatedAt.ToLocalTime().ToString("dd MMM HH:mm")</td>
+                        <td>@t.Type</td>
+                        <td class="@(t.Amount < 0 ? "text-danger" : "text-success")">@t.Amount</td>
+                        <td>@t.BalanceAfter</td>
+                        <td class="small">@t.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Files -->
+<div class="admin-card">
+    <div class="admin-card-head">Uploaded Files</div>
+    <div class="p-0">
+        <table class="admin-table">
+            <thead><tr><th>File</th><th>Size</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var f in (List<System.IO.FileInfo>)ViewBag.Files)
+                {
+                    <tr>
+                        <td><a href="/uploads/@ViewBag.UserId/@f.Name" target="_blank">@f.Name</a></td>
+                        <td>@Math.Round(f.Length / 1024.0, 1) KB</td>
+                        <td>
+                            <form method="post" asp-action="DeleteUserFile">
+                                <input type="hidden" name="userId" value="@ViewBag.UserId" />
+                                <input type="hidden" name="fileName" value="@f.Name" />
+                                <button class="btn btn-xs btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

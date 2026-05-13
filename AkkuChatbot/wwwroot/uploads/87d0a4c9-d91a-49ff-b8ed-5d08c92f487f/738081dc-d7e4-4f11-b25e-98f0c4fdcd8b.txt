@@ -1,0 +1,1605 @@
+ Volume in drive C is HP
+ Volume Serial Number is 309F-5A4B
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot
+
+17-04-2026  14:13    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+17-04-2026  08:32             1,309 AkkuChatbot.csproj
+13-04-2026  08:38               424 AkkuChatbot.csproj.user
+13-04-2026  07:26               127 appsettings.Development.json
+17-04-2026  08:31               666 appsettings.json
+13-04-2026  07:30    <DIR>          Areas
+16-04-2026  17:06    <DIR>          bin
+17-04-2026  12:43    <DIR>          Controllers
+17-04-2026  08:10    <DIR>          Data
+17-04-2026  14:13                 0 fileslist.txt
+13-04-2026  07:50    <DIR>          Hubs
+13-04-2026  11:58    <DIR>          Migrations
+13-04-2026  11:16    <DIR>          Models
+13-04-2026  07:45    <DIR>          NewFolder
+16-04-2026  21:08    <DIR>          obj
+17-04-2026  08:31             2,498 Program.cs
+13-04-2026  07:26    <DIR>          Properties
+17-04-2026  08:27    <DIR>          PythonFlaskService
+17-04-2026  08:31    <DIR>          Services
+17-04-2026  08:26    <DIR>          Views
+17-04-2026  08:27    <DIR>          wwwroot
+               6 File(s)          5,024 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Areas
+
+13-04-2026  07:30    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:30    <DIR>          Admin
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Areas\Admin
+
+13-04-2026  07:30    <DIR>          .
+13-04-2026  07:30    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin
+
+16-04-2026  17:06    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:26    <DIR>          Debug
+16-04-2026  17:06    <DIR>          Release
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug
+
+13-04-2026  07:26    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  19:59    <DIR>          net8.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+16-04-2026  20:25            59,086 AkkuChatbot.deps.json
+16-04-2026  20:30           452,608 AkkuChatbot.dll
+16-04-2026  20:30           151,552 AkkuChatbot.exe
+16-04-2026  20:30           109,544 AkkuChatbot.pdb
+16-04-2026  20:25               485 AkkuChatbot.runtimeconfig.json
+13-04-2026  21:02           118,700 AkkuChatbot.staticwebassets.endpoints.json
+16-04-2026  20:25            21,337 AkkuChatbot.staticwebassets.runtime.json
+13-04-2026  07:26               127 appsettings.Development.json
+13-04-2026  07:39               614 appsettings.json
+01-07-2022  00:58           321,424 Azure.Core.dll
+20-09-2022  02:01           306,064 Azure.Identity.dll
+16-04-2026  19:59    <DIR>          cs
+16-04-2026  19:59    <DIR>          de
+16-04-2026  19:59    <DIR>          es
+16-04-2026  19:59    <DIR>          fr
+29-01-2022  20:34           355,944 Humanizer.dll
+16-04-2026  19:59    <DIR>          it
+16-04-2026  19:59    <DIR>          ja
+16-04-2026  19:59    <DIR>          ko
+16-04-2026  19:59    <DIR>          LatoFont
+01-11-2023  06:38            29,464 Microsoft.AspNetCore.Authentication.Google.dll
+01-11-2023  06:37           108,704 Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+01-11-2023  06:39           933,024 Microsoft.AspNetCore.Identity.UI.dll
+23-10-2021  05:17            16,000 Microsoft.Bcl.AsyncInterfaces.dll
+10-02-2023  01:24         6,221,488 Microsoft.CodeAnalysis.CSharp.dll
+10-02-2023  01:24           870,048 Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+10-02-2023  01:04         2,856,112 Microsoft.CodeAnalysis.dll
+10-02-2023  01:14         3,643,568 Microsoft.CodeAnalysis.Workspaces.dll
+28-03-2023  10:58           275,952 Microsoft.Data.SqlClient.dll
+01-11-2023  03:45            34,848 Microsoft.EntityFrameworkCore.Abstractions.dll
+01-11-2023  03:46           484,896 Microsoft.EntityFrameworkCore.Design.dll
+01-11-2023  03:45         2,520,096 Microsoft.EntityFrameworkCore.dll
+01-11-2023  03:46         1,980,448 Microsoft.EntityFrameworkCore.Relational.dll
+01-11-2023  03:46           543,264 Microsoft.EntityFrameworkCore.SqlServer.dll
+19-03-2026  00:24           671,264 Microsoft.Extensions.AI.Abstractions.dll
+17-09-2024  04:39            63,768 Microsoft.Extensions.DependencyInjection.Abstractions.dll
+31-10-2023  20:29            79,624 Microsoft.Extensions.DependencyModel.dll
+17-09-2024  04:40            30,480 Microsoft.Extensions.Diagnostics.Abstractions.dll
+17-09-2024  04:40            51,472 Microsoft.Extensions.Hosting.Abstractions.dll
+17-09-2024  04:39            65,320 Microsoft.Extensions.Logging.Abstractions.dll
+22-10-2024  05:25            22,840 Microsoft.Extensions.ObjectPool.dll
+18-01-2024  08:35            64,776 Microsoft.Extensions.Options.dll
+03-10-2022  23:10         1,455,576 Microsoft.Identity.Client.dll
+20-11-2021  03:32            62,984 Microsoft.Identity.Client.Extensions.Msal.dll
+14-10-2022  01:12            18,864 Microsoft.IdentityModel.Abstractions.dll
+14-10-2022  00:50            89,520 Microsoft.IdentityModel.JsonWebTokens.dll
+14-10-2022  00:52            34,224 Microsoft.IdentityModel.Logging.dll
+14-10-2022  00:54            38,288 Microsoft.IdentityModel.Protocols.dll
+14-10-2022  01:04           114,048 Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+14-10-2022  00:59           983,472 Microsoft.IdentityModel.Tokens.dll
+27-01-2022  22:49            23,976 Microsoft.SqlServer.Server.dll
+23-10-2021  05:10            26,224 Microsoft.Win32.SystemEvents.dll
+23-02-2021  08:34           114,688 Mono.TextTemplating.dll
+16-09-2025  13:34           723,368 Newtonsoft.Json.dll
+24-03-2026  14:01           371,200 OllamaSharp.dll
+16-04-2026  19:59    <DIR>          pl
+16-04-2026  19:59    <DIR>          pt-BR
+20-03-2026  19:18           505,856 QuestPDF.dll
+16-04-2026  19:59    <DIR>          ru
+13-04-2026  21:02    <DIR>          runtimes
+19-07-2017  15:31           187,224 System.CodeDom.dll
+23-10-2021  05:17            18,536 System.Composition.AttributedModel.dll
+23-10-2021  05:17            52,840 System.Composition.Convention.dll
+23-10-2021  05:17            54,376 System.Composition.Hosting.dll
+23-10-2021  05:17            24,680 System.Composition.Runtime.dll
+23-10-2021  05:18            61,032 System.Composition.TypedParts.dll
+20-08-2022  01:28           396,424 System.Configuration.ConfigurationManager.dll
+23-10-2021  05:19           175,216 System.Drawing.Common.dll
+14-10-2022  00:48            90,504 System.IdentityModel.Tokens.Jwt.dll
+20-02-2026  00:30            77,616 System.IO.Pipelines.dll
+08-04-2021  22:15            21,368 System.Memory.Data.dll
+13-11-2024  03:17            55,600 System.Net.WebSockets.WebSocketProtocol.dll
+23-10-2021  05:22            89,200 System.Runtime.Caching.dll
+23-10-2021  05:21            20,592 System.Security.Cryptography.ProtectedData.dll
+23-10-2021  05:19           104,048 System.Security.Permissions.dll
+20-02-2026  00:30            66,312 System.Text.Encodings.Web.dll
+20-02-2026  00:37           677,136 System.Text.Json.dll
+23-10-2021  05:19            25,712 System.Windows.Extensions.dll
+16-04-2026  19:59    <DIR>          tr
+16-04-2026  19:59    <DIR>          zh-Hans
+16-04-2026  19:59    <DIR>          zh-Hant
+              66 File(s)     30,225,645 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\cs
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           395,440 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            45,744 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            47,744 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        506,976 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\de
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           425,632 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,560 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,280 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,784 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        541,256 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\es
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           415,904 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,080 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,280 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,272 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        530,536 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\fr
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           425,648 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,080 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,792 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            50,320 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        541,840 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\it
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           422,576 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,040 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,792 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,792 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        538,200 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\ja
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           465,056 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,592 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            50,864 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            52,856 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        587,368 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\ko
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           427,696 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,776 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,784 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        543,304 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\LatoFont
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+20-03-2026  19:14           664,748 Lato-Black.ttf
+20-03-2026  19:14           698,264 Lato-BlackItalic.ttf
+20-03-2026  19:14           656,544 Lato-Bold.ttf
+20-03-2026  19:14           698,364 Lato-BoldItalic.ttf
+20-03-2026  19:14           613,920 Lato-ExtraBold.ttf
+20-03-2026  19:14           671,876 Lato-ExtraBoldItalic.ttf
+20-03-2026  19:14           626,624 Lato-ExtraLight.ttf
+20-03-2026  19:14           653,640 Lato-ExtraLightItalic.ttf
+20-03-2026  19:14           722,900 Lato-Italic.ttf
+20-03-2026  19:14           643,884 Lato-Light.ttf
+20-03-2026  19:14           657,552 Lato-LightItalic.ttf
+20-03-2026  19:14           636,396 Lato-Medium.ttf
+20-03-2026  19:14           694,924 Lato-MediumItalic.ttf
+20-03-2026  19:14           656,568 Lato-Regular.ttf
+20-03-2026  19:14           668,548 Lato-SemiBold.ttf
+20-03-2026  19:14           697,364 Lato-SemiBoldItalic.ttf
+20-03-2026  19:14           584,056 Lato-Thin.ttf
+20-03-2026  19:14           608,716 Lato-ThinItalic.ttf
+20-03-2026  19:14             4,500 OFL.txt
+              19 File(s)     11,859,388 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\pl
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           428,208 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,096 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,776 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,808 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        543,888 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\pt-BR
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           408,736 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            46,240 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,280 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        522,304 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\ru
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           562,336 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            19,072 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            57,008 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            56,976 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        695,392 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes
+
+13-04-2026  21:02    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+13-04-2026  07:50    <DIR>          browser
+13-04-2026  21:02    <DIR>          linux-arm64
+13-04-2026  21:02    <DIR>          linux-musl-x64
+13-04-2026  21:02    <DIR>          linux-x64
+13-04-2026  21:02    <DIR>          osx-arm64
+13-04-2026  21:02    <DIR>          osx-x64
+13-04-2026  07:50    <DIR>          unix
+13-04-2026  07:50    <DIR>          win
+13-04-2026  07:50    <DIR>          win-arm
+13-04-2026  07:50    <DIR>          win-arm64
+13-04-2026  07:50    <DIR>          win-x64
+13-04-2026  07:50    <DIR>          win-x86
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\browser
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+13-04-2026  07:50    <DIR>          lib
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\browser\lib
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+16-04-2026  19:59    <DIR>          net8.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\browser\lib\net8.0
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+20-02-2026  00:34            66,320 System.Text.Encodings.Web.dll
+               1 File(s)         66,320 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\linux-arm64
+
+13-04-2026  21:02    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\linux-arm64\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+20-03-2026  19:14         3,135,896 libqpdf.so
+20-03-2026  19:14         6,907,240 libQuestPdfSkia.so
+               2 File(s)     10,043,136 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\linux-musl-x64
+
+13-04-2026  21:02    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\linux-musl-x64\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+20-03-2026  19:14         3,420,576 libqpdf.so
+20-03-2026  19:14         7,311,384 libQuestPdfSkia.so
+               2 File(s)     10,731,960 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\linux-x64
+
+13-04-2026  21:02    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\linux-x64\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+20-03-2026  19:14         3,373,784 libqpdf.so
+20-03-2026  19:14         7,076,824 libQuestPdfSkia.so
+               2 File(s)     10,450,608 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\osx-arm64
+
+13-04-2026  21:02    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\osx-arm64\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+20-03-2026  19:14         2,408,976 libqpdf.dylib
+20-03-2026  19:14         4,461,496 libQuestPdfSkia.dylib
+               2 File(s)      6,870,472 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\osx-x64
+
+13-04-2026  21:02    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\osx-x64\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+20-03-2026  19:14         2,444,344 libqpdf.dylib
+20-03-2026  19:14         4,844,800 libQuestPdfSkia.dylib
+               2 File(s)      7,289,144 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\unix
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+13-04-2026  07:50    <DIR>          lib
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\unix\lib
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+16-04-2026  19:59    <DIR>          net6.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\unix\lib\net6.0
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+28-03-2023  10:58         1,548,304 Microsoft.Data.SqlClient.dll
+23-10-2021  05:21           427,112 System.Drawing.Common.dll
+               2 File(s)      1,975,416 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+13-04-2026  07:50    <DIR>          lib
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win\lib
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+16-04-2026  19:59    <DIR>          net6.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win\lib\net6.0
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+28-03-2023  10:57         1,631,712 Microsoft.Data.SqlClient.dll
+23-10-2021  05:10            53,352 Microsoft.Win32.SystemEvents.dll
+23-10-2021  05:18           454,248 System.Drawing.Common.dll
+23-10-2021  05:22            91,240 System.Runtime.Caching.dll
+23-10-2021  05:21            33,904 System.Security.Cryptography.ProtectedData.dll
+23-10-2021  05:19            43,112 System.Windows.Extensions.dll
+               6 File(s)      2,307,568 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-arm
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-arm\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+13-01-2023  03:49           381,848 Microsoft.Data.SqlClient.SNI.dll
+               1 File(s)        381,848 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-arm64
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-arm64\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+13-01-2023  03:49           491,424 Microsoft.Data.SqlClient.SNI.dll
+               1 File(s)        491,424 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-x64
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-x64\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+20-03-2026  19:14           150,196 libgcc_s_seh-1.dll
+20-03-2026  19:14         2,461,848 libstdc++-6.dll
+20-03-2026  19:14            65,018 libwinpthread-1.dll
+13-01-2023  03:49           506,272 Microsoft.Data.SqlClient.SNI.dll
+20-03-2026  19:14         2,972,160 qpdf.dll
+20-03-2026  19:14         6,504,960 QuestPdfSkia.dll
+20-03-2026  19:14           120,814 zlib1.dll
+               7 File(s)     12,781,268 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-x86
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  21:02    <DIR>          ..
+16-04-2026  19:59    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\runtimes\win-x86\native
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+20-03-2026  19:14           208,111 libgcc_s_dw2-1.dll
+20-03-2026  19:14         2,585,240 libstdc++-6.dll
+20-03-2026  19:14            79,099 libwinpthread-1.dll
+13-01-2023  03:49           414,096 Microsoft.Data.SqlClient.SNI.dll
+20-03-2026  19:14         3,108,864 qpdf.dll
+20-03-2026  19:14         5,123,584 QuestPdfSkia.dll
+20-03-2026  19:14           127,857 zlib1.dll
+               7 File(s)     11,646,851 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\tr
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           405,664 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            45,728 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            48,256 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        517,696 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\zh-Hans
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           360,624 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,096 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            43,184 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            45,696 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        467,600 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Debug\net8.0\zh-Hant
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+10-02-2023  01:24           360,608 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            43,184 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            45,712 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        467,552 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+17-04-2026  12:43    <DIR>          net8.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0
+
+17-04-2026  12:43    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+17-04-2026  08:41            59,086 AkkuChatbot.deps.json
+17-04-2026  12:43           583,680 AkkuChatbot.dll
+17-04-2026  12:43           151,552 AkkuChatbot.exe
+17-04-2026  12:43           145,100 AkkuChatbot.pdb
+16-04-2026  21:08               557 AkkuChatbot.runtimeconfig.json
+17-04-2026  08:41           119,824 AkkuChatbot.staticwebassets.endpoints.json
+17-04-2026  08:41            21,524 AkkuChatbot.staticwebassets.runtime.json
+13-04-2026  07:26               127 appsettings.Development.json
+17-04-2026  08:31               666 appsettings.json
+01-07-2022  00:58           321,424 Azure.Core.dll
+20-09-2022  02:01           306,064 Azure.Identity.dll
+16-04-2026  20:01    <DIR>          cs
+16-04-2026  20:01    <DIR>          de
+16-04-2026  20:01    <DIR>          es
+16-04-2026  20:01    <DIR>          fr
+29-01-2022  20:34           355,944 Humanizer.dll
+16-04-2026  20:01    <DIR>          it
+16-04-2026  20:01    <DIR>          ja
+16-04-2026  20:01    <DIR>          ko
+16-04-2026  20:01    <DIR>          LatoFont
+01-11-2023  06:38            29,464 Microsoft.AspNetCore.Authentication.Google.dll
+01-11-2023  06:37           108,704 Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+01-11-2023  06:39           933,024 Microsoft.AspNetCore.Identity.UI.dll
+23-10-2021  05:17            16,000 Microsoft.Bcl.AsyncInterfaces.dll
+10-02-2023  01:24         6,221,488 Microsoft.CodeAnalysis.CSharp.dll
+10-02-2023  01:24           870,048 Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+10-02-2023  01:04         2,856,112 Microsoft.CodeAnalysis.dll
+10-02-2023  01:14         3,643,568 Microsoft.CodeAnalysis.Workspaces.dll
+28-03-2023  10:58           275,952 Microsoft.Data.SqlClient.dll
+01-11-2023  03:45            34,848 Microsoft.EntityFrameworkCore.Abstractions.dll
+01-11-2023  03:46           484,896 Microsoft.EntityFrameworkCore.Design.dll
+01-11-2023  03:45         2,520,096 Microsoft.EntityFrameworkCore.dll
+01-11-2023  03:46         1,980,448 Microsoft.EntityFrameworkCore.Relational.dll
+01-11-2023  03:46           543,264 Microsoft.EntityFrameworkCore.SqlServer.dll
+19-03-2026  00:24           671,264 Microsoft.Extensions.AI.Abstractions.dll
+17-09-2024  04:39            63,768 Microsoft.Extensions.DependencyInjection.Abstractions.dll
+31-10-2023  20:29            79,624 Microsoft.Extensions.DependencyModel.dll
+17-09-2024  04:40            30,480 Microsoft.Extensions.Diagnostics.Abstractions.dll
+17-09-2024  04:40            51,472 Microsoft.Extensions.Hosting.Abstractions.dll
+17-09-2024  04:39            65,320 Microsoft.Extensions.Logging.Abstractions.dll
+22-10-2024  05:25            22,840 Microsoft.Extensions.ObjectPool.dll
+18-01-2024  08:35            64,776 Microsoft.Extensions.Options.dll
+03-10-2022  23:10         1,455,576 Microsoft.Identity.Client.dll
+20-11-2021  03:32            62,984 Microsoft.Identity.Client.Extensions.Msal.dll
+14-10-2022  01:12            18,864 Microsoft.IdentityModel.Abstractions.dll
+14-10-2022  00:50            89,520 Microsoft.IdentityModel.JsonWebTokens.dll
+14-10-2022  00:52            34,224 Microsoft.IdentityModel.Logging.dll
+14-10-2022  00:54            38,288 Microsoft.IdentityModel.Protocols.dll
+14-10-2022  01:04           114,048 Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+14-10-2022  00:59           983,472 Microsoft.IdentityModel.Tokens.dll
+27-01-2022  22:49            23,976 Microsoft.SqlServer.Server.dll
+23-10-2021  05:10            26,224 Microsoft.Win32.SystemEvents.dll
+23-02-2021  08:34           114,688 Mono.TextTemplating.dll
+16-09-2025  13:34           723,368 Newtonsoft.Json.dll
+24-03-2026  14:01           371,200 OllamaSharp.dll
+16-04-2026  20:01    <DIR>          pl
+16-04-2026  20:01    <DIR>          pt-BR
+20-03-2026  19:18           505,856 QuestPDF.dll
+16-04-2026  20:01    <DIR>          ru
+16-04-2026  17:06    <DIR>          runtimes
+19-07-2017  15:31           187,224 System.CodeDom.dll
+23-10-2021  05:17            18,536 System.Composition.AttributedModel.dll
+23-10-2021  05:17            52,840 System.Composition.Convention.dll
+23-10-2021  05:17            54,376 System.Composition.Hosting.dll
+23-10-2021  05:17            24,680 System.Composition.Runtime.dll
+23-10-2021  05:18            61,032 System.Composition.TypedParts.dll
+20-08-2022  01:28           396,424 System.Configuration.ConfigurationManager.dll
+23-10-2021  05:19           175,216 System.Drawing.Common.dll
+14-10-2022  00:48            90,504 System.IdentityModel.Tokens.Jwt.dll
+20-02-2026  00:30            77,616 System.IO.Pipelines.dll
+08-04-2021  22:15            21,368 System.Memory.Data.dll
+13-11-2024  03:17            55,600 System.Net.WebSockets.WebSocketProtocol.dll
+23-10-2021  05:22            89,200 System.Runtime.Caching.dll
+23-10-2021  05:21            20,592 System.Security.Cryptography.ProtectedData.dll
+23-10-2021  05:19           104,048 System.Security.Permissions.dll
+20-02-2026  00:30            66,312 System.Text.Encodings.Web.dll
+20-02-2026  00:37           677,136 System.Text.Json.dll
+23-10-2021  05:19            25,712 System.Windows.Extensions.dll
+16-04-2026  20:01    <DIR>          tr
+16-04-2026  20:01    <DIR>          zh-Hans
+16-04-2026  20:01    <DIR>          zh-Hant
+              66 File(s)     30,393,708 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\cs
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           395,440 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            45,744 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            47,744 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        506,976 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\de
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           425,632 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,560 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,280 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,784 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        541,256 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\es
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           415,904 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,080 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,280 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,272 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        530,536 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\fr
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           425,648 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,080 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,792 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            50,320 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        541,840 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\it
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           422,576 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,040 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,792 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,792 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        538,200 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\ja
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           465,056 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,592 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            50,864 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            52,856 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        587,368 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\ko
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           427,696 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,776 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,784 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        543,304 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\LatoFont
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+20-03-2026  19:14           664,748 Lato-Black.ttf
+20-03-2026  19:14           698,264 Lato-BlackItalic.ttf
+20-03-2026  19:14           656,544 Lato-Bold.ttf
+20-03-2026  19:14           698,364 Lato-BoldItalic.ttf
+20-03-2026  19:14           613,920 Lato-ExtraBold.ttf
+20-03-2026  19:14           671,876 Lato-ExtraBoldItalic.ttf
+20-03-2026  19:14           626,624 Lato-ExtraLight.ttf
+20-03-2026  19:14           653,640 Lato-ExtraLightItalic.ttf
+20-03-2026  19:14           722,900 Lato-Italic.ttf
+20-03-2026  19:14           643,884 Lato-Light.ttf
+20-03-2026  19:14           657,552 Lato-LightItalic.ttf
+20-03-2026  19:14           636,396 Lato-Medium.ttf
+20-03-2026  19:14           694,924 Lato-MediumItalic.ttf
+20-03-2026  19:14           656,568 Lato-Regular.ttf
+20-03-2026  19:14           668,548 Lato-SemiBold.ttf
+20-03-2026  19:14           697,364 Lato-SemiBoldItalic.ttf
+20-03-2026  19:14           584,056 Lato-Thin.ttf
+20-03-2026  19:14           608,716 Lato-ThinItalic.ttf
+20-03-2026  19:14             4,500 OFL.txt
+              19 File(s)     11,859,388 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\pl
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           428,208 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,096 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            47,776 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,808 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        543,888 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\pt-BR
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           408,736 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            46,240 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            49,280 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        522,304 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\ru
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           562,336 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            19,072 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            57,008 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            56,976 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        695,392 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes
+
+16-04-2026  17:06    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+16-04-2026  17:06    <DIR>          browser
+16-04-2026  17:06    <DIR>          linux-arm64
+16-04-2026  17:06    <DIR>          linux-musl-x64
+16-04-2026  17:06    <DIR>          linux-x64
+16-04-2026  17:06    <DIR>          osx-arm64
+16-04-2026  17:06    <DIR>          osx-x64
+16-04-2026  17:06    <DIR>          unix
+16-04-2026  17:06    <DIR>          win
+16-04-2026  17:06    <DIR>          win-arm
+16-04-2026  17:06    <DIR>          win-arm64
+16-04-2026  17:06    <DIR>          win-x64
+16-04-2026  17:06    <DIR>          win-x86
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\browser
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  17:06    <DIR>          lib
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\browser\lib
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          net8.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\browser\lib\net8.0
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-02-2026  00:34            66,320 System.Text.Encodings.Web.dll
+               1 File(s)         66,320 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\linux-arm64
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\linux-arm64\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-03-2026  19:14         3,135,896 libqpdf.so
+20-03-2026  19:14         6,907,240 libQuestPdfSkia.so
+               2 File(s)     10,043,136 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\linux-musl-x64
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\linux-musl-x64\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-03-2026  19:14         3,420,576 libqpdf.so
+20-03-2026  19:14         7,311,384 libQuestPdfSkia.so
+               2 File(s)     10,731,960 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\linux-x64
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\linux-x64\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-03-2026  19:14         3,373,784 libqpdf.so
+20-03-2026  19:14         7,076,824 libQuestPdfSkia.so
+               2 File(s)     10,450,608 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\osx-arm64
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\osx-arm64\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-03-2026  19:14         2,408,976 libqpdf.dylib
+20-03-2026  19:14         4,461,496 libQuestPdfSkia.dylib
+               2 File(s)      6,870,472 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\osx-x64
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\osx-x64\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-03-2026  19:14         2,444,344 libqpdf.dylib
+20-03-2026  19:14         4,844,800 libQuestPdfSkia.dylib
+               2 File(s)      7,289,144 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\unix
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  17:06    <DIR>          lib
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\unix\lib
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          net6.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\unix\lib\net6.0
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+28-03-2023  10:58         1,548,304 Microsoft.Data.SqlClient.dll
+23-10-2021  05:21           427,112 System.Drawing.Common.dll
+               2 File(s)      1,975,416 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  17:06    <DIR>          lib
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win\lib
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          net6.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win\lib\net6.0
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+28-03-2023  10:57         1,631,712 Microsoft.Data.SqlClient.dll
+23-10-2021  05:10            53,352 Microsoft.Win32.SystemEvents.dll
+23-10-2021  05:18           454,248 System.Drawing.Common.dll
+23-10-2021  05:22            91,240 System.Runtime.Caching.dll
+23-10-2021  05:21            33,904 System.Security.Cryptography.ProtectedData.dll
+23-10-2021  05:19            43,112 System.Windows.Extensions.dll
+               6 File(s)      2,307,568 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-arm
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-arm\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+13-01-2023  03:49           381,848 Microsoft.Data.SqlClient.SNI.dll
+               1 File(s)        381,848 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-arm64
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-arm64\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+13-01-2023  03:49           491,424 Microsoft.Data.SqlClient.SNI.dll
+               1 File(s)        491,424 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-x64
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-x64\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-03-2026  19:14           150,196 libgcc_s_seh-1.dll
+20-03-2026  19:14         2,461,848 libstdc++-6.dll
+20-03-2026  19:14            65,018 libwinpthread-1.dll
+13-01-2023  03:49           506,272 Microsoft.Data.SqlClient.SNI.dll
+20-03-2026  19:14         2,972,160 qpdf.dll
+20-03-2026  19:14         6,504,960 QuestPdfSkia.dll
+20-03-2026  19:14           120,814 zlib1.dll
+               7 File(s)     12,781,268 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-x86
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          native
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\runtimes\win-x86\native
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+20-03-2026  19:14           208,111 libgcc_s_dw2-1.dll
+20-03-2026  19:14         2,585,240 libstdc++-6.dll
+20-03-2026  19:14            79,099 libwinpthread-1.dll
+13-01-2023  03:49           414,096 Microsoft.Data.SqlClient.SNI.dll
+20-03-2026  19:14         3,108,864 qpdf.dll
+20-03-2026  19:14         5,123,584 QuestPdfSkia.dll
+20-03-2026  19:14           127,857 zlib1.dll
+               7 File(s)     11,646,851 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\tr
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           405,664 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            45,728 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            48,256 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        517,696 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\zh-Hans
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           360,624 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,096 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            43,184 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            45,696 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        467,600 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\bin\Release\net8.0\zh-Hant
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+10-02-2023  01:24           360,608 Microsoft.CodeAnalysis.CSharp.resources.dll
+10-02-2023  01:24            18,048 Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+10-02-2023  01:04            43,184 Microsoft.CodeAnalysis.resources.dll
+10-02-2023  01:14            45,712 Microsoft.CodeAnalysis.Workspaces.resources.dll
+               4 File(s)        467,552 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Controllers
+
+17-04-2026  12:43    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  08:37             6,249 AccountController.cs
+17-04-2026  12:43            13,308 AdminController.cs
+14-04-2026  01:21            14,020 ChatController.cs
+14-04-2026  10:07             1,024 CoinController.cs
+14-04-2026  01:18             3,681 Dashboardcontroller.cs
+13-04-2026  07:26               819 HomeController.cs
+17-04-2026  08:23                95 SoftwareController.cs
+17-04-2026  08:40                92 ToolsController.cs
+               8 File(s)         39,288 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Data
+
+17-04-2026  08:10    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  11:15             1,785 ApplicationDbContext.cs
+17-04-2026  08:10             2,465 SeedData.cs
+               2 File(s)          4,250 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Hubs
+
+13-04-2026  07:50    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:50               285 ChatHub.cs
+               1 File(s)            285 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Migrations
+
+13-04-2026  11:58    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:54            14,004 20260413022440_InitialCreate.cs
+13-04-2026  07:54            14,801 20260413022440_InitialCreate.Designer.cs
+13-04-2026  11:58             5,799 20260413062829_AddChatSessions.cs
+13-04-2026  11:58            17,989 20260413062829_AddChatSessions.Designer.cs
+13-04-2026  11:58            17,889 ApplicationDbContextModelSnapshot.cs
+               5 File(s)         70,482 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Models
+
+13-04-2026  11:16    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:50               635 ApplicationUser.cs
+13-04-2026  11:16             1,138 ChatMessage.cs
+13-04-2026  11:16               895 ChatSession.cs
+13-04-2026  07:50               587 CoinTransaction.cs
+13-04-2026  07:26               205 ErrorViewModel.cs
+13-04-2026  08:40    <DIR>          ViewModels
+               5 File(s)          3,460 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Models\ViewModels
+
+13-04-2026  08:40    <DIR>          .
+13-04-2026  11:16    <DIR>          ..
+13-04-2026  08:40               458 LoginViewModel.cs
+13-04-2026  08:40               772 RegisterViewModel.cs
+               2 File(s)          1,230 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\NewFolder
+
+13-04-2026  07:45    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj
+
+16-04-2026  21:08    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+16-04-2026  21:08             4,571 AkkuChatbot.csproj.nuget.dgspec.json
+13-04-2026  07:32             2,740 AkkuChatbot.csproj.nuget.g.props
+13-04-2026  20:03             1,553 AkkuChatbot.csproj.nuget.g.targets
+13-04-2026  07:26    <DIR>          Debug
+16-04-2026  21:08           259,033 project.assets.json
+16-04-2026  21:08            16,880 project.nuget.cache
+16-04-2026  17:06    <DIR>          Release
+               5 File(s)        284,777 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug
+
+13-04-2026  07:26    <DIR>          .
+16-04-2026  21:08    <DIR>          ..
+16-04-2026  19:59    <DIR>          net8.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26               198 .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+13-04-2026  21:02                 0 AkkuChat.A0415DDE.Up2Date
+13-04-2026  07:32             1,087 AkkuChatbot.AssemblyInfo.cs
+13-04-2026  07:32                66 AkkuChatbot.AssemblyInfoInputs.cache
+16-04-2026  20:25            89,917 AkkuChatbot.assets.cache
+13-04-2026  20:03            19,283 AkkuChatbot.csproj.AssemblyReference.cache
+16-04-2026  20:30                 0 AkkuChatbot.csproj.BuildWithSkipAnalyzers
+14-04-2026  09:46                66 AkkuChatbot.csproj.CoreCompileInputs.cache
+16-04-2026  20:25            37,800 AkkuChatbot.csproj.FileListAbsolute.txt
+16-04-2026  20:30           452,608 AkkuChatbot.dll
+16-04-2026  20:25             3,492 AkkuChatbot.GeneratedMSBuildEditorConfig.editorconfig
+16-04-2026  20:25                66 AkkuChatbot.genruntimeconfig.cache
+13-04-2026  07:26               642 AkkuChatbot.GlobalUsings.g.cs
+16-04-2026  20:25                 0 AkkuChatbot.MvcApplicationPartsAssemblyInfo.cache
+16-04-2026  20:25               624 AkkuChatbot.MvcApplicationPartsAssemblyInfo.cs
+16-04-2026  20:30           109,544 AkkuChatbot.pdb
+13-04-2026  07:26                66 AkkuChatbot.RazorAssemblyInfo.cache
+13-04-2026  07:26               732 AkkuChatbot.RazorAssemblyInfo.cs
+16-04-2026  20:30                 2 ApiEndpoints.json
+16-04-2026  20:30           151,552 apphost.exe
+16-04-2026  19:59    <DIR>          ref
+16-04-2026  19:59    <DIR>          refint
+16-04-2026  20:25             3,788 rjimswa.dswa.cache.json
+16-04-2026  20:30             5,565 rjsmcshtml.dswa.cache.json
+16-04-2026  20:30             5,565 rjsmrazor.dswa.cache.json
+16-04-2026  20:30            64,614 rpswa.dswa.cache.json
+13-04-2026  07:50    <DIR>          scopedcss
+13-04-2026  07:26    <DIR>          staticwebassets
+13-04-2026  21:02           118,700 staticwebassets.build.endpoints.json
+16-04-2026  20:25           249,227 staticwebassets.build.json
+16-04-2026  20:25                44 staticwebassets.build.json.cache
+16-04-2026  20:25            21,337 staticwebassets.development.json
+13-04-2026  07:50                 0 staticwebassets.references.upToDateCheck.txt
+13-04-2026  07:26                 0 staticwebassets.removed.txt
+14-04-2026  10:16             4,041 staticwebassets.upToDateCheck.txt
+13-04-2026  07:50                 0 swae.build.ex.cache
+              32 File(s)      1,340,626 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\ref
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+14-04-2026  10:16            56,320 AkkuChatbot.dll
+               1 File(s)         56,320 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\refint
+
+16-04-2026  19:59    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+16-04-2026  20:30            56,320 AkkuChatbot.dll
+               1 File(s)         56,320 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\scopedcss
+
+13-04-2026  07:50    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+16-04-2026  19:59    <DIR>          bundle
+16-04-2026  19:59    <DIR>          projectbundle
+13-04-2026  07:50    <DIR>          Views
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\scopedcss\bundle
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+13-04-2026  07:50             1,109 AkkuChatbot.styles.css
+               1 File(s)          1,109 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\scopedcss\projectbundle
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+13-04-2026  07:50             1,109 AkkuChatbot.bundle.scp.css
+               1 File(s)          1,109 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\scopedcss\Views
+
+13-04-2026  07:50    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+16-04-2026  19:59    <DIR>          Shared
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\scopedcss\Views\Shared
+
+16-04-2026  19:59    <DIR>          .
+13-04-2026  07:50    <DIR>          ..
+13-04-2026  07:50             1,062 _Layout.cshtml.rz.scp.css
+               1 File(s)          1,062 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Debug\net8.0\staticwebassets
+
+13-04-2026  07:26    <DIR>          .
+16-04-2026  19:59    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  21:08    <DIR>          ..
+17-04-2026  12:43    <DIR>          net8.0
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0
+
+17-04-2026  12:43    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  17:06               198 .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+16-04-2026  20:01                 0 AkkuChat.A0415DDE.Up2Date
+16-04-2026  20:01             1,089 AkkuChatbot.AssemblyInfo.cs
+16-04-2026  20:01                66 AkkuChatbot.AssemblyInfoInputs.cache
+16-04-2026  21:08            90,115 AkkuChatbot.assets.cache
+16-04-2026  20:01            19,283 AkkuChatbot.csproj.AssemblyReference.cache
+17-04-2026  12:42                 0 AkkuChatbot.csproj.BuildWithSkipAnalyzers
+17-04-2026  08:34                66 AkkuChatbot.csproj.CoreCompileInputs.cache
+16-04-2026  20:01            19,500 AkkuChatbot.csproj.FileListAbsolute.txt
+17-04-2026  12:43           583,680 AkkuChatbot.dll
+17-04-2026  12:36             5,941 AkkuChatbot.GeneratedMSBuildEditorConfig.editorconfig
+16-04-2026  20:01                66 AkkuChatbot.genruntimeconfig.cache
+16-04-2026  17:06               642 AkkuChatbot.GlobalUsings.g.cs
+17-04-2026  08:34                 0 AkkuChatbot.MvcApplicationPartsAssemblyInfo.cache
+17-04-2026  08:34               624 AkkuChatbot.MvcApplicationPartsAssemblyInfo.cs
+17-04-2026  12:43           145,100 AkkuChatbot.pdb
+16-04-2026  20:01                66 AkkuChatbot.RazorAssemblyInfo.cache
+16-04-2026  20:01               732 AkkuChatbot.RazorAssemblyInfo.cs
+17-04-2026  12:43                 2 ApiEndpoints.json
+17-04-2026  12:43           151,552 apphost.exe
+16-04-2026  20:01    <DIR>          ref
+16-04-2026  20:01    <DIR>          refint
+17-04-2026  08:41             3,870 rjimswa.dswa.cache.json
+17-04-2026  12:43             6,320 rjsmcshtml.dswa.cache.json
+17-04-2026  12:43             6,320 rjsmrazor.dswa.cache.json
+17-04-2026  14:04            66,525 rpswa.dswa.cache.json
+16-04-2026  17:06    <DIR>          scopedcss
+16-04-2026  17:06    <DIR>          staticwebassets
+17-04-2026  08:41           119,824 staticwebassets.build.endpoints.json
+17-04-2026  08:41           252,074 staticwebassets.build.json
+17-04-2026  08:41                44 staticwebassets.build.json.cache
+17-04-2026  08:41            21,524 staticwebassets.development.json
+16-04-2026  17:06                 0 staticwebassets.references.upToDateCheck.txt
+16-04-2026  17:06                 0 staticwebassets.removed.txt
+17-04-2026  12:43             4,077 staticwebassets.upToDateCheck.txt
+16-04-2026  20:01                 0 swae.build.ex.cache
+              32 File(s)      1,499,300 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\ref
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+17-04-2026  12:43            76,288 AkkuChatbot.dll
+               1 File(s)         76,288 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\refint
+
+16-04-2026  20:01    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+17-04-2026  12:43            76,288 AkkuChatbot.dll
+               1 File(s)         76,288 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\scopedcss
+
+16-04-2026  17:06    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+16-04-2026  20:01    <DIR>          bundle
+16-04-2026  20:01    <DIR>          projectbundle
+16-04-2026  17:06    <DIR>          Views
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\scopedcss\bundle
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01             1,109 AkkuChatbot.styles.css
+               1 File(s)          1,109 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\scopedcss\projectbundle
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01             1,109 AkkuChatbot.bundle.scp.css
+               1 File(s)          1,109 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\scopedcss\Views
+
+16-04-2026  17:06    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01    <DIR>          Shared
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\scopedcss\Views\Shared
+
+16-04-2026  20:01    <DIR>          .
+16-04-2026  17:06    <DIR>          ..
+16-04-2026  20:01             1,062 _Layout.cshtml.rz.scp.css
+               1 File(s)          1,062 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\obj\Release\net8.0\staticwebassets
+
+16-04-2026  17:06    <DIR>          .
+17-04-2026  12:43    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Properties
+
+13-04-2026  07:26    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:26             1,032 launchSettings.json
+               1 File(s)          1,032 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\PythonFlaskService
+
+17-04-2026  08:27    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Services
+
+17-04-2026  08:31    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:50             1,947 ChatService.cs
+14-04-2026  10:06             3,128 CoinService.cs
+17-04-2026  08:31             2,326 FlaskImageOcrService.cs
+13-04-2026  07:50               293 IChatService.cs
+14-04-2026  10:06               466 ICoinService.cs
+13-04-2026  07:50               233 IOllamaService.cs
+13-04-2026  11:14             8,772 ModelCapabilityService.cs
+14-04-2026  01:21             2,451 OllamaService.cs
+13-04-2026  20:54             6,528 PdfExportService.cs
+               9 File(s)         26,144 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views
+
+17-04-2026  08:26    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  08:40    <DIR>          Account
+17-04-2026  12:36    <DIR>          Admin
+13-04-2026  11:20    <DIR>          Chat
+14-04-2026  01:18    <DIR>          Dashboard
+16-04-2026  20:07    <DIR>          Home
+17-04-2026  12:42    <DIR>          Shared
+17-04-2026  08:41    <DIR>          Software
+17-04-2026  08:33    <DIR>          Tools
+13-04-2026  07:26               104 _ViewImports.cshtml
+13-04-2026  07:26                35 _ViewStart.cshtml
+               2 File(s)            139 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Account
+
+13-04-2026  08:40    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+13-04-2026  08:40             2,863 Login.cshtml
+13-04-2026  08:40             3,152 Register.cshtml
+               2 File(s)          6,015 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Admin
+
+17-04-2026  12:36    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+17-04-2026  12:30             2,678 Index.cshtml
+17-04-2026  12:30             2,397 SessionDetail.cshtml
+17-04-2026  12:30             2,406 Sessions.cshtml
+17-04-2026  12:31             1,614 Transactions.cshtml
+17-04-2026  12:30             6,254 UserDetail.cshtml
+17-04-2026  12:30             2,797 Users.cshtml
+               6 File(s)         18,146 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Chat
+
+13-04-2026  11:20    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+13-04-2026  11:20                92 Index.cshtml
+               1 File(s)             92 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Dashboard
+
+14-04-2026  01:18    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+14-04-2026  01:18             9,714 Index.cshtml
+               1 File(s)          9,714 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Home
+
+16-04-2026  20:07    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+16-04-2026  20:30            33,416 Index.cshtml
+13-04-2026  07:26               144 Privacy.cshtml
+               2 File(s)         33,560 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Shared
+
+17-04-2026  12:42    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+13-04-2026  07:26               884 Error.cshtml
+16-04-2026  20:03             8,008 _AdminLayout.cshtml
+17-04-2026  12:42            34,440 _ChatLayout.cshtml
+13-04-2026  08:40             5,147 _Layout.cshtml
+13-04-2026  07:26               925 _Layout.cshtml.css
+13-04-2026  07:26               176 _ValidationScriptsPartial.cshtml
+               6 File(s)         49,580 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Software
+
+17-04-2026  08:41    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+17-04-2026  08:41               133 Details.cshtml
+17-04-2026  08:41               133 Index.cshtml
+               2 File(s)            266 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\Views\Tools
+
+17-04-2026  08:33    <DIR>          .
+17-04-2026  08:26    <DIR>          ..
+17-04-2026  08:31             8,308 ImageEditor.cshtml
+17-04-2026  08:31             1,810 ImageToText.cshtml
+17-04-2026  08:33             7,260 VoiceToText.cshtml
+               3 File(s)         17,378 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot
+
+17-04-2026  08:27    <DIR>          .
+17-04-2026  14:13    <DIR>          ..
+13-04-2026  07:26    <DIR>          css
+17-04-2026  08:32    <DIR>          data
+13-04-2026  07:26             5,430 favicon.ico
+13-04-2026  07:26    <DIR>          js
+13-04-2026  07:26    <DIR>          lib
+13-04-2026  18:10    <DIR>          uploads
+               1 File(s)          5,430 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\css
+
+13-04-2026  07:26    <DIR>          .
+17-04-2026  08:27    <DIR>          ..
+13-04-2026  07:26               362 site.css
+               1 File(s)            362 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\data
+
+17-04-2026  08:32    <DIR>          .
+17-04-2026  08:27    <DIR>          ..
+17-04-2026  08:32            10,669 software-catalog.json
+               1 File(s)         10,669 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\js
+
+13-04-2026  07:26    <DIR>          .
+17-04-2026  08:27    <DIR>          ..
+13-04-2026  07:26               231 site.js
+               1 File(s)            231 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib
+
+13-04-2026  07:26    <DIR>          .
+17-04-2026  08:27    <DIR>          ..
+13-04-2026  07:26    <DIR>          bootstrap
+13-04-2026  07:26    <DIR>          jquery
+13-04-2026  07:26    <DIR>          jquery-validation
+13-04-2026  07:26    <DIR>          jquery-validation-unobtrusive
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\bootstrap
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26    <DIR>          dist
+13-04-2026  07:26             1,153 LICENSE
+               1 File(s)          1,153 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\bootstrap\dist
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26    <DIR>          css
+13-04-2026  07:26    <DIR>          js
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\bootstrap\dist\css
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26            70,538 bootstrap-grid.css
+13-04-2026  07:26           196,535 bootstrap-grid.css.map
+13-04-2026  07:26            51,319 bootstrap-grid.min.css
+13-04-2026  07:26           117,439 bootstrap-grid.min.css.map
+13-04-2026  07:26            70,612 bootstrap-grid.rtl.css
+13-04-2026  07:26           196,539 bootstrap-grid.rtl.css.map
+13-04-2026  07:26            51,394 bootstrap-grid.rtl.min.css
+13-04-2026  07:26           117,516 bootstrap-grid.rtl.min.css.map
+13-04-2026  07:26             5,850 bootstrap-reboot.css
+13-04-2026  07:26           105,138 bootstrap-reboot.css.map
+13-04-2026  07:26             4,646 bootstrap-reboot.min.css
+13-04-2026  07:26            35,330 bootstrap-reboot.min.css.map
+13-04-2026  07:26             5,827 bootstrap-reboot.rtl.css
+13-04-2026  07:26           105,151 bootstrap-reboot.rtl.css.map
+13-04-2026  07:26             4,718 bootstrap-reboot.rtl.min.css
+13-04-2026  07:26            41,570 bootstrap-reboot.rtl.min.css.map
+13-04-2026  07:26            71,584 bootstrap-utilities.css
+13-04-2026  07:26           192,271 bootstrap-utilities.css.map
+13-04-2026  07:26            53,479 bootstrap-utilities.min.css
+13-04-2026  07:26           111,875 bootstrap-utilities.min.css.map
+13-04-2026  07:26            71,451 bootstrap-utilities.rtl.css
+13-04-2026  07:26           192,214 bootstrap-utilities.rtl.css.map
+13-04-2026  07:26            53,407 bootstrap-utilities.rtl.min.css
+13-04-2026  07:26           111,710 bootstrap-utilities.rtl.min.css.map
+13-04-2026  07:26           204,136 bootstrap.css
+13-04-2026  07:26           536,547 bootstrap.css.map
+13-04-2026  07:26           162,720 bootstrap.min.css
+13-04-2026  07:26           449,111 bootstrap.min.css.map
+13-04-2026  07:26           203,803 bootstrap.rtl.css
+13-04-2026  07:26           536,461 bootstrap.rtl.css.map
+13-04-2026  07:26           162,825 bootstrap.rtl.min.css
+13-04-2026  07:26           661,035 bootstrap.rtl.min.css.map
+              32 File(s)      4,954,751 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\bootstrap\dist\js
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26           208,492 bootstrap.bundle.js
+13-04-2026  07:26           425,643 bootstrap.bundle.js.map
+13-04-2026  07:26            78,468 bootstrap.bundle.min.js
+13-04-2026  07:26           327,261 bootstrap.bundle.min.js.map
+13-04-2026  07:26           139,019 bootstrap.esm.js
+13-04-2026  07:26           288,320 bootstrap.esm.js.map
+13-04-2026  07:26            72,016 bootstrap.esm.min.js
+13-04-2026  07:26           222,508 bootstrap.esm.min.js.map
+13-04-2026  07:26           148,168 bootstrap.js
+13-04-2026  07:26           289,522 bootstrap.js.map
+13-04-2026  07:26            59,511 bootstrap.min.js
+13-04-2026  07:26           217,145 bootstrap.min.js.map
+              12 File(s)      2,476,073 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\jquery
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26    <DIR>          dist
+13-04-2026  07:26             1,117 LICENSE.txt
+               1 File(s)          1,117 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\jquery\dist
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26           288,580 jquery.js
+13-04-2026  07:26            89,501 jquery.min.js
+13-04-2026  07:26           137,972 jquery.min.map
+               3 File(s)        516,053 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\jquery-validation
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26    <DIR>          dist
+13-04-2026  07:26             1,117 LICENSE.md
+               1 File(s)          1,117 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\jquery-validation\dist
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26            52,977 additional-methods.js
+13-04-2026  07:26            22,177 additional-methods.min.js
+13-04-2026  07:26            51,171 jquery.validate.js
+13-04-2026  07:26            24,601 jquery.validate.min.js
+               4 File(s)        150,926 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\lib\jquery-validation-unobtrusive
+
+13-04-2026  07:26    <DIR>          .
+13-04-2026  07:26    <DIR>          ..
+13-04-2026  07:26            19,385 jquery.validate.unobtrusive.js
+13-04-2026  07:26             5,824 jquery.validate.unobtrusive.min.js
+13-04-2026  07:26             1,139 LICENSE.txt
+               3 File(s)         26,348 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\uploads
+
+13-04-2026  18:10    <DIR>          .
+17-04-2026  08:27    <DIR>          ..
+13-04-2026  20:38    <DIR>          252949a4-b3b1-40b5-ac5f-a3679883f7c2
+13-04-2026  20:52    <DIR>          87d0a4c9-d91a-49ff-b8ed-5d08c92f487f
+               0 File(s)              0 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\uploads\252949a4-b3b1-40b5-ac5f-a3679883f7c2
+
+13-04-2026  20:38    <DIR>          .
+13-04-2026  18:10    <DIR>          ..
+13-04-2026  17:48           235,546 300fe814-7194-4d78-99e6-236a827d43f1.jpeg
+13-04-2026  20:37           436,129 9b6892ed-d06b-4610-9b04-753433d43ea5.jpeg
+13-04-2026  17:54           437,601 b4496ac0-a85d-47c5-89c0-528c19a1da6c.jpg
+13-04-2026  20:38           235,546 cd13f4a6-5a40-43bb-b8ec-e64ee8e49bc4.jpeg
+13-04-2026  17:52           437,601 ea550dc3-3b33-4f44-a456-4f4163ced0ab.jpg
+13-04-2026  17:56           437,601 eb69654a-2e29-44b5-b5e1-6ef937af26a5.jpg
+               6 File(s)      2,220,024 bytes
+
+ Directory of C:\projects\3\AkkuChatbot\AkkuChatbot\wwwroot\uploads\87d0a4c9-d91a-49ff-b8ed-5d08c92f487f
+
+13-04-2026  20:52    <DIR>          .
+13-04-2026  18:10    <DIR>          ..
+13-04-2026  20:52           540,302 345164fb-d4f9-49b7-88e8-4d0f53eea3ea.txt
+13-04-2026  18:17             5,198 9efb94ae-e65b-47ed-89a7-2831033b8cf9.txt
+13-04-2026  18:10             5,198 bc781e24-8fbe-4377-8e0a-492fa31ef639.txt
+               3 File(s)        550,698 bytes
+
+     Total Files Listed:
+             557 File(s)    263,015,499 bytes
+             446 Dir(s)  17,486,299,136 bytes free

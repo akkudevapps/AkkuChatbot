@@ -1,0 +1,529 @@
+===Database akkuapps_db
+
+== Table structure for table admin_users
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**username**|varchar(50)|No|
+|password_hash|varchar(255)|No|
+|email|varchar(255)|No|
+|last_login|timestamp|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table billiards_hands
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|player_balls|varchar(50)|Yes|NULL
+|pocketed_balls|int|Yes|0
+|shots_taken|int|Yes|0
+|total_score|int|Yes|0
+|net_coins|decimal(10,4)|Yes|0.0000
+|coins_before|decimal(10,4)|Yes|0.0000
+|played_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table blogs
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|title|varchar(255)|No|
+|**slug**|varchar(255)|No|
+|content|longtext|Yes|NULL
+|featured_image|varchar(500)|Yes|NULL
+|upload_folder|varchar(100)|Yes|NULL
+|excerpt|text|Yes|NULL
+|meta_title|varchar(255)|Yes|NULL
+|meta_description|text|Yes|NULL
+|tags|json|Yes|NULL
+|status|enum(&#039;draft&#039;, &#039;published&#039;, &#039;archived&#039;)|Yes|draft
+|author_id|int|No|
+|view_count|int|Yes|0
+|published_at|timestamp|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table blog_comments
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|blog_id|int|No|
+|user_id|int|No|
+|content|text|No|
+|parent_id|int|Yes|NULL
+|is_reply|tinyint(1)|Yes|0
+|notified|tinyint(1)|Yes|0
+|status|enum(&#039;pending&#039;, &#039;approved&#039;, &#039;rejected&#039;)|Yes|approved
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table blog_interactions
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**blog_id**|int|No|
+|**user_id**|int|No|
+|**type**|enum(&#039;like&#039;, &#039;comment&#039;, &#039;share&#039;)|No|
+|content|text|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table blog_likes
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**blog_id**|int|No|
+|**user_id**|int|No|
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table blog_media
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|blog_id|int|No|
+|media_type|enum(&#039;image&#039;, &#039;youtube&#039;, &#039;video&#039;)|Yes|image
+|media_url|varchar(500)|No|
+|position|int|Yes|0
+|caption|varchar(255)|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table category_analytics
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**category**|varchar(50)|Yes|NULL
+|**stat_date**|date|Yes|NULL
+|total_visits|int|Yes|0
+|unique_visitors|int|Yes|0
+|total_time_seconds|int|Yes|0
+|avg_time_seconds|decimal(10,2)|Yes|0.00
+|total_clicks|int|Yes|0
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table chatbot_analytics
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|Yes|NULL
+|total_messages|int|Yes|0
+|total_conversations|int|Yes|0
+|avg_response_time_ms|int|Yes|0
+|preferred_model|varchar(100)|Yes|NULL
+|last_active|timestamp|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table chatbot_conversations
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|session_id|varchar(100)|Yes|NULL
+|model_name|varchar(100)|Yes|llama2
+|user_message|longtext|No|
+|ai_response|longtext|No|
+|tokens_used|int|Yes|0
+|response_time_ms|int|Yes|0
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table chatbot_models
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**model_name**|varchar(100)|No|
+|display_name|varchar(100)|No|
+|description|text|Yes|NULL
+|model_size|varchar(50)|Yes|NULL
+|context_length|int|Yes|2048
+|is_available|tinyint(1)|Yes|1
+|last_checked|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table chatbot_rate_limit
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|message_count|int|Yes|0
+|last_reset|timestamp|Yes|CURRENT_TIMESTAMP
+|blocked_until|timestamp|Yes|NULL
+== Table structure for table chatbot_sessions
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|session_name|varchar(255)|No|
+|model_name|varchar(100)|Yes|llama2
+|system_prompt|text|Yes|NULL
+|message_count|int|Yes|0
+|is_active|tinyint(1)|Yes|1
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|last_accessed|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table chatbot_settings
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**user_id**|int|No|
+|model_name|varchar(100)|Yes|llama2
+|temperature|decimal(3,2)|Yes|0.70
+|max_tokens|int|Yes|512
+|system_prompt|text|Yes|NULL
+|messages_per_day_limit|int|Yes|100
+|auto_save_conversations|tinyint(1)|Yes|1
+|notifications_enabled|tinyint(1)|Yes|1
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table coin_purchase_rates
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|rupee_amount|decimal(10,2)|No|
+|coin_amount|decimal(10,4)|No|
+|bonus_coins|decimal(10,4)|Yes|0.0000
+|is_active|tinyint(1)|Yes|1
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table coin_transactions
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|reference_type|enum(&#039;post&#039;, &#039;like_given&#039;, &#039;like_received&#039;, &#039;comment_given&#039;, &#039;comment_received&#039;, &#039;share&#039;, &#039;purchase&#039;, &#039;withdrawal&#039;, &#039;admin_add&#039;, &#039;admin_deduct&#039;, &#039;game_score&#039;)|No|
+|reference_id|int|Yes|NULL
+|amount|decimal(10,4)|No|
+|balance_after|decimal(10,4)|No|
+|description|varchar(255)|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table game_scores
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|game_slug|varchar(100)|No|
+|score|int|No|0
+|level_reached|int|Yes|1
+|coins_earned|decimal(10,4)|No|0.0000
+|played_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table hashtags
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**tag**|varchar(100)|No|
+|post_count|int|Yes|0
+|last_used|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table link_clicks
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|Yes|NULL
+|session_id|varchar(255)|Yes|NULL
+|page_url|varchar(500)|Yes|NULL
+|link_url|varchar(500)|Yes|NULL
+|link_text|varchar(255)|Yes|NULL
+|link_category|varchar(50)|Yes|NULL
+|click_time|timestamp|Yes|CURRENT_TIMESTAMP
+|ip_address|varchar(45)|Yes|NULL
+== Table structure for table page_analytics
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint|No|
+|page_url|varchar(500)|No|/
+|category|varchar(50)|No|other
+|user_id|int|Yes|NULL
+|session_id|varchar(255)|Yes|NULL
+|ip_address|varchar(45)|Yes|NULL
+|country|varchar(100)|Yes|Unknown
+|region|varchar(100)|Yes|Unknown
+|city|varchar(100)|Yes|Unknown
+|timezone|varchar(50)|Yes|UTC
+|user_agent|text|Yes|NULL
+|device_type|enum(&#039;desktop&#039;, &#039;mobile&#039;, &#039;tablet&#039;)|No|desktop
+|browser|varchar(50)|No|Unknown
+|os|varchar(50)|No|Unknown
+|referrer|varchar(500)|Yes|NULL
+|referrer_domain|varchar(255)|Yes|NULL
+|hit_date|date|No|
+|hit_hour|tinyint|No|
+|time_spent_seconds|int|Yes|0
+|exit_page|tinyint(1)|Yes|0
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table poker_hands
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|room_id|int|Yes|NULL
+|round_number|int|Yes|1
+|user_id|int|No|
+|player_cards|varchar(20)|Yes|NULL
+|dealer_cards|varchar(20)|Yes|NULL
+|ante_bet|decimal(10,4)|Yes|0.0000
+|play_bet|decimal(10,4)|Yes|0.0000
+|pair_plus_bet|decimal(10,4)|Yes|0.0000
+|action|enum(&#039;fold&#039;, &#039;play&#039;)|Yes|fold
+|player_rank|varchar(30)|Yes|NULL
+|dealer_rank|varchar(30)|Yes|NULL
+|dealer_qualifies|tinyint(1)|Yes|0
+|result|enum(&#039;win&#039;, &#039;lose&#039;, &#039;push&#039;, &#039;pending&#039;)|Yes|pending
+|net_coins|decimal(10,4)|Yes|0.0000
+|coins_before|decimal(10,4)|Yes|0.0000
+|played_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table poker_rooms
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**room_code**|varchar(8)|No|
+|host_user_id|int|No|
+|status|enum(&#039;waiting&#039;, &#039;dealing&#039;, &#039;playing&#039;, &#039;finished&#039;)|Yes|waiting
+|min_bet|decimal(10,4)|Yes|0.0100
+|max_bet|decimal(10,4)|Yes|1.0000
+|max_players|int|Yes|4
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table poker_room_players
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**room_id**|int|No|
+|**user_id**|int|No|
+|**seat_number**|int|No|
+|status|enum(&#039;waiting&#039;, &#039;active&#039;, &#039;folded&#039;, &#039;playing&#039;, &#039;done&#039;)|Yes|waiting
+|joined_at|timestamp|Yes|CURRENT_TIMESTAMP
+|last_ping|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table post_hashtags
+
+|------
+|Column|Type|Null|Default
+|------
+|//**post_id**//|int|No|
+|//**hashtag_id**//|int|No|
+== Table structure for table site_settings
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**setting_key**|varchar(100)|No|
+|setting_value|text|Yes|NULL
+|description|varchar(255)|Yes|NULL
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table source_categories
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|name|varchar(100)|No|
+|**slug**|varchar(100)|No|
+|description|text|Yes|NULL
+|image|varchar(255)|Yes|NULL
+|sort_order|int|Yes|0
+|created_at|datetime|Yes|CURRENT_TIMESTAMP
+== Table structure for table source_items
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|category_id|int|No|
+|title|varchar(200)|No|
+|description|text|Yes|NULL
+|thumbnail|varchar(255)|Yes|NULL
+|file_path|varchar(255)|Yes|NULL
+|link_url|varchar(500)|Yes|NULL
+|file_size|int|Yes|0
+|downloads_count|int|Yes|0
+|sort_order|int|Yes|0
+|status|enum(&#039;active&#039;, &#039;inactive&#039;)|Yes|active
+|created_at|datetime|Yes|CURRENT_TIMESTAMP
+== Table structure for table users
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**google_id**|varchar(255)|Yes|NULL
+|**email**|varchar(255)|No|
+|name|varchar(100)|No|
+|avatar|varchar(500)|Yes|NULL
+|bio|text|Yes|NULL
+|profile_visibility|enum(&#039;public&#039;, &#039;private&#039;)|Yes|public
+|coin_balance|decimal(10,4)|Yes|0.0000
+|wallet_balance|decimal(10,2)|Yes|0.00
+|role|enum(&#039;user&#039;, &#039;admin&#039;)|Yes|user
+|status|enum(&#039;active&#039;, &#039;banned&#039;, &#039;suspended&#039;)|Yes|active
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table user_contacts
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|name|varchar(100)|No|
+|email|varchar(255)|Yes|NULL
+|phone|varchar(20)|Yes|NULL
+|source|enum(&#039;manual&#039;, &#039;csv&#039;, &#039;google&#039;, &#039;whatsapp&#039;, &#039;facebook&#039;, &#039;linkedin&#039;, &#039;instagram&#039;, &#039;telegram&#039;)|Yes|manual
+|status|enum(&#039;pending&#039;, &#039;invited&#039;, &#039;joined&#039;)|Yes|pending
+|invited_at|timestamp|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|google_id|varchar(255)|Yes|NULL
+|profile_photo|varchar(500)|Yes|NULL
+== Table structure for table user_contact_groups
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|name|varchar(50)|No|
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table user_follows
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**follower_id**|int|No|
+|**following_id**|int|No|
+|star_rating|tinyint|Yes|3
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table user_interactions
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**post_id**|int|No|
+|**user_id**|int|No|
+|owner_id|int|No|
+|**type**|enum(&#039;like&#039;, &#039;comment&#039;, &#039;share&#039;)|No|
+|content|text|Yes|NULL
+|coins_transferred|tinyint(1)|Yes|0
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table user_posts
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**hash_id**|varchar(16)|Yes|NULL
+|user_id|int|No|
+|content|text|Yes|NULL
+|media_urls|json|Yes|NULL
+|post_type|enum(&#039;text&#039;, &#039;image&#039;, &#039;video&#039;, &#039;mixed&#039;)|Yes|text
+|visibility|enum(&#039;public&#039;, &#039;followers&#039;, &#039;private&#039;)|Yes|public
+|status|enum(&#039;active&#039;, &#039;deleted&#039;, &#039;flagged&#039;)|Yes|active
+|likes_count|int|Yes|0
+|comments_count|int|Yes|0
+|views_count|int|Yes|0
+|shares_count|int|Yes|0
+|coins_earned|decimal(10,4)|Yes|0.0000
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table user_post_comments
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|post_id|int|No|
+|user_id|int|No|
+|content|text|No|
+|parent_id|int|Yes|NULL
+|status|enum(&#039;active&#039;, &#039;deleted&#039;)|Yes|active
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table user_referrals
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|**referrer_id**|int|No|
+|**referred_id**|int|No|
+|status|enum(&#039;pending&#039;, &#039;completed&#039;, &#039;rewarded&#039;)|Yes|pending
+|coins_rewarded|decimal(10,4)|Yes|0.0000
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+== Table structure for table user_sessions
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|**session_token**|varchar(255)|No|
+|device_type|enum(&#039;desktop&#039;, &#039;mobile&#039;, &#039;tablet&#039;)|Yes|desktop
+|device_info|varchar(255)|Yes|NULL
+|ip_address|varchar(45)|Yes|NULL
+|last_active|timestamp|Yes|CURRENT_TIMESTAMP
+|expires_at|timestamp|No|
+|is_valid|tinyint(1)|Yes|1
+== Table structure for table user_sessions_detailed
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|Yes|NULL
+|session_id|varchar(255)|Yes|NULL
+|entry_page|varchar(500)|Yes|NULL
+|exit_page|varchar(500)|Yes|NULL
+|entry_time|timestamp|Yes|CURRENT_TIMESTAMP
+|exit_time|timestamp|Yes|NULL
+|total_time_seconds|int|Yes|0
+|pages_viewed|int|Yes|1
+|device_type|enum(&#039;desktop&#039;, &#039;mobile&#039;, &#039;tablet&#039;)|Yes|desktop
+|browser|varchar(50)|Yes|NULL
+|os|varchar(50)|Yes|NULL
+|ip_address|varchar(45)|Yes|NULL
+|country|varchar(100)|Yes|NULL
+== Table structure for table wallet_transactions
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|int|No|
+|user_id|int|No|
+|amount|decimal(10,2)|No|
+|transaction_type|enum(&#039;deposit&#039;, &#039;withdrawal&#039;, &#039;converted_to_coins&#039;, &#039;refund&#039;, &#039;bonus&#039;)|No|
+|payment_method|varchar(50)|Yes|NULL
+|payment_reference|varchar(255)|Yes|NULL
+|coin_amount|decimal(10,4)|Yes|NULL
+|coin_rate|decimal(10,4)|Yes|NULL
+|status|enum(&#039;pending&#039;, &#039;completed&#039;, &#039;failed&#039;, &#039;refunded&#039;)|Yes|pending
+|description|varchar(255)|Yes|NULL
+|created_at|timestamp|Yes|CURRENT_TIMESTAMP
+|updated_at|timestamp|Yes|CURRENT_TIMESTAMP

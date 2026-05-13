@@ -1,0 +1,46 @@
+﻿@model List<AkkuChatbot.Models.CoinTransaction>
+@{
+    ViewData["Title"] = "All Transactions";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-title">
+    <i class="fa fa-coins"></i> Coin Transactions
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-head">Total: @ViewBag.Total</div>
+    <div class="p-0">
+        <table class="admin-table">
+            <thead><tr><th>User</th><th>Date</th><th>Type</th><th>Amount</th><th>Balance After</th><th>Description</th></tr></thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    <tr>
+                        <td>@t.User?.Email?.Split('@')[0]</td>
+                        <td class="small">@t.CreatedAt.ToLocalTime().ToString("dd MMM HH:mm")</td>
+                        <td>@t.Type</td>
+                        <td class="@(t.Amount < 0 ? "text-danger" : "text-success")">@t.Amount</td>
+                        <td>@t.BalanceAfter</td>
+                        <td class="small">@t.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination -->
+@if (ViewBag.Total > ViewBag.PageSize)
+{
+    <nav>
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Math.Ceiling((double)ViewBag.Total / ViewBag.PageSize); i++)
+            {
+                <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                    <a class="page-link" href="?page=@i">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

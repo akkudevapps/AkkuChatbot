@@ -1,0 +1,296 @@
+﻿@{
+    ViewData["Title"] = "My Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var usedPct = Math.Min(100, (double)ViewBag.UsedMB / (double)ViewBag.LimitMB * 100);
+}
+
+<style>
+    /* ── Dashboard Theme Overrides ── */
+    :root {
+        --bg-dash: #0d1117;
+        --card-bg: #161b22;
+        --card-border: #30363d;
+        --text-primary: #e6edf3;
+        --text-secondary: #8b949e;
+        --bg-progress: #30363d;
+        --table-head-bg: #21262d;
+    }
+
+    body.light {
+        --bg-dash: #ffffff;
+        --card-bg: #f6f8fa;
+        --card-border: #d0d7de;
+        --text-primary: #1f2328;
+        --text-secondary: #656d76;
+        --bg-progress: #eaeef2;
+        --table-head-bg: #eaeef2;
+    }
+
+    .dash-container {
+        background-color: var(--bg-dash);
+        color: var(--text-primary);
+    }
+
+        .dash-container .card {
+            background-color: var(--card-bg);
+            border-color: var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .dash-container .card-header {
+            background-color: var(--card-bg);
+            border-bottom-color: var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .dash-container .table th {
+            background-color: var(--table-head-bg);
+            color: var(--text-secondary);
+        }
+
+        .dash-container .table td, .dash-container .table {
+            color: var(--text-primary);
+        }
+
+        .dash-container .progress {
+            background-color: var(--bg-progress);
+        }
+
+        .dash-container .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        .dash-container .btn-outline-secondary {
+            border-color: var(--card-border);
+            color: var(--text-primary);
+        }
+    /* Theme toggle button */
+    #themeToggleDash {
+        background: none;
+        border: 1px solid #8b949e;
+        color: #8b949e;
+        border-radius: 6px;
+        padding: 2px 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+        #themeToggleDash:hover {
+            border-color: #f0c040;
+            color: #f0c040;
+        }
+</style>
+
+<div class="container-fluid mt-3 px-4 dash-container">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+            <h4 class="fw-bold mb-0">👤 My Dashboard</h4>
+            <button id="themeToggleDash" onclick="toggleDashboardTheme()" title="Toggle light/dark mode">
+                <i id="themeIconDash" class="fa fa-sun"></i>
+            </button>
+        </div>
+        <a href="/Chat" class="btn btn-primary btn-sm">💬 Go to Chat</a>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card border-0 bg-dark text-white text-center p-3 rounded-3">
+                <div class="fs-3 fw-bold text-warning">🪙 @ViewBag.Balance</div>
+                <div class="small opacity-75">Coin Balance</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 bg-dark text-white text-center p-3 rounded-3">
+                <div class="fs-3 fw-bold text-info">@(((List<AkkuChatbot.Models.ChatSession>)ViewBag.Sessions).Count)</div>
+                <div class="small opacity-75">Active Sessions</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 bg-dark text-white text-center p-3 rounded-3">
+                <div class="fs-3 fw-bold text-success">@ViewBag.TotalMessages</div>
+                <div class="small opacity-75">Total Messages</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card border-0 bg-dark text-white text-center p-3 rounded-3">
+                <div class="fs-3 fw-bold text-danger">@ViewBag.TotalCoinsSpent</div>
+                <div class="small opacity-75">Coins Spent</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+
+        <!-- SESSIONS -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-dark text-white">
+                    💬 My Chat Sessions (@(((List<AkkuChatbot.Models.ChatSession>)ViewBag.Sessions).Count))
+                </div>
+                <div class="card-body p-0" style="max-height:320px;overflow-y:auto">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>Name</th>
+                                <th>Model</th>
+                                <th>Msgs</th>
+                                <th>Coins</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in (List<AkkuChatbot.Models.ChatSession>)ViewBag.Sessions)
+                            {
+                                <tr>
+                                    <td class="small">
+                                        <a href="/Chat?sessionId=@s.Id" class="text-decoration-none">@s.Name</a>
+                                    </td>
+                                    <td class="small text-muted">@s.ModelUsed.Split(':')[0]</td>
+                                    <td class="small">@s.TotalMessages</td>
+                                    <td class="small text-danger">@s.TotalCoinsUsed</td>
+                                    <td>
+                                        <form method="post" asp-action="DeleteSession"
+                                              onsubmit="return confirm('Delete this session?')"
+                                              class="d-inline">
+                                            <input type="hidden" name="sessionId" value="@s.Id" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger py-0 px-1">🗑</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- STORAGE -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-dark text-white d-flex justify-content-between">
+                    <span>📁 Storage: @ViewBag.UsedMB MB / @ViewBag.LimitMB MB</span>
+                    <span class="badge @(usedPct > 80 ? "bg-danger" : "bg-success")">@Math.Round(usedPct, 0)%</span>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-3" style="height:8px">
+                        <div class="progress-bar @(usedPct > 80 ? "bg-danger" : usedPct > 50 ? "bg-warning" : "bg-success")"
+                             style="width:@usedPct%"></div>
+                    </div>
+
+                    @if (usedPct > 80)
+                    {
+                        <div class="alert alert-warning py-2 small">
+                            ⚠️ Storage almost full! Delete unused files.
+                        </div>
+                    }
+
+                    <div style="max-height:230px;overflow-y:auto">
+                        <table class="table table-sm mb-0">
+                            <thead class="table-secondary">
+                                <tr><th>File</th><th>Size</th><th></th></tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var f in (List<System.IO.FileInfo>)ViewBag.Files)
+                                {
+                                    <tr>
+                                        <td class="small text-truncate" style="max-width:180px">
+                                            <a href="/uploads/@ViewBag.UserId/@f.Name"
+                                                   target="_blank" class="text-decoration-none">
+                                                @f.Name
+                                            </a>
+                                        </td>
+                                        <td class="small text-muted">@Math.Round(f.Length / 1024.0, 1)KB</td>
+                                        <td>
+                                            <form method="post" asp-action="DeleteFile"
+                                                  onsubmit="return confirm('Delete file?')"
+                                                  class="d-inline">
+                                                <input type="hidden" name="fileName" value="@f.Name" />
+                                                <button type="submit" class="btn btn-sm btn-outline-danger py-0 px-1">🗑</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (!((List<System.IO.FileInfo>)ViewBag.Files).Any())
+                                {
+                                    <tr><td colspan="3" class="text-muted text-center small">No files uploaded</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COIN HISTORY -->
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-dark text-white">
+                    🪙 Recent Coin Transactions
+                    <a href="/Coin/History" class="btn btn-sm btn-outline-warning float-end py-0">View All</a>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in (List<AkkuChatbot.Models.CoinTransaction>)ViewBag.Transactions)
+                            {
+                                <tr>
+                                    <td class="small text-muted">@t.CreatedAt.ToLocalTime().ToString("dd MMM HH:mm")</td>
+                                    <td><span class="badge @(t.Amount < 0 ? "bg-danger" : "bg-success") small">@t.Type</span></td>
+                                    <td class="@(t.Amount < 0 ? "text-danger" : "text-success") small fw-bold">
+                                        @(t.Amount > 0 ? "+" : "")@t.Amount
+                                    </td>
+                                    <td class="small">🪙 @t.BalanceAfter</td>
+                                    <td class="small text-muted text-truncate" style="max-width:200px">@t.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Apply saved theme on load
+        (function() {
+            const saved = localStorage.getItem('theme');
+            if (saved === 'light') {
+                document.body.classList.add('light');
+                const icon = document.getElementById('themeIconDash');
+                if (icon) icon.className = 'fa fa-moon';
+            }
+        })();
+
+        function toggleDashboardTheme() {
+            const body = document.body;
+            body.classList.toggle('light');
+            const isLight = body.classList.contains('light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            const icon = document.getElementById('themeIconDash');
+            if (icon) icon.className = isLight ? 'fa fa-moon' : 'fa fa-sun';
+        }
+    </script>
+}

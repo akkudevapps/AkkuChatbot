@@ -1,0 +1,51 @@
+﻿@model AkkuChatbot.Models.ChatSession
+@{
+    ViewData["Title"] = "Session Detail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-title">
+    <i class="fa fa-message"></i> @Model.Name
+    <a href="/Admin/Sessions" class="btn btn-sm btn-outline-secondary ms-3">← Back</a>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-head">Session Info</div>
+    <div class="p-3">
+        <div><strong>User:</strong> @Model.User?.Email</div>
+        <div><strong>Model:</strong> @Model.ModelUsed</div>
+        <div><strong>Created:</strong> @Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</div>
+        <div><strong>Messages:</strong> @Model.TotalMessages</div>
+        <div><strong>Tokens:</strong> @Model.TotalTokensUsed</div>
+        <div><strong>Coins spent:</strong> @Model.TotalCoinsUsed</div>
+        <div>
+            <strong>Short Note:</strong>
+            <form method="post" asp-action="SaveNote" class="d-flex gap-2 mt-2">
+                <input type="hidden" name="sessionId" value="@Model.Id" />
+                <input type="text" name="note" class="form-control form-control-sm" value="@Model.ShortNote" style="width:300px" />
+                <button class="btn btn-sm btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-head">Messages (@Model.Messages.Count)</div>
+    <div class="p-3">
+        @foreach (var msg in Model.Messages.OrderBy(m => m.CreatedAt))
+        {
+            <div class="mb-3 p-2" style="background:#21262d; border-radius:8px;">
+                <div class="small text-muted d-flex justify-content-between">
+                    <span><strong>@msg.User?.FullName</strong> · @msg.CreatedAt.ToLocalTime().ToString("HH:mm")</span>
+                    <span>⚡ @msg.TokensUsed tok · 🪙 @msg.CoinsUsed</span>
+                </div>
+                <div class="mt-1"><strong>User:</strong> @msg.UserMessage</div>
+                <div class="mt-1"><strong>Bot:</strong> @msg.BotResponse</div>
+                @if (!string.IsNullOrEmpty(msg.AttachmentPath))
+                {
+                    <div class="mt-1 small"><i class="fa fa-paperclip"></i> <a href="/@msg.AttachmentPath" target="_blank">@msg.AttachmentName</a></div>
+                }
+            </div>
+        }
+    </div>
+</div>

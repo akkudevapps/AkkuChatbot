@@ -1,0 +1,72 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="n">@ViewBag.TotalUsers</div>
+            <div class="l">Total Users</div>
+            <div class="small text-success">@ViewBag.ActiveUsers active</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="n">@ViewBag.TotalMessages</div>
+            <div class="l">Messages</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="n">@ViewBag.TotalSessions</div>
+            <div class="l">Chat Sessions</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="n">@ViewBag.TotalStorageMB MB</div>
+            <div class="l">Storage Used</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="admin-card">
+            <div class="admin-card-head">
+                <span>💰 Coin Stats</span>
+            </div>
+            <div class="p-3">
+                <div>Total Coins Awarded: <strong class="text-success">@ViewBag.TotalCoinsAwarded</strong></div>
+                <div>Total Coins Spent: <strong class="text-danger">@ViewBag.TotalCoinsSpent</strong></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="admin-card">
+            <div class="admin-card-head">
+                <span>📋 Recent Activity</span>
+                <a href="/Admin/Sessions" class="btn btn-xs btn-outline-secondary">View all →</a>
+            </div>
+            <div class="p-0">
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>User</th><th>Message</th><th>Time</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var msg in (List<AkkuChatbot.Models.ChatMessage>)ViewBag.RecentMessages)
+                        {
+                            <tr>
+                                <td class="small">@msg.User?.Email?.Split('@')[0]</td>
+                                <td class="small text-truncate" style="max-width:200px">@msg.UserMessage</td>
+                                <td class="small text-muted">@msg.CreatedAt.ToLocalTime().ToString("HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

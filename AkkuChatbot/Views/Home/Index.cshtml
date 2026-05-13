@@ -1,0 +1,545 @@
+﻿@{
+    ViewData["Title"] = "AkkuChatbot — உங்கள் AI உதவியாளர்";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>AkkuChatbot — உங்கள் AI உதவியாளர் | akkuapps.in</title>
+    <meta name="description" content="AkkuChatbot — 8 Cloud AI Models, Voice Input, File Analysis, PDF Export. தமிழிலும் பேசலாம்!" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+            /* ====================== THEME VARIABLES ====================== */
+            :root{
+              --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--bdr:#30363d;
+              --txt:#e6edf3;--txt2:#8b949e;--acc:#2f81f7;--acc2:#388bfd;
+              --ok:#3fb950;--warn:#f0c040;--err:#f85149;--purple:#a371f7;
+            }
+            body.light{
+              --bg:#ffffff;--bg2:#f6f8fa;--bg3:#eaeef2;--bdr:#d0d7de;
+              --txt:#1f2328;--txt2:#656d76;--acc:#0969da;--acc2:#0860c2;
+              --ok:#1a7f37;--warn:#9a6700;--err:#cf222e;--purple:#8250df;
+            }
+            *{box-sizing:border-box;margin:0;padding:0}
+            html{scroll-behavior:smooth}
+            body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7;transition:background .3s,color .3s;}
+
+            /* NAV */
+            nav{background:rgba(22,27,34,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);padding:0 5%;display:flex;align-items:center;height:62px;position:sticky;top:0;z-index:100;gap:14px}
+            body.light nav{background:rgba(246,248,250,.96)}
+            .nav-brand{font-size:1.15rem;font-weight:700;color:var(--acc);text-decoration:none;display:flex;align-items:center;gap:8px;white-space:nowrap}
+            .nav-spacer{flex:1}
+            .nav-links{display:flex;gap:4px}
+            .nav-link{color:var(--txt2);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:6px;transition:all .2s;white-space:nowrap}
+            .nav-link:hover{background:var(--bg3);color:var(--txt)}
+            .nav-cta{background:var(--acc);color:#fff!important;border-radius:8px;padding:7px 18px;font-weight:600;font-size:.85rem;text-decoration:none;transition:background .2s;white-space:nowrap}
+            .nav-cta:hover{background:var(--acc2)}
+            .nav-login{color:var(--txt2);text-decoration:none;font-size:.85rem;padding:7px 14px;border:1px solid var(--bdr);border-radius:8px;transition:all .2s;white-space:nowrap}
+            .nav-login:hover{border-color:var(--acc);color:var(--acc)}
+            .hamburger{display:none;background:none;border:none;color:var(--txt);font-size:1.2rem;cursor:pointer;padding:6px}
+            .theme-toggle{background:none;border:none;color:var(--txt);cursor:pointer;font-size:1.1rem;padding:6px}
+
+            /* HERO */
+            .hero{background:var(--bg);padding:100px 5% 80px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--bdr)}
+            .hero-glow{position:absolute;top:-150px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(47,129,247,.07) 0%,transparent 65%);pointer-events:none}
+            .hero-badge{display:inline-flex;align-items:center;gap:6px;background:#1f2d45;border:1px solid rgba(47,129,247,.4);color:var(--acc);padding:5px 16px;border-radius:20px;font-size:.78rem;font-weight:600;margin-bottom:22px;letter-spacing:.4px}
+            .hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem);font-weight:800;line-height:1.18;margin-bottom:18px;letter-spacing:-.5px}
+            .hero h1 .hi{color:var(--acc)}
+            .hero h1 .ta{color:var(--warn)}
+            .hero-sub{font-size:clamp(1rem,2.2vw,1.18rem);color:var(--txt2);max-width:620px;margin:0 auto 36px;line-height:1.7}
+            .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+            .btn-p{background:var(--acc);color:#fff;padding:13px 30px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.95rem;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+            .btn-p:hover{background:var(--acc2);transform:translateY(-1px)}
+            .btn-o{background:transparent;color:var(--txt);border:1px solid var(--bdr);padding:13px 30px;border-radius:10px;text-decoration:none;font-weight:600;font-size:.95rem;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+            .btn-o:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-1px)}
+            .hero-preview{max-width:820px;margin:0 auto;background:var(--bg2);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+            .preview-bar{background:var(--bg3);padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bdr)}
+            .preview-dot{width:11px;height:11px;border-radius:50%}
+            .preview-url{flex:1;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;padding:4px 12px;font-size:.78rem;color:var(--txt2);text-align:center}
+            .preview-body{display:flex;min-height:260px}
+            .preview-sidebar{width:200px;background:var(--bg2);border-right:1px solid var(--bdr);padding:10px;flex-shrink:0}
+            .preview-chat{flex:1;padding:16px;display:flex;flex-direction:column;gap:10px}
+            .p-sess{background:var(--bg3);border-radius:6px;padding:7px 10px;font-size:.75rem;color:var(--txt2);margin-bottom:4px}
+            .p-sess.active{background:var(--acc);color:#fff}
+            .p-msg-u{background:var(--acc);color:#fff;border-radius:10px 10px 2px 10px;padding:8px 12px;font-size:.78rem;max-width:75%;align-self:flex-end;margin-left:auto}
+            .p-msg-b{background:var(--bg3);border:1px solid var(--bdr);border-radius:10px 10px 10px 2px;padding:8px 12px;font-size:.78rem;max-width:80%}
+            .p-input{margin-top:auto;background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:8px 12px;font-size:.75rem;color:var(--txt2);display:flex;align-items:center;gap:8px}
+
+            /* STATS */
+            .stats-row{display:grid;grid-template-columns:repeat(6,1fr);background:var(--bg2);border-bottom:1px solid var(--bdr)}
+            .stat{padding:20px 12px;text-align:center;border-right:1px solid var(--bdr)}
+            .stat:last-child{border-right:none}
+            .stat-n{font-size:1.6rem;font-weight:800;color:var(--acc)}
+            .stat-l{font-size:.72rem;color:var(--txt2);margin-top:2px}
+
+            /* GENERIC SECTION */
+            section.sec{padding:72px 5%}
+            section.sec.alt{background:var(--bg2)}
+            .sec-head{text-align:center;margin-bottom:48px}
+            .sec-tag{display:inline-block;background:#1b3a4b;color:var(--acc);border:1px solid rgba(47,129,247,.3);padding:3px 12px;border-radius:20px;font-size:.73rem;font-weight:600;margin-bottom:12px;text-transform:uppercase;letter-spacing:.6px}
+            .sec-head h2{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;margin-bottom:10px}
+            .sec-head p{color:var(--txt2);font-size:.95rem;max-width:540px;margin:0 auto}
+
+            /* FEATURE GRID */
+            .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+            .fc{background:var(--bg3);border:1px solid var(--bdr);border-radius:12px;padding:22px;transition:border-color .2s,transform .2s;cursor:default}
+            .fc:hover{border-color:var(--acc);transform:translateY(-3px)}
+            .fc-icon{font-size:1.8rem;margin-bottom:10px}
+            .fc h3{font-size:.95rem;font-weight:600;margin-bottom:6px}
+            .fc p{font-size:.82rem;color:var(--txt2);line-height:1.6}
+            .fb{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:10px;margin-top:8px;font-weight:600}
+            .fb-live{background:#1a3a1a;color:var(--ok);border:1px solid var(--ok)}
+            .fb-soon{background:#3a2a0a;color:var(--warn);border:1px solid var(--warn)}
+
+            /* MODEL TABLE */
+            .tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--bdr)}
+            .mtbl{width:100%;border-collapse:collapse;font-size:.86rem}
+            .mtbl th{background:var(--bg3);padding:12px 14px;text-align:left;font-weight:600;color:var(--txt2);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bdr);white-space:nowrap}
+            .mtbl td{padding:12px 14px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+            .mtbl tr:last-child td{border-bottom:none}
+            .mtbl tr:hover td{background:var(--bg3)}
+            .mtbl td:nth-child(3),.mtbl td:nth-child(4),.mtbl td:nth-child(5),.mtbl td:nth-child(6){text-align:center}
+            .cap-y{color:var(--ok)}
+            .cap-n{color:var(--bdr)}
+
+            /* WORKFLOW */
+            .flow-wrap{max-width:620px;margin:0 auto}
+            .flow-step{display:flex;gap:18px;align-items:flex-start;position:relative}
+            .flow-step:not(:last-child)::before{content:'';position:absolute;left:18px;top:42px;width:2px;height:calc(100% + 2px);background:var(--bdr)}
+            .f-num{width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;flex-shrink:0;z-index:1}
+            .f-body{padding-bottom:28px;flex:1}
+            .f-body h3{font-size:.95rem;font-weight:600;margin-bottom:5px}
+            .f-body p{font-size:.83rem;color:var(--txt2);line-height:1.6}
+
+            /* COIN GRID */
+            .coin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+            .cc{background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;padding:18px;text-align:center}
+            .cc .big{font-size:2rem;font-weight:800;color:var(--warn)}
+            .cc p{font-size:.8rem;color:var(--txt2);margin-top:5px;line-height:1.5}
+
+            /* SECURITY */
+            .sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+            .si{display:flex;gap:12px;align-items:flex-start;background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;padding:16px}
+            .si-icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+            .si h4{font-size:.88rem;font-weight:600;margin-bottom:3px}
+            .si p{font-size:.78rem;color:var(--txt2);line-height:1.5}
+
+            /* ROADMAP */
+            .road-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+            .ri{background:var(--bg3);border:1px solid var(--bdr);border-radius:10px;padding:16px;border-left:3px solid}
+            .ri.done{border-left-color:var(--ok)}
+            .ri.next{border-left-color:var(--acc)}
+            .ri.plan{border-left-color:var(--purple)}
+            .ri-title{font-size:.9rem;font-weight:600;margin-bottom:5px}
+            .ri-desc{font-size:.78rem;color:var(--txt2);line-height:1.5}
+            .ri-badge{font-size:.7rem;font-weight:600;margin-top:8px;display:inline-block;padding:2px 8px;border-radius:10px}
+            .ri.done .ri-badge{background:#1a3a1a;color:var(--ok)}
+            .ri.next .ri-badge{background:#1b3a4b;color:var(--acc)}
+            .ri.plan .ri-badge{background:#2d1f3f;color:var(--purple)}
+
+            /* CTA */
+            .cta-sec{background:linear-gradient(135deg,#0d1f35 0%,#0d1117 100%);border-top:1px solid var(--bdr);padding:80px 5%;text-align:center}
+            .cta-sec h2{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;margin-bottom:12px}
+            .cta-sec p{color:var(--txt2);margin-bottom:32px;font-size:.95rem}
+
+            /* FOOTER */
+            footer{background:var(--bg2);border-top:1px solid var(--bdr);padding:28px 5%;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;color:var(--txt2)}
+            .ft-brand{font-weight:700;color:var(--acc);font-size:.95rem}
+            .ft-links{display:flex;gap:16px;flex-wrap:wrap}
+            .ft-links a{color:var(--txt2);text-decoration:none;font-size:.82rem;transition:color .2s}
+            .ft-links a:hover{color:var(--acc)}
+            .ft-copy{font-size:.78rem}
+
+            /* ====================== MOBILE ====================== */
+            @@media(max-width:768px){
+              .nav-links{display:none}
+              .nav-links.open{display:flex;flex-direction:column;position:absolute;top:62px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--bdr);padding:12px;gap:4px}
+              .hamburger{display:block}
+              .stats-row{grid-template-columns:repeat(3,1fr)}
+              .stat{border-right:none;border-bottom:1px solid var(--bdr)}
+              .preview-sidebar{display:none}
+              .preview-body{min-height:200px}
+            }
+            @@media(max-width:480px){
+              .stats-row{grid-template-columns:repeat(2,1fr)}
+              footer{flex-direction:column;text-align:center}
+            }
+    </style>
+</head>
+<body class="dark">
+
+    <!-- NAV -->
+    <nav>
+        <a class="nav-brand" href="/">🤖 AkkuChatbot</a>
+        <span class="nav-spacer"></span>
+        <div class="nav-links" id="navLinks">
+            <a class="nav-link" href="#features">Features</a>
+            <a class="nav-link" href="#models">Models</a>
+            <a class="nav-link" href="#workflow">How it works</a>
+            <a class="nav-link" href="#roadmap">Roadmap</a>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark theme">
+            <i class="fa fa-sun"></i> / <i class="fa fa-moon"></i>
+        </button>
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <a class="nav-cta" href="/Chat"><i class="fa fa-comments"></i> Chat</a>
+            <a class="nav-login" href="/Dashboard"><i class="fa fa-gauge"></i> Dashboard</a>
+        }
+        else
+        {
+            <a class="nav-login" href="/Account/Login">Login</a>
+            <a class="nav-cta" href="/Account/Register">Register Free →</a>
+        }
+        <button class="hamburger" onclick="toggleNav()"><i class="fa fa-bars"></i></button>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-badge">
+            <i class="fa fa-circle" style="color:var(--ok);font-size:.55rem"></i>
+            Live at chatbot.akkuapps.in
+        </div>
+        <h1>
+            உங்கள் <span class="hi">AI உதவியாளர்</span><br>
+            <span class="ta">தமிழிலும்</span> பேசலாம்!
+        </h1>
+        <p class="hero-sub">
+            8 Cloud AI Models · Voice Input · File Analysis · PDF Export · Coin System —
+            அனைத்தும் ஒரே platform-ல்.
+        </p>
+        <div class="hero-btns">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a class="btn-p" href="/Chat"><i class="fa fa-comments"></i> Continue to Chat</a>
+                <a class="btn-o" href="/Dashboard"><i class="fa fa-gauge"></i> My Dashboard</a>
+            }
+            else
+            {
+                <a class="btn-p" href="/Account/Register"><i class="fa fa-rocket"></i> Free Register — 100 Coins</a>
+                <a class="btn-o" href="/Account/Login"><i class="fa fa-sign-in-alt"></i> Login</a>
+            }
+        </div>
+
+        <!-- UI Preview -->
+        <div class="hero-preview">
+            <div class="preview-bar">
+                <div class="preview-dot" style="background:#f85149"></div>
+                <div class="preview-dot" style="background:#f0c040"></div>
+                <div class="preview-dot" style="background:#3fb950"></div>
+                <div class="preview-url">https://chatbot.akkuapps.in/Chat</div>
+            </div>
+            <div class="preview-body">
+                <div class="preview-sidebar">
+                    <div style="background:var(--acc);border-radius:6px;padding:6px;text-align:center;font-size:.72rem;font-weight:600;margin-bottom:8px;color:#fff">+ New Chat</div>
+                    <div class="p-sess active">🌙 Kimi K2.5 selected</div>
+                    <div class="p-sess">📋 Math homework help</div>
+                    <div class="p-sess">💻 Python debug</div>
+                    <div class="p-sess">📷 OCR document</div>
+                    <div style="margin-top:10px;font-size:.68rem;color:var(--txt2);text-align:center">🪙 98 coins</div>
+                </div>
+                <div class="preview-chat">
+                    <div class="p-msg-u">இன்றைய AI செய்திகள் என்ன?</div>
+                    <div class="p-msg-b">🌐 Web search மூலம் தேடுகிறேன்...<br><br>இன்று OpenAI-ன் GPT-5 announcement மற்றும் Google Gemini 2.0 update குறித்த செய்திகள் trending ஆக உள்ளன...</div>
+                    <div class="p-msg-u">📎 code.py · analyze this file</div>
+                    <div class="p-msg-b">உங்கள் Python file-ல் 3 issues கண்டுபிடித்தேன்:<br>1. Line 42: undefined variable<br>2. Missing return statement...</div>
+                    <div class="p-input">
+                        <i class="fa fa-microphone" style="color:var(--acc)"></i>
+                        <span style="flex:1">Type a message or use voice...</span>
+                        <i class="fa fa-paper-plane" style="color:var(--acc)"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+        <div class="stat"><div class="stat-n">8</div><div class="stat-l">AI Models</div></div>
+        <div class="stat"><div class="stat-n">100</div><div class="stat-l">Free Coins</div></div>
+        <div class="stat"><div class="stat-n">200K</div><div class="stat-l">Max Context</div></div>
+        <div class="stat"><div class="stat-n">11+</div><div class="stat-l">Voice Languages</div></div>
+        <div class="stat"><div class="stat-n">100MB</div><div class="stat-l">Storage / User</div></div>
+        <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Sessions</div></div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="sec" id="features">
+        <div class="sec-head">
+            <div class="sec-tag">Features</div>
+            <h2>என்னென்ன வசதிகள் உள்ளன?</h2>
+            <p>Professional AI chat — எளிமையான interface-ல் சக்திவாய்ந்த features</p>
+        </div>
+        <div class="feat-grid">
+            <div class="fc">
+                <div class="fc-icon">🧠</div>
+                <h3>Multiple Cloud AI Models</h3>
+                <p>GLM 5.1, Kimi K2.5, Qwen3.5, MiniMax, Gemma4, Qwen3 Coder — ஒவ்வொரு வேலைக்கும் சரியான model.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">🎤</div>
+                <h3>Voice Input — 11 மொழிகள்</h3>
+                <p>தமிழ், English, Hindi, Telugu, Malayalam, Kannada, Chinese, Japanese, French, German, Arabic.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">📎</div>
+                <h3>Multi-File Analysis</h3>
+                <p>Code files, documents, images — multiple files ஒரே message-ல் attach செய்யலாம்.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">📷</div>
+                <h3>OCR — Image to Text</h3>
+                <p>GLM-OCR model மூலம் screenshots, documents-ல் உள்ள text extract செய்யலாம்.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">📄</div>
+                <h3>PDF Export</h3>
+                <p>Chat session-ஐ PDF-ஆக download செய்யலாம். akkuapps.in watermark + page numbers.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">💬</div>
+                <h3>Unlimited Sessions</h3>
+                <p>Multiple chat sessions, rename, delete, 10-message context memory. Secure & isolated.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">🪙</div>
+                <h3>Fair Coin System</h3>
+                <p>Register செய்தால் 100 free coins. 1 coin per message. Transparent usage tracking.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">📊</div>
+                <h3>User Dashboard</h3>
+                <p>Storage, coin history, sessions, files — எல்லாவற்றையும் manage செய்யுங்கள்.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">🌐</div>
+                <h3>Web Search Support</h3>
+                <p>Kimi K2.5, GLM 5.1 models-ல் live internet access. Latest news & data கிடைக்கும்.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">🌙</div>
+                <h3>Dark / Light Theme</h3>
+                <p>Eye-friendly dark theme. Light mode toggle. Full mobile-responsive design.</p>
+                <span class="fb fb-live">✅ Live</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">⚙️</div>
+                <h3>Admin Panel</h3>
+                <p>Users management, coin top-up, chat logs, session notes, activation control.</p>
+                <span class="fb fb-soon">🔄 Coming Soon</span>
+            </div>
+            <div class="fc">
+                <div class="fc-icon">💳</div>
+                <h3>Coin Purchase</h3>
+                <p>Online payment மூலம் coins வாங்கலாம். Pay-per-use fair pricing.</p>
+                <span class="fb fb-soon">🔄 Planned</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODELS -->
+    <section class="sec alt" id="models">
+        <div class="sec-head">
+            <div class="sec-tag">AI Models</div>
+            <h2>எந்த Model எதற்கு?</h2>
+            <p>உங்கள் தேவைக்கு ஏற்ற model தேர்வு செய்யுங்கள்</p>
+        </div>
+        <div class="tbl-wrap">
+            <table class="mtbl">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Provider</th>
+                        <th>Vision</th>
+                        <th>Web</th>
+                        <th>Tools</th>
+                        <th>Coding</th>
+                        <th>Context</th>
+                        <th>சிறந்தது</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>🧠 GLM 5.1</strong></td><td>Zhipu AI</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>128K</td><td>General + Vision + Web</td></tr>
+                    <tr><td><strong>🌙 Kimi K2.5</strong></td><td>Moonshot AI</td><td>—</td><td>✅</td><td>✅</td><td>—</td><td>200K</td><td>Long docs + Research</td></tr>
+                    <tr><td><strong>💻 Qwen3 Coder</strong></td><td>Alibaba</td><td>—</td><td>—</td><td>✅</td><td>✅</td><td>32K</td><td>Code + Debug</td></tr>
+                    <tr><td><strong>📷 GLM OCR</strong></td><td>Zhipu AI</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>8K</td><td>Image text extraction</td></tr>
+                    <tr><td><strong>🎨 MiniMax M2.7</strong></td><td>MiniMax</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>40K</td><td>Vision + Multimodal</td></tr>
+                    <tr><td><strong>🔥 Qwen3.5 397B</strong></td><td>Alibaba</td><td>—</td><td>—</td><td>✅</td><td>—</td><td>32K</td><td>Complex reasoning</td></tr>
+                    <tr><td><strong>⚡ Qwen3.5</strong></td><td>Alibaba</td><td>—</td><td>—</td><td>✅</td><td>—</td><td>32K</td><td>Fast general chat</td></tr>
+                    <tr><td><strong>💎 Gemma4 31B</strong></td><td>Google</td><td>—</td><td>—</td><td>—</td><td>—</td><td>8K</td><td>Multilingual + Creative</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section class="sec" id="workflow">
+        <div class="sec-head">
+            <div class="sec-tag">How It Works</div>
+            <h2>எப்படி பயன்படுத்துவது?</h2>
+            <p>5 நிமிடங்களில் தொடங்கலாம்</p>
+        </div>
+        <div class="flow-wrap">
+            <div class="flow-step">
+                <div class="f-num">1</div>
+                <div class="f-body">
+                    <h3>Register செய்யுங்கள் — Free!</h3>
+                    <p>Email அல்லது Google account மூலம் register செய்யுங்கள். உடனே <strong style="color:var(--warn)">100 free coins</strong> கிடைக்கும். Credit card தேவையில்லை.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="f-num">2</div>
+                <div class="f-body">
+                    <h3>Model தேர்வு செய்யுங்கள்</h3>
+                    <p>Sidebar-ல் உங்கள் தேவைக்கேற்ற AI model தேர்வு செய்யுங்கள். Web search வேண்டுமா? Kimi or GLM 5.1. Code வேண்டுமா? Qwen3 Coder.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="f-num">3</div>
+                <div class="f-body">
+                    <h3>New Chat தொடங்குங்கள்</h3>
+                    <p>"New Chat" button click செய்யுங்கள். Session automatically create ஆகும். Rename செய்யலாம், multiple sessions வைக்கலாம்.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="f-num">4</div>
+                <div class="f-body">
+                    <h3>கேளுங்கள், அனுப்புங்கள், பதிவேற்றுங்கள்</h3>
+                    <p>Type செய்யுங்கள் அல்லது 🎤 voice input பயன்படுத்துங்கள். Files, images attach செய்யலாம். AI பதில் + token count காட்டும்.</p>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="f-num">5</div>
+                <div class="f-body">
+                    <h3>Export, Share, Manage</h3>
+                    <p>Chat-ஐ PDF-ஆக export செய்யுங்கள். Dashboard-ல் files, coins, sessions எல்லாம் manage செய்யுங்கள்.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COINS -->
+    <section class="sec alt">
+        <div class="sec-head">
+            <div class="sec-tag">Pricing</div>
+            <h2>🪙 Fair Coin System</h2>
+            <p>Pay-per-use. Waste இல்லை. Surprise charges இல்லை.</p>
+        </div>
+        <div class="coin-grid">
+            <div class="cc"><div class="big">100</div><p>Register-ல் கிடைக்கும் Free Coins</p></div>
+            <div class="cc"><div class="big">1</div><p>ஒவ்வொரு message-க்கும் செலவாகும் Coins</p></div>
+            <div class="cc"><div class="big">100</div><p>Signup bonus மட்டுமே Free messages</p></div>
+            <div class="cc"><div class="big">0₹</div><p>இப்போது முற்றிலும் Free — payment தேவையில்லை</p></div>
+        </div>
+    </section>
+
+    <!-- SECURITY -->
+    <section class="sec">
+        <div class="sec-head">
+            <div class="sec-tag">Security</div>
+            <h2>உங்கள் Data பாதுகாப்பாக உள்ளது</h2>
+            <p>ஒவ்வொரு user-ன் data தனித்தனியாக பாதுகாக்கப்படுகிறது</p>
+        </div>
+        <div class="sec-grid">
+            <div class="si"><div class="si-icon">🔐</div><div><h4>Isolated Sessions</h4><p>User ID-based strict filtering. உங்கள் chat data வேறொருவருக்கு தெரியாது.</p></div></div>
+            <div class="si"><div class="si-icon">🗂️</div><div><h4>Private Storage</h4><p>ஒவ்வொரு user-க்கும் தனி folder. 100MB limit. Secure access control.</p></div></div>
+            <div class="si"><div class="si-icon">👤</div><div><h4>Role-Based Access</h4><p>Admin மட்டுமே all data. Users தங்கள் data மட்டும். ASP.NET Identity.</p></div></div>
+            <div class="si"><div class="si-icon">🌐</div><div><h4>Cloudflare Protection</h4><p>DDoS protection, SSL, CDN — chatbot.akkuapps.in always secure & fast.</p></div></div>
+            <div class="si"><div class="si-icon">🔑</div><div><h4>Google OAuth 2.0</h4><p>Industry-standard authentication. Passwords bcrypt hashed. Secure sessions.</p></div></div>
+            <div class="si"><div class="si-icon">🤖</div><div><h4>Local AI Processing</h4><p>Ollama local server வழியாக AI requests. Data third-party-க்கு போவதில்லை.</p></div></div>
+        </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="sec alt" id="roadmap">
+        <div class="sec-head">
+            <div class="sec-tag">Roadmap</div>
+            <h2>வரும் Features</h2>
+            <p>AkkuChatbot தொடர்ந்து வளர்கிறது</p>
+        </div>
+        <div class="road-grid">
+            <div class="ri done"><div class="ri-title">✅ Core Chat Engine</div><div class="ri-desc">Multi-model, sessions, coins, voice, attachments</div><span class="ri-badge">Completed</span></div>
+            <div class="ri done"><div class="ri-title">✅ PDF Export</div><div class="ri-desc">Session export with watermark</div><span class="ri-badge">Completed</span></div>
+            <div class="ri done"><div class="ri-title">✅ User Dashboard</div><div class="ri-desc">Storage, coins, sessions, file management</div><span class="ri-badge">Completed</span></div>
+            <div class="ri done"><div class="ri-title">✅ Voice Input</div><div class="ri-desc">11 languages including Tamil</div><span class="ri-badge">Completed</span></div>
+            <div class="ri next"><div class="ri-title">🔄 Admin Panel</div><div class="ri-desc">User management, coin top-up, logs</div><span class="ri-badge">In Progress</span></div>
+            <div class="ri next"><div class="ri-title">🔄 Image Generation</div><div class="ri-desc">AI-generated images from text</div><span class="ri-badge">Next Up</span></div>
+            <div class="ri plan"><div class="ri-title">📋 Coin Purchase</div><div class="ri-desc">Online payment for top-up</div><span class="ri-badge">Planned</span></div>
+            <div class="ri plan"><div class="ri-title">📋 Mobile App</div><div class="ri-desc">iOS & Android native app</div><span class="ri-badge">Planned</span></div>
+            <div class="ri plan"><div class="ri-title">📋 Agent Workflows</div><div class="ri-desc">Multi-step AI automation</div><span class="ri-badge">Planned</span></div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-sec">
+        <h2>இப்போதே தொடங்குங்கள்!</h2>
+        <p>Register செய்யுங்கள் — 100 free coins உடன் AI explore செய்யுங்கள்</p>
+        <div class="hero-btns">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a class="btn-p" href="/Chat"><i class="fa fa-comments"></i> Go to Chat</a>
+                <a class="btn-o" href="/Dashboard"><i class="fa fa-gauge"></i> Dashboard</a>
+            }
+            else
+            {
+                <a class="btn-p" href="/Account/Register"><i class="fa fa-rocket"></i> Free Register — 100 Coins</a>
+                <a class="btn-o" href="/Account/Login"><i class="fa fa-sign-in-alt"></i> Login</a>
+            }
+        </div>
+        <p style="margin-top:20px;font-size:.8rem;color:var(--txt2)">
+            Built with ❤️ — ASP.NET 8 · Ollama · SQL Server · Cloudflare
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <span class="ft-brand">🤖 AkkuChatbot</span>
+        <div class="ft-links">
+            <a href="/Chat">Chat</a>
+            <a href="/Account/Register">Register</a>
+            <a href="/Account/Login">Login</a>
+            <a href="/Dashboard">Dashboard</a>
+            <a href="#features">Features</a>
+            <a href="#models">Models</a>
+        </div>
+        <span class="ft-copy">© 2026 akkuapps.in</span>
+    </footer>
+
+    <script>
+            // ---------------------- Theme Toggle -----------------------
+            function toggleTheme() {
+              document.body.classList.toggle('light');
+              // store preference
+              const isLight = document.body.classList.contains('light');
+              localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            }
+            // apply saved theme on load
+            (function(){
+              const saved = localStorage.getItem('theme');
+              if (saved === 'light') document.body.classList.add('light');
+              else if (saved === 'dark') document.body.classList.remove('light'); // default dark
+            })();
+
+            // ---------------------- Nav Toggle -------------------------
+            function toggleNav(){
+              document.getElementById('navLinks').classList.toggle('open');
+            }
+            document.addEventListener('click', e => {
+              const nav = document.getElementById('navLinks');
+              if (!e.target.closest('nav')) nav.classList.remove('open');
+            });
+    </script>
+</body>
+</html>

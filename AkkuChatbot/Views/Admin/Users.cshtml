@@ -1,0 +1,56 @@
+﻿@model List<AkkuChatbot.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-title">
+    <i class="fa fa-users"></i> All Users
+    <div class="ms-auto">
+        <form method="get" class="d-flex gap-2">
+            <input type="text" name="search" class="search-bar" placeholder="Search by name/email..." value="@ViewBag.Search" />
+            <button class="btn btn-sm btn-primary" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-head">Users (@Model.Count)</div>
+    <div class="p-0">
+        <table class="admin-table">
+            <thead>
+                <tr><th>User</th><th>Coins</th><th>Messages</th><th>Sessions</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    var roles = ViewBag.UserRoles[u.Id] as IList<string>;
+                    var sessionCount = ViewBag.SessionCounts.ContainsKey(u.Id) ? ViewBag.SessionCounts[u.Id] : 0;
+                    var msgCount = ViewBag.MsgCounts.ContainsKey(u.Id) ? ViewBag.MsgCounts[u.Id] : 0;
+                    <tr>
+                        <td>
+                            <div><strong>@u.FullName</strong></div>
+                            <div class="small text-muted">@u.Email</div>
+                        </td>
+                        <td class="coin-pill">@u.CoinBalance</td>
+                        <td>@msgCount</td>
+                        <td>@sessionCount</td>
+                        <td><span class="badge-role @(roles.Contains("Admin") ? "badge-admin" : "badge-user")">@string.Join(", ", roles)</span></td>
+                        <td><span class="@(u.IsActive ? "badge-active" : "badge-inactive")">@(u.IsActive ? "Active" : "Inactive")</span></td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="/Admin/UserDetail/@u.Id" class="btn btn-xs btn-outline-info">View</a>
+                                <form method="post" asp-action="ToggleActive" style="display:inline">
+                                    <input type="hidden" name="userId" value="@u.Id" />
+                                    <button type="submit" class="btn btn-xs @(u.IsActive ? "btn-outline-warning" : "btn-outline-success")">
+                                        @(u.IsActive ? "Deactivate" : "Activate")
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

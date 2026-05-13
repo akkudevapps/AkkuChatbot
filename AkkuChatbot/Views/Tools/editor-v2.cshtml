@@ -1,0 +1,1804 @@
+﻿@{
+    ViewData["Title"] = "Image Editor V2";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Image Editor V2 · AkkuChatbot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   AKKU EDITOR V2 — PHOTOSHOP-STYLE DESIGN SYSTEM
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  /* Core palette — dark professional */
+  --bg:#1a1a1a;--bg2:#222;--bg3:#2a2a2a;--bg4:#333;
+  --panel:#252525;--panel2:#2d2d2d;--panel3:#353535;
+  --bdr:#3a3a3a;--bdr2:#454545;--bdr3:#555;
+  --txt:#e0e0e0;--txt2:#aaa;--txt3:#666;--txt4:#444;
+  --acc:#0096ff;--acc2:#0080e0;--acc-dim:rgba(0,150,255,.15);
+  --ok:#2ea043;--warn:#d29922;--err:#cf222e;--coin:#e89c35;
+  --sel:#0096ff33;
+  /* Layout */
+  --topbar:36px;--statusbar:20px;--toolw:44px;--lp:260px;--rp:240px;
+  --pagepanel:180px;
+}
+[data-theme="light"]{
+  --bg:#f0f0f0;--bg2:#e8e8e8;--bg3:#ddd;--bg4:#ccc;
+  --panel:#fff;--panel2:#f5f5f5;--panel3:#ebebeb;
+  --bdr:#ccc;--bdr2:#bbb;--bdr3:#999;
+  --txt:#1a1a1a;--txt2:#555;--txt3:#888;--txt4:#bbb;
+}
+
+/* ── RESET ───────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;user-select:none}
+body{font-family:'Inter',system-ui,sans-serif;font-size:12px;
+     background:var(--bg);color:var(--txt);line-height:1.4}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,select,textarea{font-family:inherit;color:var(--txt);outline:none}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--bdr3)}
+
+/* ── TOPBAR ──────────────────────────────────────────────── */
+.topbar{
+  height:var(--topbar);background:var(--panel);
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;gap:0;
+  z-index:300;flex-shrink:0;position:relative;
+}
+.tb-brand{
+  display:flex;align-items:center;gap:6px;padding:0 12px;
+  border-right:1px solid var(--bdr);height:100%;
+  text-decoration:none;color:var(--txt);font-weight:600;font-size:12px;
+  white-space:nowrap;flex-shrink:0;
+}
+.tb-brand-ic{
+  width:20px;height:20px;background:var(--acc);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+}
+.tb-brand-ic i{color:#fff;font-size:9px}
+.tb-menu{display:flex;align-items:center;height:100%;flex-shrink:0}
+.tb-menu-btn{
+  background:transparent;color:var(--txt2);padding:0 10px;height:100%;
+  font-size:11px;font-weight:500;border:none;border-right:none;
+  transition:color .1s,background .1s;white-space:nowrap;
+}
+.tb-menu-btn:hover{background:var(--bg3);color:var(--txt)}
+.tb-sep{width:1px;height:18px;background:var(--bdr);margin:0 4px;flex-shrink:0}
+.tb-options{display:flex;align-items:center;gap:2px;padding:0 6px;flex:1}
+.tb-opt-btn{
+  background:transparent;border:1px solid transparent;color:var(--txt2);
+  padding:2px 7px;border-radius:3px;font-size:11px;height:24px;
+  display:flex;align-items:center;gap:3px;transition:all .1s;white-space:nowrap;
+}
+.tb-opt-btn:hover{background:var(--bg3);border-color:var(--bdr);color:var(--txt)}
+.tb-opt-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+.tb-opt-btn i{font-size:10px}
+.tb-spacer{flex:1}
+.coin-badge{
+  background:rgba(232,156,53,.1);border:1px solid rgba(232,156,53,.3);
+  color:var(--coin);padding:2px 8px;border-radius:12px;
+  font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace;
+  white-space:nowrap;margin-right:6px;
+}
+.tb-user{
+  background:transparent;border:none;color:var(--txt2);
+  padding:0 10px;height:100%;font-size:11px;
+  display:flex;align-items:center;gap:5px;
+  border-left:1px solid var(--bdr);
+}
+.tb-user:hover{background:var(--bg3);color:var(--txt)}
+
+/* ── OPTIONS BAR (context-sensitive, below topbar) ──────── */
+.optbar{
+  height:30px;background:var(--panel2);border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;padding:0 6px;gap:4px;
+  flex-shrink:0;overflow-x:auto;overflow-y:hidden;
+}
+.optbar::-webkit-scrollbar{height:2px}
+.ob-lbl{font-size:9px;color:var(--txt3);white-space:nowrap;padding:0 3px}
+.ob-input{
+  width:48px;height:20px;background:var(--bg3);border:1px solid var(--bdr);
+  color:var(--txt);border-radius:3px;font-size:11px;
+  font-family:'JetBrains Mono',monospace;text-align:center;padding:0 2px;
+}
+.ob-input:focus{border-color:var(--acc)}
+.ob-sep{width:1px;height:18px;background:var(--bdr);margin:0 3px;flex-shrink:0}
+.ob-select{
+  height:20px;background:var(--bg3);border:1px solid var(--bdr);color:var(--txt);
+  border-radius:3px;font-size:11px;padding:0 3px;
+}
+.ob-btn{
+  background:var(--bg3);border:1px solid var(--bdr);color:var(--txt2);
+  padding:1px 6px;border-radius:3px;font-size:10px;height:20px;
+  display:flex;align-items:center;gap:2px;transition:all .1s;white-space:nowrap;
+}
+.ob-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-dim)}
+.ob-btn.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+.ob-swatch{
+  width:20px;height:20px;border-radius:3px;border:1px solid var(--bdr2);
+  cursor:pointer;flex-shrink:0;position:relative;overflow:hidden;
+  background:repeating-conic-gradient(#777 0 25%,transparent 0 50%) 0 0 / 6px 6px;
+}
+.ob-swatch-inner{position:absolute;inset:0}
+.ob-color-inp{opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;padding:0;border:none}
+
+/* ── APP SHELL ───────────────────────────────────────────── */
+.app-shell{display:flex;height:calc(100dvh - var(--topbar) - 30px);overflow:hidden}
+
+/* ── LEFT TOOL SIDEBAR (Photoshop-style narrow icon bar) ── */
+.tool-sidebar{
+  width:var(--toolw);background:var(--panel);
+  border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;align-items:center;
+  padding:4px 0;gap:2px;flex-shrink:0;overflow:hidden;
+}
+.ts-tool{
+  width:36px;height:36px;background:transparent;border:1px solid transparent;
+  border-radius:5px;color:var(--txt2);font-size:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1px;transition:all .1s;position:relative;flex-shrink:0;
+}
+.ts-tool:hover{background:var(--bg3);border-color:var(--bdr);color:var(--txt)}
+.ts-tool.active{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+.ts-tool .tkey{font-size:7px;color:inherit;opacity:.6;font-family:'JetBrains Mono',monospace}
+.ts-sep{width:28px;height:1px;background:var(--bdr);margin:2px 0;flex-shrink:0}
+.ts-group-arrow{
+  position:absolute;bottom:1px;right:2px;font-size:5px;
+  color:var(--txt3);pointer-events:none;
+}
+.ts-spacer{flex:1}
+.fg-bg-swatch{
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  padding:2px;position:relative;cursor:pointer;
+}
+.fg-swatch,.bg-swatch{
+  width:22px;height:22px;border:2px solid var(--bdr3);border-radius:3px;cursor:pointer;
+}
+.fg-swatch{z-index:2;position:relative}
+.bg-swatch{position:absolute;bottom:6px;right:4px;z-index:1;width:18px;height:18px}
+.fg-reset{font-size:7px;color:var(--txt3);margin-top:2px;text-align:center}
+
+/* ── LEFT PANEL (Properties / AI Gen) ───────────────────── */
+.left-panel{
+  width:var(--lp);background:var(--panel);
+  border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;flex-shrink:0;
+  overflow:hidden;
+}
+.lp-tabs{display:flex;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.lp-tab{
+  flex:1;padding:6px 4px;font-size:10px;font-weight:600;text-align:center;
+  background:transparent;border:none;color:var(--txt3);
+  border-bottom:2px solid transparent;transition:all .12s;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.lp-tab.active{color:var(--acc);border-bottom-color:var(--acc);background:var(--acc-dim)}
+.lp-pane{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+/* ── CANVAS AREA ─────────────────────────────────────────── */
+.canvas-area{
+  flex:1;display:flex;flex-direction:column;min-width:0;
+  background:var(--bg2);position:relative;
+}
+.canvas-ruler-row{display:flex;flex-shrink:0}
+.canvas-ruler-corner{width:16px;height:16px;background:var(--panel2);border-right:1px solid var(--bdr);border-bottom:1px solid var(--bdr);flex-shrink:0}
+.canvas-ruler-h{flex:1;height:16px;background:var(--panel2);border-bottom:1px solid var(--bdr);overflow:hidden;position:relative}
+.canvas-ruler-v{width:16px;background:var(--panel2);border-right:1px solid var(--bdr);flex-shrink:0}
+.canvas-main-row{display:flex;flex:1;min-height:0}
+.canvas-scroll-wrap{
+  flex:1;overflow:auto;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg2);
+  /* Checker pattern for transparent areas */
+  background-image:
+    linear-gradient(45deg,var(--bg3) 25%,transparent 25%),
+    linear-gradient(-45deg,var(--bg3) 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,var(--bg3) 75%),
+    linear-gradient(-45deg,transparent 75%,var(--bg3) 75%);
+  background-size:16px 16px;
+  background-position:0 0,0 8px,8px -8px,-8px 0;
+}
+.canvas-container-wrapper{
+  position:relative;
+  box-shadow:0 4px 32px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05);
+}
+/* Rulers canvas elements */
+#rulerH,#rulerV{position:absolute;top:0;left:0;pointer-events:none}
+
+/* ── PAGE PANEL (right of canvas) ────────────────────────── */
+.page-panel{
+  width:var(--pagepanel);background:var(--panel);
+  border-left:1px solid var(--bdr);
+  display:flex;flex-direction:column;flex-shrink:0;
+  overflow:hidden;
+}
+.pp-header{
+  padding:6px 8px;border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.pp-title{font-size:10px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em}
+.pp-actions{display:flex;gap:2px}
+.pp-btn{
+  width:22px;height:22px;background:var(--bg3);border:1px solid var(--bdr);
+  border-radius:3px;color:var(--txt2);font-size:10px;
+  display:flex;align-items:center;justify-content:center;transition:all .1s;
+}
+.pp-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-dim)}
+.pp-btn.danger:hover{border-color:var(--err);color:var(--err);background:rgba(207,34,46,.1)}
+.page-list{flex:1;overflow-y:auto;padding:4px}
+.page-thumb{
+  border:2px solid var(--bdr);border-radius:5px;margin-bottom:4px;
+  cursor:pointer;transition:all .12s;overflow:hidden;
+  background:var(--bg3);position:relative;
+}
+.page-thumb:hover{border-color:var(--bdr2)}
+.page-thumb.active{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.page-thumb canvas{width:100%;display:block}
+.page-thumb-label{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:3px 5px;font-size:9px;color:var(--txt3);
+  background:var(--panel);border-top:1px solid var(--bdr);
+}
+.page-thumb-label span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.page-menu-btn{background:transparent;border:none;color:var(--txt4);font-size:9px;padding:0 2px;flex-shrink:0}
+.page-menu-btn:hover{color:var(--txt)}
+.pp-footer{
+  padding:5px 6px;border-top:1px solid var(--bdr);
+  display:flex;align-items:center;gap:4px;flex-shrink:0;
+}
+.pp-page-info{font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;flex:1;text-align:center}
+
+/* ── RIGHT PANEL (Layers / Properties) ───────────────────── */
+.right-panel{
+  width:var(--rp);background:var(--panel);
+  border-left:1px solid var(--bdr);
+  display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;
+}
+.rp-tabs{display:flex;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.rp-tab{
+  flex:1;padding:5px 2px;font-size:10px;font-weight:600;text-align:center;
+  background:transparent;border:none;color:var(--txt3);
+  border-bottom:2px solid transparent;transition:all .12s;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.rp-tab.active{color:var(--acc);border-bottom-color:var(--acc);background:var(--acc-dim)}
+.rp-pane{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+/* ── STATUS BAR ──────────────────────────────────────────── */
+.status-bar{
+  height:var(--statusbar);background:var(--panel);
+  border-top:1px solid var(--bdr);
+  display:flex;align-items:center;padding:0 8px;gap:6px;
+  font-size:10px;color:var(--txt3);font-family:'JetBrains Mono',monospace;
+  flex-shrink:0;
+}
+.sb-sep{width:1px;height:12px;background:var(--bdr);margin:0 4px;flex-shrink:0}
+.sb-zoom{display:flex;align-items:center;gap:2px}
+.sb-zoom input{
+  width:44px;height:14px;background:var(--bg3);border:1px solid var(--bdr);
+  color:var(--txt);border-radius:2px;font-size:10px;
+  font-family:'JetBrains Mono',monospace;text-align:center;padding:0;
+}
+
+/* ── COLOR PALETTE STRIP (bottom) ────────────────────────── */
+.palette-strip{
+  height:24px;background:var(--panel2);border-top:1px solid var(--bdr);
+  display:flex;align-items:center;padding:0 4px;gap:1px;
+  overflow-x:auto;overflow-y:hidden;flex-shrink:0;
+}
+.palette-strip::-webkit-scrollbar{height:2px}
+.pal-swatch{
+  width:18px;height:18px;border-radius:2px;border:1px solid rgba(0,0,0,.4);
+  cursor:pointer;flex-shrink:0;transition:transform .08s;
+}
+.pal-swatch:hover{transform:scale(1.5);z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.7);border-color:var(--txt)}
+.pal-sep{width:1px;height:16px;background:var(--bdr);margin:0 2px;flex-shrink:0}
+
+/* ── PANEL INTERNALS ─────────────────────────────────────── */
+.panel-section{padding:8px 10px;border-bottom:1px solid var(--bdr)}
+.panel-section:last-child{border-bottom:none}
+.ps-label{
+  font-size:9px;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--txt3);font-weight:600;margin-bottom:6px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ps-label button{
+  font-size:9px;color:var(--txt3);background:transparent;border:none;
+  padding:1px 4px;border-radius:2px;
+}
+.ps-label button:hover{color:var(--txt);background:var(--bg3)}
+.form-row{margin-bottom:7px}
+.flbl{font-size:10px;color:var(--txt2);margin-bottom:3px;display:block}
+.finp{
+  width:100%;height:24px;background:var(--bg3);border:1px solid var(--bdr);
+  color:var(--txt);border-radius:4px;font-size:11px;padding:0 6px;
+  transition:border-color .1s;
+}
+.finp:focus{border-color:var(--acc)}
+.finp::placeholder{color:var(--txt4)}
+textarea.finp{height:auto;resize:none;padding:5px 6px;line-height:1.4}
+select.finp{cursor:pointer}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px}
+.pri-btn{
+  width:100%;height:26px;background:var(--acc);color:#fff;border:none;
+  border-radius:4px;font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  transition:all .15s;
+}
+.pri-btn:hover:not(:disabled){background:var(--acc2)}
+.pri-btn:disabled{opacity:.45;pointer-events:none}
+.pri-btn.warn{background:var(--warn)}
+.pri-btn.warn:hover{background:#bb8820}
+.sec-btn{
+  height:24px;background:var(--bg3);border:1px solid var(--bdr);color:var(--txt2);
+  border-radius:4px;font-size:11px;padding:0 8px;
+  display:flex;align-items:center;justify-content:center;gap:4px;transition:all .1s;
+}
+.sec-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-dim)}
+.sec-btn.full{width:100%}
+.sec-btn.err:hover{border-color:var(--err);color:var(--err);background:rgba(207,34,46,.1)}
+
+/* ── LAYER PANEL ─────────────────────────────────────────── */
+.layer-header{
+  padding:5px 8px;border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;gap:3px;flex-shrink:0;
+}
+.layer-hbtn{
+  height:22px;background:var(--bg3);border:1px solid var(--bdr);color:var(--txt2);
+  border-radius:3px;font-size:10px;padding:0 5px;
+  display:flex;align-items:center;gap:2px;transition:all .1s;
+}
+.layer-hbtn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-dim)}
+.layer-hbtn.err:hover{border-color:var(--err);color:var(--err)}
+.layer-item{
+  display:flex;align-items:center;gap:4px;padding:5px 6px;
+  border-bottom:1px solid var(--bdr);cursor:pointer;
+  transition:background .1s;min-height:34px;
+}
+.layer-item:hover{background:var(--bg3)}
+.layer-item.sel{background:var(--acc-dim)}
+.layer-thumb{
+  width:26px;height:26px;border-radius:3px;border:1px solid var(--bdr);
+  object-fit:cover;flex-shrink:0;background:var(--bg3);
+}
+.layer-ic{width:14px;text-align:center;font-size:11px;color:var(--txt2);flex-shrink:0}
+.layer-name{flex:1;font-size:11px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.layer-name-inp{
+  flex:1;height:18px;background:var(--bg);border:1px solid var(--acc);
+  color:var(--txt);border-radius:2px;font-size:11px;padding:0 3px;
+}
+.layer-vis,.layer-lock-btn{
+  background:transparent;border:none;color:var(--txt3);
+  font-size:10px;padding:2px 3px;flex-shrink:0;line-height:1;
+}
+.layer-vis:hover,.layer-lock-btn:hover{color:var(--txt)}
+.blend-select{
+  width:100%;height:20px;background:var(--bg3);border:1px solid var(--bdr);
+  color:var(--txt);border-radius:3px;font-size:10px;padding:0 3px;
+}
+.opacity-row{display:flex;align-items:center;gap:5px;padding:5px 8px;flex-shrink:0}
+.opacity-label{font-size:10px;color:var(--txt3);white-space:nowrap;min-width:42px}
+.opacity-slider{flex:1;accent-color:var(--acc)}
+.opacity-val{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--txt2);min-width:30px;text-align:right}
+.fill-row{display:flex;align-items:center;gap:5px;padding:4px 8px;flex-shrink:0;border-bottom:1px solid var(--bdr)}
+
+/* ── PROPERTIES PANEL ────────────────────────────────────── */
+.prop-row{
+  display:flex;align-items:center;gap:4px;padding:3px 8px;
+  border-bottom:1px solid var(--bdr);
+}
+.prop-lbl{font-size:10px;color:var(--txt3);min-width:32px;white-space:nowrap}
+.prop-inp{
+  flex:1;height:20px;background:var(--bg3);border:1px solid var(--bdr);
+  color:var(--txt);border-radius:3px;font-size:10px;
+  font-family:'JetBrains Mono',monospace;padding:0 4px;text-align:right;
+}
+.prop-inp:focus{border-color:var(--acc)}
+.prop-inp:read-only{opacity:.5}
+.prop-2col{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px 8px;border-bottom:1px solid var(--bdr)}
+.prop-field{display:flex;flex-direction:column;gap:2px}
+.prop-fl{font-size:9px;color:var(--txt4)}
+.colorpick{
+  width:28px;height:20px;border:1px solid var(--bdr);border-radius:3px;
+  background:var(--bg3);cursor:pointer;padding:1px;
+}
+.colorpick::-webkit-color-swatch-wrapper{padding:0;border-radius:2px}
+
+/* ── MODALS ──────────────────────────────────────────────── */
+.modal-back{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;backdrop-filter:blur(3px);
+}
+.modal-box{
+  background:var(--panel);border:1px solid var(--bdr2);border-radius:8px;
+  width:90%;max-width:700px;max-height:88dvh;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 16px 60px rgba(0,0,0,.7);
+}
+.modal-box.sm{max-width:420px}
+.modal-box.lg{max-width:900px}
+.modal-hdr{
+  display:flex;align-items:center;padding:10px 14px;
+  border-bottom:1px solid var(--bdr);gap:8px;flex-shrink:0;
+}
+.modal-title{font-weight:600;font-size:13px;flex:1}
+.modal-close{
+  background:transparent;border:none;color:var(--txt2);
+  font-size:14px;padding:2px 6px;border-radius:3px;
+}
+.modal-close:hover{color:var(--txt);background:var(--bg3)}
+.modal-body{padding:12px 14px;overflow-y:auto;flex:1}
+.modal-ftr{
+  padding:8px 14px;border-top:1px solid var(--bdr);
+  display:flex;gap:6px;justify-content:flex-end;flex-shrink:0;
+}
+.modal-pri-btn{
+  background:var(--acc);color:#fff;border:none;
+  padding:5px 16px;border-radius:4px;font-size:12px;font-weight:600;
+  transition:background .1s;
+}
+.modal-pri-btn:hover{background:var(--acc2)}
+.modal-ghost-btn{
+  background:transparent;color:var(--txt2);
+  border:1px solid var(--bdr);padding:5px 12px;
+  border-radius:4px;font-size:12px;transition:all .1s;
+}
+.modal-ghost-btn:hover{border-color:var(--bdr2);color:var(--txt)}
+
+/* ── BATCH PANEL ─────────────────────────────────────────── */
+.batch-drop{
+  border:2px dashed var(--bdr2);border-radius:6px;
+  padding:24px;text-align:center;cursor:pointer;
+  transition:all .15s;margin-bottom:10px;
+}
+.batch-drop:hover,.batch-drop.drag-over{border-color:var(--acc);background:var(--acc-dim)}
+.batch-drop i{font-size:28px;color:var(--txt3);margin-bottom:8px;display:block}
+.batch-drop p{font-size:12px;color:var(--txt2)}
+.batch-file-list{max-height:220px;overflow-y:auto;border:1px solid var(--bdr);border-radius:5px;margin-bottom:10px}
+.bf-item{
+  display:flex;align-items:center;gap:6px;padding:5px 8px;
+  border-bottom:1px solid var(--bdr);font-size:11px;
+}
+.bf-item:last-child{border-bottom:none}
+.bf-thumb{width:32px;height:32px;object-fit:cover;border-radius:3px;border:1px solid var(--bdr);flex-shrink:0}
+.bf-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--txt2)}
+.bf-size{color:var(--txt3);white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:10px}
+.bf-remove{background:transparent;border:none;color:var(--txt4);font-size:11px;padding:2px 4px}
+.bf-remove:hover{color:var(--err)}
+.batch-op-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.batch-op-card{
+  border:1px solid var(--bdr);border-radius:5px;padding:8px;cursor:pointer;
+  transition:all .12s;display:flex;flex-direction:column;gap:3px;
+}
+.batch-op-card:hover,.batch-op-card.sel{border-color:var(--acc);background:var(--acc-dim)}
+.batch-op-card i{font-size:16px;color:var(--txt2)}
+.batch-op-card.sel i{color:var(--acc)}
+.batch-op-title{font-size:11px;font-weight:600;color:var(--txt)}
+.batch-op-desc{font-size:10px;color:var(--txt3)}
+.batch-progress{
+  background:var(--bg3);border-radius:3px;height:6px;
+  overflow:hidden;margin-top:6px;
+}
+.batch-prog-bar{height:100%;background:var(--acc);border-radius:3px;transition:width .2s;width:0}
+
+/* ── AI PANEL ────────────────────────────────────────────── */
+.ai-gen-thumb{
+  width:100%;aspect-ratio:1;object-fit:cover;border-radius:5px;
+  border:1px solid var(--bdr);cursor:pointer;display:block;margin-bottom:4px;
+}
+.ai-gen-thumb:hover{border-color:var(--acc)}
+.recent-gen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.rg-item{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;
+  border:1px solid var(--bdr);cursor:pointer;transition:all .12s}
+.rg-item:hover{border-color:var(--acc);transform:scale(1.04)}
+
+/* ── FILTER SLIDERS ──────────────────────────────────────── */
+.filter-row{display:flex;align-items:center;gap:5px;padding:3px 8px}
+.filter-lbl{font-size:10px;color:var(--txt3);min-width:58px}
+.filter-slider{flex:1;accent-color:var(--acc);height:12px}
+.filter-val{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--txt2);min-width:28px;text-align:right}
+
+/* ── TOAST ───────────────────────────────────────────────── */
+.toast-dock{position:fixed;bottom:50px;right:12px;z-index:9999;display:flex;flex-direction:column;gap:4px;pointer-events:none}
+.toast-item{
+  padding:7px 12px;border-radius:5px;font-size:11px;font-weight:500;
+  color:#fff;opacity:0;transform:translateX(12px);
+  transition:all .2s ease;pointer-events:auto;max-width:240px;
+}
+.toast-item.show{opacity:1;transform:translateX(0)}
+.t-ok{background:var(--ok)}.t-err{background:var(--err)}
+.t-info{background:var(--acc)}.t-warn{background:var(--warn)}
+
+/* ── OVERLAY (Generation loading) ────────────────────────── */
+.canvas-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,.7);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:100;gap:10px;
+}
+.spin{width:32px;height:32px;border:3px solid var(--bdr);border-top-color:var(--acc);border-radius:50%;animation:spin .7s linear infinite}
+@@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── INPAINTING ──────────────────────────────────────────── */
+.inp-toolbar{
+  position:absolute;top:8px;left:50%;transform:translateX(-50%);
+  background:var(--panel);border:1px solid var(--bdr2);border-radius:6px;
+  padding:4px 8px;display:flex;align-items:center;gap:4px;
+  z-index:50;box-shadow:0 4px 16px rgba(0,0,0,.5);
+}
+.inp-mode-toggle{display:none}
+.inp-mode-toggle.active{display:flex}
+
+/* ── STICKERS GRID ───────────────────────────────────────── */
+.sticker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.sticker-btn{
+  font-size:22px;text-align:center;cursor:pointer;
+  padding:5px;border-radius:5px;transition:background .1s;border:1px solid transparent;
+  background:transparent;
+}
+.sticker-btn:hover{background:var(--bg3);border-color:var(--bdr)}
+
+/* ── FRAMES ──────────────────────────────────────────────── */
+.frame-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.frame-card{
+  border:2px solid var(--bdr);border-radius:5px;padding:4px;cursor:pointer;
+  transition:all .12s;aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+}
+.frame-card:hover{border-color:var(--acc)}
+.frame-preview{width:100%;height:100%;border-radius:3px;background:var(--bg3)}
+
+/* ── EXPORT PANEL ────────────────────────────────────────── */
+.export-format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.export-fmt{
+  border:1px solid var(--bdr);border-radius:4px;padding:6px 4px;
+  text-align:center;cursor:pointer;transition:all .12s;
+}
+.export-fmt:hover{border-color:var(--acc);background:var(--acc-dim)}
+.export-fmt.sel{border-color:var(--acc);background:var(--acc-dim);color:var(--acc)}
+.export-fmt-name{font-size:11px;font-weight:600}
+.export-fmt-desc{font-size:9px;color:var(--txt3);margin-top:1px}
+
+/* ── CROP OVERLAY ────────────────────────────────────────── */
+.crop-overlay{
+  position:absolute;inset:0;z-index:40;
+  background:rgba(0,0,0,.0);cursor:crosshair;display:none;
+}
+.crop-selection{
+  position:absolute;border:2px solid var(--acc);
+  box-shadow:0 0 0 9999px rgba(0,0,0,.45);pointer-events:none;
+}
+
+/* ── TEXT EFFECTS PREVIEW ────────────────────────────────── */
+.text-fx-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}
+.text-fx-btn{
+  background:var(--bg3);border:1px solid var(--bdr);border-radius:4px;
+  padding:5px 4px;text-align:center;cursor:pointer;transition:all .1s;font-size:11px;
+}
+.text-fx-btn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-dim)}
+
+/* ── COLLAGE LAYOUT GRID ─────────────────────────────────── */
+.collage-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+.collage-layout{
+  border:1px solid var(--bdr);border-radius:4px;cursor:pointer;
+  aspect-ratio:1;padding:4px;transition:all .12s;overflow:hidden;
+}
+.collage-layout:hover,.collage-layout.sel{border-color:var(--acc);background:var(--acc-dim)}
+.collage-preview{width:100%;height:100%;display:grid;gap:2px;border-radius:2px;overflow:hidden}
+.collage-cell{background:var(--bdr2);border-radius:1px}
+
+/* ── MOBILE ──────────────────────────────────────────────── */
+@@media(max-width:900px){
+  :root{--lp:100%;--rp:0px;--pagepanel:0px}
+  .left-panel{
+    position:fixed;bottom:0;left:0;right:0;
+    width:100%!important;height:60vh;
+    border-top:1px solid var(--bdr);
+    z-index:200;display:flex;
+    border-radius:12px 12px 0 0;
+  }
+  .right-panel,.page-panel{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     TOP MENU BAR
+     ═══════════════════════════════════════════════════════ -->
+<header class="topbar">
+  <a href="/" class="tb-brand">
+    <div class="tb-brand-ic"><i class="fa fa-robot"></i></div>
+    <span>AkkuChatbot</span>
+  </a>
+
+  <div class="tb-menu">
+    <!-- File Menu -->
+    <div class="dropdown">
+      <button class="tb-menu-btn dropdown-toggle" data-bs-toggle="dropdown">File</button>
+      <ul class="dropdown-menu" style="background:var(--panel);border-color:var(--bdr2);min-width:200px">
+        <li><a class="dropdown-item" href="#" onclick="newDocument()" style="color:var(--txt);font-size:12px"><i class="fa fa-file me-2" style="width:14px"></i>New… <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+N</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="openFileDialog()" style="color:var(--txt);font-size:12px"><i class="fa fa-folder-open me-2" style="width:14px"></i>Open… <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+O</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="openLoadModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-cloud me-2" style="width:14px"></i>Open from Cloud</a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="saveArtwork()" style="color:var(--txt);font-size:12px"><i class="fa fa-floppy-disk me-2" style="width:14px"></i>Save <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+S</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="saveArtworkAs()" style="color:var(--txt);font-size:12px"><i class="fa fa-floppy-disk me-2" style="width:14px"></i>Save As…</a></li>
+        <li><a class="dropdown-item" href="#" onclick="exportProject()" style="color:var(--txt);font-size:12px"><i class="fa fa-file-zipper me-2" style="width:14px"></i>Export Project (.akku)</a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="openExportModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-file-export me-2" style="width:14px"></i>Export As… <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+E</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="openBatchModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-layer-group me-2" style="width:14px"></i>Batch Processing…</a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="printCanvasPreview()" style="color:var(--txt);font-size:12px"><i class="fa fa-print me-2" style="width:14px"></i>Print… <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+P</span></a></li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <button class="tb-menu-btn dropdown-toggle" data-bs-toggle="dropdown">Edit</button>
+      <ul class="dropdown-menu" style="background:var(--panel);border-color:var(--bdr2);min-width:200px">
+        <li><a class="dropdown-item" href="#" onclick="histUndo()" style="color:var(--txt);font-size:12px"><i class="fa fa-rotate-left me-2" style="width:14px"></i>Undo <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+Z</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="histRedo()" style="color:var(--txt);font-size:12px"><i class="fa fa-rotate-right me-2" style="width:14px"></i>Redo <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+Y</span></a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="copySelected()" style="color:var(--txt);font-size:12px"><i class="fa fa-copy me-2" style="width:14px"></i>Copy <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+C</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="cutSelected()" style="color:var(--txt);font-size:12px"><i class="fa fa-scissors me-2" style="width:14px"></i>Cut <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+X</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="pasteLocal()" style="color:var(--txt);font-size:12px"><i class="fa fa-paste me-2" style="width:14px"></i>Paste <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+V</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="duplicateSelected()" style="color:var(--txt);font-size:12px"><i class="fa fa-clone me-2" style="width:14px"></i>Duplicate <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+D</span></a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="selectAll()" style="color:var(--txt);font-size:12px"><i class="fa fa-object-group me-2" style="width:14px"></i>Select All <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+A</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="deleteSelected()" style="color:var(--err);font-size:12px"><i class="fa fa-trash me-2" style="width:14px"></i>Delete <span style="float:right;color:var(--txt3);font-size:10px">Del</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="clearCanvas()" style="color:var(--err);font-size:12px"><i class="fa fa-ban me-2" style="width:14px"></i>Clear All</a></li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <button class="tb-menu-btn dropdown-toggle" data-bs-toggle="dropdown">Image</button>
+      <ul class="dropdown-menu" style="background:var(--panel);border-color:var(--bdr2);min-width:200px">
+        <li><a class="dropdown-item" href="#" onclick="openCanvasSizeModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-expand me-2" style="width:14px"></i>Canvas Size…</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openResizeModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-compress-arrows-alt me-2" style="width:14px"></i>Image Size…</a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="openCropTool()" style="color:var(--txt);font-size:12px"><i class="fa fa-crop me-2" style="width:14px"></i>Crop</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openRotateModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-rotate me-2" style="width:14px"></i>Rotate / Flip…</a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="removeBackground()" style="color:var(--txt);font-size:12px"><i class="fa fa-wand-magic-sparkles me-2" style="width:14px"></i>Remove Background <small style="color:var(--coin)">⬡2</small></a></li>
+        <li><a class="dropdown-item" href="#" onclick="upscaleImage()" style="color:var(--txt);font-size:12px"><i class="fa fa-up-right-and-down-left-from-center me-2" style="width:14px"></i>Upscale Image <small style="color:var(--coin)">⬡3</small></a></li>
+        <li><a class="dropdown-item" href="#" onclick="openInpaintingTool()" style="color:var(--txt);font-size:12px"><i class="fa fa-paintbrush me-2" style="width:14px"></i>AI Inpainting… <small style="color:var(--coin)">⬡5</small></a></li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <button class="tb-menu-btn dropdown-toggle" data-bs-toggle="dropdown">Layer</button>
+      <ul class="dropdown-menu" style="background:var(--panel);border-color:var(--bdr2);min-width:200px">
+        <li><a class="dropdown-item" href="#" onclick="addLayer()" style="color:var(--txt);font-size:12px"><i class="fa fa-plus me-2" style="width:14px"></i>New Layer</a></li>
+        <li><a class="dropdown-item" href="#" onclick="duplicateLayer()" style="color:var(--txt);font-size:12px"><i class="fa fa-clone me-2" style="width:14px"></i>Duplicate Layer</a></li>
+        <li><a class="dropdown-item" href="#" onclick="mergeDown()" style="color:var(--txt);font-size:12px"><i class="fa fa-layer-group me-2" style="width:14px"></i>Merge Down</a></li>
+        <li><a class="dropdown-item" href="#" onclick="mergeAllLayers()" style="color:var(--txt);font-size:12px"><i class="fa fa-compress me-2" style="width:14px"></i>Flatten Image</a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="#" onclick="groupSelected()" style="color:var(--txt);font-size:12px"><i class="fa fa-object-group me-2" style="width:14px"></i>Group Selected <span style="float:right;color:var(--txt3);font-size:10px">Ctrl+G</span></a></li>
+        <li><a class="dropdown-item" href="#" onclick="ungroupSelected()" style="color:var(--txt);font-size:12px"><i class="fa fa-object-ungroup me-2" style="width:14px"></i>Ungroup</a></li>
+      </ul>
+    </div>
+    <!-- 🆕 Tools menu -->
+        <div class="dropdown">
+          <button class="tb-menu-btn dropdown-toggle" data-bs-toggle="dropdown">Tools</button>
+          <ul class="dropdown-menu" style="background:var(--panel);border-color:var(--bdr2)">
+            <li><a class="dropdown-item" href="/Tools/PromptTemplates" target="_blank"
+                   style="color:var(--txt);font-size:12px">
+                   <i class="fa fa-layer-group me-2" style="width:14px"></i>
+                   Prompt Templates ↗
+            </a></li>
+            <li><a class="dropdown-item" href="/Chat" target="_blank"
+                   style="color:var(--txt);font-size:12px">
+                   <i class="fa fa-robot me-2" style="width:14px"></i>
+                   AI Chat ↗
+            </a></li>
+          </ul>
+        </div>
+    <div class="dropdown">
+      <button class="tb-menu-btn dropdown-toggle" data-bs-toggle="dropdown">Tools</button>
+      <ul class="dropdown-menu" style="background:var(--panel);border-color:var(--bdr2);min-width:200px">
+        <li><a class="dropdown-item" href="#" onclick="openBatchModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-layer-group me-2" style="width:14px"></i>Batch Processing…</a></li>
+        <li><a class="dropdown-item" href="#" onclick="openCollageModal()" style="color:var(--txt);font-size:12px"><i class="fa fa-table-cells me-2" style="width:14px"></i>Collage Builder…</a></li>
+        <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+        <li><a class="dropdown-item" href="/Tools/ImageToText" target="_blank" style="color:var(--txt);font-size:12px"><i class="fa fa-file-image me-2" style="width:14px"></i>Image to Text</a></li>
+        <li><a class="dropdown-item" href="/Tools/PromptTemplates" target="_blank" style="color:var(--txt);font-size:12px"><i class="fa fa-layer-group me-2" style="width:14px"></i>Prompt Templates</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Options bar right side -->
+  <div class="tb-spacer"></div>
+  <button class="tb-opt-btn" onclick="histUndo()" id="topUndoBtn" title="Undo Ctrl+Z"><i class="fa fa-rotate-left"></i></button>
+  <button class="tb-opt-btn" onclick="histRedo()" id="topRedoBtn" title="Redo Ctrl+Y"><i class="fa fa-rotate-right"></i></button>
+  <div class="tb-sep"></div>
+  <span class="coin-badge" id="coinBadge">⬡ —</span>
+  <div class="dropdown">
+    <button class="tb-user dropdown-toggle" data-bs-toggle="dropdown">
+      <i class="fa fa-user-circle"></i>
+      @User.Identity!.Name?.Split("@")[0]
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" style="background:var(--panel);border-color:var(--bdr2)">
+      <li><a class="dropdown-item" href="/Dashboard" style="color:var(--txt);font-size:12px"><i class="fa fa-gauge me-2"></i>Dashboard</a></li>
+      <li><hr class="dropdown-divider" style="border-color:var(--bdr)"></li>
+      <li>
+        <form asp-controller="Account" asp-action="Logout" method="post">
+          @Html.AntiForgeryToken()
+          <button type="submit" class="dropdown-item" style="color:var(--err);font-size:12px;background:transparent;border:none;width:100%;text-align:left">
+            <i class="fa fa-sign-out-alt me-2"></i>Logout
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════
+     CONTEXT OPTIONS BAR (below topbar, tool-sensitive)
+     ═══════════════════════════════════════════════════════ -->
+<div class="optbar" id="optBar">
+  <!-- Default: Selection options -->
+  <div id="ob-select" class="d-flex align-items-center gap-1" style="flex-wrap:nowrap">
+    <span class="ob-lbl">W</span><input type="number" class="ob-input" id="obW" onchange="setPropFromBar('width',+this.value)">
+    <span class="ob-lbl">H</span><input type="number" class="ob-input" id="obH" onchange="setPropFromBar('height',+this.value)">
+    <div class="ob-sep"></div>
+    <span class="ob-lbl">X</span><input type="number" class="ob-input" id="obX" onchange="setPropFromBar('left',+this.value)">
+    <span class="ob-lbl">Y</span><input type="number" class="ob-input" id="obY" onchange="setPropFromBar('top',+this.value)">
+    <div class="ob-sep"></div>
+    <span class="ob-lbl">°</span><input type="number" class="ob-input" id="obRot" style="width:40px" onchange="setPropFromBar('angle',+this.value)">
+    <div class="ob-sep"></div>
+    <span class="ob-lbl">Fill</span>
+    <div class="ob-swatch"><div class="ob-swatch-inner" id="obFillInner" style="background:#5d7cf8"></div><input type="color" class="ob-color-inp" id="obFill" value="#5d7cf8" oninput="setPropFromBar('fill',this.value);document.getElementById('obFillInner').style.background=this.value"></div>
+    <span class="ob-lbl">Stroke</span>
+    <div class="ob-swatch"><div class="ob-swatch-inner" id="obStrokeInner" style="background:#000"></div><input type="color" class="ob-color-inp" id="obStroke" value="#000000" oninput="setPropFromBar('stroke',this.value);document.getElementById('obStrokeInner').style.background=this.value"></div>
+    <input type="number" class="ob-input" id="obStrokeW" style="width:36px" placeholder="0" oninput="setPropFromBar('strokeWidth',+this.value)">
+    <span class="ob-lbl">px</span>
+    <div class="ob-sep"></div>
+    <button class="ob-btn" onclick="bringToFront()"><i class="fa fa-angles-up"></i></button>
+    <button class="ob-btn" onclick="sendToBack()"><i class="fa fa-angles-down"></i></button>
+    <button class="ob-btn" onclick="flipHorizontal()"><i class="fa fa-left-right"></i></button>
+    <button class="ob-btn" onclick="flipVertical()"><i class="fa fa-up-down"></i></button>
+    <button class="ob-btn" onclick="lockSelected()"><i class="fa fa-lock-open" id="obLockIc"></i></button>
+    <button class="ob-btn" onclick="duplicateSelected()"><i class="fa fa-clone"></i></button>
+    <button class="ob-btn" onclick="deleteSelected()" style="color:var(--err)"><i class="fa fa-trash"></i></button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     APP SHELL
+     ═══════════════════════════════════════════════════════ -->
+<div class="app-shell">
+
+  <!-- ════ LEFT TOOL SIDEBAR (Photoshop-style) ════════════ -->
+  <nav class="tool-sidebar" id="toolSidebar">
+
+    <!-- Move / Select -->
+    <button class="ts-tool active" data-tool="select" onclick="setTool('select')" title="Move Tool (V)">
+      <i class="fa fa-arrow-pointer"></i><span class="tkey">V</span>
+    </button>
+
+    <!-- Marquee / Crop group -->
+    <button class="ts-tool" data-tool="crop" onclick="setTool('crop')" title="Crop Tool (C)">
+      <i class="fa fa-crop-simple"></i><span class="tkey">C</span>
+      <span class="ts-group-arrow">▾</span>
+    </button>
+
+    <!-- Healing / Inpainting -->
+    <button class="ts-tool" data-tool="inpaint" onclick="setTool('inpaint')" title="AI Inpaint Brush (J)">
+      <i class="fa fa-wand-magic-sparkles"></i><span class="tkey">J</span>
+    </button>
+
+    <div class="ts-sep"></div>
+
+    <!-- Brush -->
+    <button class="ts-tool" data-tool="draw" onclick="setTool('draw')" title="Brush Tool (B)">
+      <i class="fa fa-paintbrush"></i><span class="tkey">B</span>
+    </button>
+
+    <!-- Eraser -->
+    <button class="ts-tool" data-tool="eraser" onclick="setTool('eraser')" title="Eraser (E)">
+      <i class="fa fa-eraser"></i><span class="tkey">E</span>
+    </button>
+
+    <!-- Pen / Vector -->
+    <button class="ts-tool" data-tool="pen" onclick="setTool('pen')" title="Pen Tool (P)">
+      <i class="fa fa-pen-nib"></i><span class="tkey">P</span>
+    </button>
+
+    <div class="ts-sep"></div>
+
+    <!-- Text -->
+    <button class="ts-tool" data-tool="text" onclick="setTool('text')" title="Text Tool (T)">
+      <i class="fa fa-font"></i><span class="tkey">T</span>
+    </button>
+
+    <!-- Shape tools -->
+    <button class="ts-tool" data-tool="shape" onclick="setTool('shape')" title="Shape Tool (U)">
+      <i class="fa fa-shapes"></i><span class="tkey">U</span>
+      <span class="ts-group-arrow">▾</span>
+    </button>
+
+    <!-- Gradient -->
+    <button class="ts-tool" data-tool="gradient" onclick="setTool('gradient')" title="Gradient Tool (G)">
+      <i class="fa fa-fill-drip"></i><span class="tkey">G</span>
+    </button>
+
+    <div class="ts-sep"></div>
+
+    <!-- Zoom -->
+    <button class="ts-tool" data-tool="zoom" onclick="setTool('zoom')" title="Zoom Tool (Z)">
+      <i class="fa fa-magnifying-glass"></i><span class="tkey">Z</span>
+    </button>
+
+    <!-- Hand -->
+    <button class="ts-tool" data-tool="hand" onclick="setTool('hand')" title="Hand Tool (H)">
+      <i class="fa fa-hand"></i><span class="tkey">H</span>
+    </button>
+
+    <div class="ts-sep"></div>
+
+    <!-- Eyedropper -->
+    <button class="ts-tool" data-tool="eyedrop" onclick="setTool('eyedrop')" title="Eyedropper (I)">
+      <i class="fa fa-eye-dropper"></i><span class="tkey">I</span>
+    </button>
+
+    <div class="ts-spacer"></div>
+
+    <!-- FG/BG color swatches -->
+    <div class="fg-bg-swatch" title="Foreground / Background colors" onclick="openFgBgPicker()">
+      <div class="fg-swatch" id="fgSwatch" style="background:#5d7cf8"></div>
+      <div class="bg-swatch" id="bgSwatch" style="background:#000000"></div>
+      <div class="fg-reset" onclick="event.stopPropagation();resetFgBg()">D&nbsp;X</div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*,.akku" hidden onchange="openFileFromInput(this)">
+    <input type="file" id="batchFileInput" accept="image/*" multiple hidden onchange="addBatchFiles(this)">
+  </nav>
+
+  <!-- ════ LEFT PANEL — AI Gen + Properties ═══════════════ -->
+  <aside class="left-panel" id="leftPanel">
+    <div class="lp-tabs">
+      <button class="lp-tab active" onclick="switchLTab('ai')" id="ltAI">✨ AI</button>
+      <button class="lp-tab" onclick="switchLTab('props')" id="ltProps">⚙ Props</button>
+      <button class="lp-tab" onclick="switchLTab('filters')" id="ltFilters">🎨 Adjust</button>
+      <button class="lp-tab" onclick="switchLTab('text')" id="ltText">T</button>
+    </div>
+
+    <!-- AI Generation Pane -->
+    <div class="lp-pane" id="lpAI">
+      <div class="panel-section">
+        <div class="ps-label">AI Image Generator</div>
+        <div class="form-row">
+          <label class="flbl">Prompt</label>
+          <textarea class="finp" id="genPrompt" rows="3" placeholder="Describe what you want…"></textarea>
+        </div>
+        <div class="form-row">
+          <label class="flbl">Negative Prompt</label>
+          <textarea class="finp" id="genNeg" rows="2" placeholder="blur, watermark, ugly…"></textarea>
+        </div>
+        <!-- Size + Seed (existing) -->
+<div class="row2">
+  <div class="form-row">
+    <label class="flbl">Size</label>
+    <select class="finp" id="genSize">...</select>
+  </div>
+  <div class="form-row">
+    <label class="flbl">Seed</label>
+    <input type="number" class="finp" id="genSeed" placeholder="Random" min="0" max="9999999">
+  </div>
+</div>
+<!-- Steps -->
+<div class="form-row">
+  <label class="flbl" style="display:flex;justify-content:space-between">
+    Steps (Quality) <span id="genStepsVal" style="color:var(--acc)">20</span>
+  </label>
+  <div style="display:flex;align-items:center;gap:4px">
+    <span style="font-size:9px;color:var(--txt3)">10</span>
+    <input type="range" id="genSteps" min="10" max="50" value="20"
+           style="flex:1;accent-color:var(--acc)"
+           oninput="document.getElementById('genStepsVal').textContent=this.value">
+    <span style="font-size:9px;color:var(--txt3)">50</span>
+  </div>
+</div>
+
+<!-- CFG -->
+<div class="form-row">
+  <label class="flbl" style="display:flex;justify-content:space-between">
+    Guidance (CFG) <span id="genCfgVal" style="color:var(--acc)">7.5</span>
+  </label>
+  <div style="display:flex;align-items:center;gap:4px">
+    <span style="font-size:9px;color:var(--txt3)">1</span>
+    <input type="range" id="genCfg" min="1" max="20" value="7.5" step="0.5"
+           style="flex:1;accent-color:var(--acc)"
+           oninput="document.getElementById('genCfgVal').textContent=parseFloat(this.value).toFixed(1)">
+    <span style="font-size:9px;color:var(--txt3)">20</span>
+  </div>
+</div>
+    <!-- 🆕 Steps slider -->
+    <div class="form-row">
+      <label class="flbl" style="display:flex;justify-content:space-between">
+        Steps (Quality) <span id="genStepsVal" style="color:var(--acc);font-family:'JetBrains Mono',monospace">20</span>
+      </label>
+      <div style="display:flex;align-items:center;gap:4px">
+        <span style="font-size:9px;color:var(--txt3)">10</span>
+        <input type="range" id="genSteps" min="10" max="50" value="20" step="1"
+               style="flex:1;accent-color:var(--acc)"
+               oninput="document.getElementById('genStepsVal').textContent=this.value">
+        <span style="font-size:9px;color:var(--txt3)">50</span>
+      </div>
+    </div>
+
+    <!-- 🆕 CFG Scale slider -->
+    <div class="form-row">
+      <label class="flbl" style="display:flex;justify-content:space-between">
+        Guidance (CFG) <span id="genCfgVal" style="color:var(--acc);font-family:'JetBrains Mono',monospace">7.5</span>
+      </label>
+      <div style="display:flex;align-items:center;gap:4px">
+        <span style="font-size:9px;color:var(--txt3)">1</span>
+        <input type="range" id="genCfg" min="1" max="20" value="7.5" step="0.5"
+               style="flex:1;accent-color:var(--acc)"
+               oninput="document.getElementById('genCfgVal').textContent=parseFloat(this.value).toFixed(1)">
+        <span style="font-size:9px;color:var(--txt3)">20</span>
+      </div>
+    </div>
+          <div class="form-row">
+            <label class="flbl">Style</label>
+            <select class="finp" id="genStyle">
+              <option value="">None</option>
+              <option value="photographic">📷 Photo</option>
+              <option value="digital art">🎨 Digital Art</option>
+              <option value="anime">🌸 Anime</option>
+              <option value="oil painting">🖼 Oil Paint</option>
+              <option value="watercolor">💧 Watercolor</option>
+              <option value="pencil sketch">✏ Sketch</option>
+              <option value="cyberpunk">⚡ Cyberpunk</option>
+              <option value="fantasy art">🏰 Fantasy</option>
+              <option value="pixel art">👾 Pixel Art</option>
+              <option value="neon noir">🌃 Neon Noir</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="form-row">
+            <label class="flbl">Size</label>
+            <select class="finp" id="genSize">
+              <option value="512x512">512×512</option>
+              <option value="768x768">768×768</option>
+              <option value="1024x1024" selected>1024×1024</option>
+              <option value="1280x720">1280×720 HD</option>
+              <option value="720x1280">720×1280 Port</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="flbl">Seed</label>
+            <input type="number" class="finp" id="genSeed" placeholder="Random" min="0" max="9999999">
+          </div>
+        </div>
+        <button class="pri-btn" id="genBtn" onclick="generateAIImage()" style="margin-top:4px">
+          <i class="fa fa-wand-magic-sparkles"></i> Generate <small style="opacity:.7;font-weight:400">⬡2</small>
+        </button>
+        <div style="display:flex;gap:4px;margin-top:5px">
+          <button class="sec-btn full" onclick="openTemplatesModal()">
+  <i class="fa fa-layer-group"></i> Templates
+</button>
+          <button class="sec-btn full" onclick="removeBackground()"><i class="fa fa-scissors"></i> BG Remove <small style="color:var(--coin)">⬡2</small></button>
+        </div>
+        <button class="sec-btn full" style="margin-top:4px" onclick="openInpaintingTool()"><i class="fa fa-paintbrush"></i> AI Inpaint <small style="color:var(--coin)">⬡5</small></button>
+        <button class="sec-btn full" style="margin-top:4px" onclick="upscaleImage()"><i class="fa fa-up-right-and-down-left-from-center"></i> Upscale <small style="color:var(--coin)">⬡3</small></button>
+      </div>
+
+      <!-- Recent generated images -->
+      <div class="panel-section">
+        <div class="ps-label">
+          Recent Generated
+          <button onclick="clearRecentGen()" title="Clear"><i class="fa fa-trash"></i></button>
+        </div>
+        <div class="recent-gen-grid" id="recentGenGrid">
+          <div style="font-size:10px;color:var(--txt3);text-align:center;padding:10px;grid-column:1/-1">Generate an image first</div>
+        </div>
+      </div>
+
+      <!-- Quick Stickers -->
+      <div class="panel-section">
+        <div class="ps-label">Stickers <button onclick="switchLTab('stickers')">All →</button></div>
+        <div class="sticker-grid" id="quickStickers"></div>
+      </div>
+    </div>
+
+    <!-- Properties Pane -->
+    <div class="lp-pane" id="lpProps" style="display:none">
+      <div style="padding:8px;font-size:10px;color:var(--txt3);text-align:center" id="noSelMsg2">Select an object</div>
+      <div id="propsForm2" style="display:none">
+        <div class="prop-2col">
+          <div class="prop-field"><span class="prop-fl">X</span><input type="number" class="prop-inp" id="pX2" onchange="setProp('left',+this.value)"></div>
+          <div class="prop-field"><span class="prop-fl">Y</span><input type="number" class="prop-inp" id="pY2" onchange="setProp('top',+this.value)"></div>
+          <div class="prop-field"><span class="prop-fl">W</span><input type="number" class="prop-inp" id="pW2"></div>
+          <div class="prop-field"><span class="prop-fl">H</span><input type="number" class="prop-inp" id="pH2"></div>
+        </div>
+        <div class="prop-row">
+          <span class="prop-lbl">Rotation</span>
+          <input type="number" class="prop-inp" id="pRot2" min="-360" max="360" onchange="setProp('angle',+this.value)">
+          <span style="font-size:10px;color:var(--txt3)">°</span>
+        </div>
+        <div class="opacity-row">
+          <span class="opacity-label">Opacity</span>
+          <input type="range" class="opacity-slider" id="pOp2" min="0" max="1" step="0.01"
+            oninput="setProp('opacity',+this.value);document.getElementById('pOpV2').textContent=Math.round(this.value*100)+'%'">
+          <span class="opacity-val" id="pOpV2">100%</span>
+        </div>
+        <div class="fill-row">
+          <span style="font-size:10px;color:var(--txt3);min-width:36px">Fill</span>
+          <input type="color" class="colorpick" id="pFill2" value="#5d7cf8" oninput="setProp('fill',this.value)">
+          <span style="font-size:10px;color:var(--txt3);min-width:36px;margin-left:6px">Stroke</span>
+          <input type="color" class="colorpick" id="pStroke2" value="#000" oninput="setProp('stroke',this.value)">
+          <input type="number" class="prop-inp" id="pStrokeW2" style="width:40px" placeholder="0" oninput="setProp('strokeWidth',+this.value)">
+        </div>
+        <div class="prop-row">
+          <span class="prop-lbl">Blend</span>
+          <select class="finp" id="genSize">
+              <option value="512x512">512×512 (Small)</option>
+              <option value="768x768">768×768</option>
+              <option value="1024x1024" selected>1024×1024 ★ Default</option>
+              <option value="1280x720">1280×720 HD Landscape</option>
+              <option value="720x1280">720×1280 Portrait</option>
+              <!-- 🆕 -->
+              <option value="1152x896">1152×896 (4:3)</option>
+              <option value="896x1152">896×1152 (3:4)</option>
+              <option value="1344x768">1344×768 (16:9)</option>
+              <option value="768x1344">768×1344 (9:16)</option>
+              <option value="1536x1024">1536×1024 (3:2)</option>
+              <option value="2048x1024">2048×1024 Panorama</option>
+            </select>
+        </div>
+
+        <!-- Text-specific props -->
+        <div id="textPropsSection" style="display:none">
+          <div style="padding:6px 8px;border-bottom:1px solid var(--bdr);font-size:9px;color:var(--txt3);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Text Style</div>
+          <div class="prop-row">
+            <span class="prop-lbl">Font</span>
+            <select class="finp" id="pFont2" style="height:20px;font-size:10px;flex:1" onchange="setTxtProp('fontFamily',this.value)">
+              <option>Arial</option><option>Georgia</option><option>Times New Roman</option>
+              <option>Courier New</option><option>Verdana</option><option>Impact</option>
+              <option>Trebuchet MS</option><option>Comic Sans MS</option>
+              <option>Palatino</option><option>Garamond</option>
+            </select>
+          </div>
+          <div class="prop-row">
+            <span class="prop-lbl">Size</span>
+            <input type="number" class="prop-inp" id="pFSize2" min="6" max="400" onchange="setTxtProp('fontSize',+this.value)">
+            <button class="ob-btn" onclick="toggleTxtProp('fontWeight','bold','normal')"><i class="fa fa-bold"></i></button>
+            <button class="ob-btn" onclick="toggleTxtProp('fontStyle','italic','normal')"><i class="fa fa-italic"></i></button>
+            <button class="ob-btn" onclick="toggleTxtBool('underline')"><i class="fa fa-underline"></i></button>
+          </div>
+          <div class="text-fx-grid" id="textFxGrid"></div>
+        </div>
+
+        <div style="padding:6px">
+          <div class="row2" style="gap:4px">
+            <button class="sec-btn" onclick="bringToFront()"><i class="fa fa-angles-up me-1"></i>Top</button>
+            <button class="sec-btn" onclick="sendToBack()"><i class="fa fa-angles-down me-1"></i>Bot</button>
+            <button class="sec-btn" onclick="flipHorizontal()"><i class="fa fa-left-right me-1"></i>Flip H</button>
+            <button class="sec-btn" onclick="flipVertical()"><i class="fa fa-up-down me-1"></i>Flip V</button>
+            <button class="sec-btn" onclick="lockSelected()"><i class="fa fa-lock me-1"></i>Lock</button>
+            <button class="sec-btn" onclick="groupSelected()"><i class="fa fa-object-group me-1"></i>Group</button>
+          </div>
+          <button class="sec-btn full err" style="margin-top:5px" onclick="deleteSelected()"><i class="fa fa-trash me-1"></i>Delete Selected</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters / Adjustments Pane -->
+    <div class="lp-pane" id="lpFilters" style="display:none">
+      <div class="panel-section">
+        <div class="ps-label">Image Adjustments</div>
+        <div id="filterSliders">
+          <div class="filter-row"><span class="filter-lbl">Brightness</span><input type="range" class="filter-slider" id="fBright" min="-100" max="100" value="0" oninput="applyFilterAdj('brightness',this.value);document.getElementById('fBrightV').textContent=this.value"><span class="filter-val" id="fBrightV">0</span></div>
+          <div class="filter-row"><span class="filter-lbl">Contrast</span><input type="range" class="filter-slider" id="fContrast" min="-100" max="100" value="0" oninput="applyFilterAdj('contrast',this.value);document.getElementById('fContrastV').textContent=this.value"><span class="filter-val" id="fContrastV">0</span></div>
+          <div class="filter-row"><span class="filter-lbl">Saturation</span><input type="range" class="filter-slider" id="fSat" min="-100" max="100" value="0" oninput="applyFilterAdj('saturation',this.value);document.getElementById('fSatV').textContent=this.value"><span class="filter-val" id="fSatV">0</span></div>
+          <div class="filter-row"><span class="filter-lbl">Hue Rotate</span><input type="range" class="filter-slider" id="fHue" min="-180" max="180" value="0" oninput="applyFilterAdj('hue',this.value);document.getElementById('fHueV').textContent=this.value+'°'"><span class="filter-val" id="fHueV">0°</span></div>
+          <div class="filter-row"><span class="filter-lbl">Blur</span><input type="range" class="filter-slider" id="fBlur" min="0" max="50" value="0" oninput="applyFilterAdj('blur',this.value);document.getElementById('fBlurV').textContent=this.value+'px'"><span class="filter-val" id="fBlurV">0px</span></div>
+          <div class="filter-row"><span class="filter-lbl">Sharpen</span><input type="range" class="filter-slider" id="fSharpen" min="0" max="100" value="0" oninput="applyFilterAdj('sharpen',this.value);document.getElementById('fSharpenV').textContent=this.value"><span class="filter-val" id="fSharpenV">0</span></div>
+          <div class="filter-row"><span class="filter-lbl">Noise</span><input type="range" class="filter-slider" id="fNoise" min="0" max="100" value="0" oninput="applyFilterAdj('noise',this.value);document.getElementById('fNoiseV').textContent=this.value"><span class="filter-val" id="fNoiseV">0</span></div>
+          <div class="filter-row"><span class="filter-lbl">Pixelate</span><input type="range" class="filter-slider" id="fPixel" min="1" max="40" value="1" oninput="applyFilterAdj('pixelate',this.value);document.getElementById('fPixelV').textContent=this.value+'px'"><span class="filter-val" id="fPixelV">1px</span></div>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:6px">
+          <button class="sec-btn full" onclick="applyFilterPreset('grayscale')"><i class="fa fa-circle-half-stroke me-1"></i>B&W</button>
+          <button class="sec-btn full" onclick="applyFilterPreset('sepia')"><i class="fa fa-palette me-1"></i>Sepia</button>
+          <button class="sec-btn full" onclick="applyFilterPreset('invert')"><i class="fa fa-circle me-1"></i>Invert</button>
+        </div>
+        <button class="sec-btn full err" style="margin-top:5px" onclick="clearAllFilters()"><i class="fa fa-xmark me-1"></i>Reset All Adjustments</button>
+      </div>
+    </div>
+
+    <!-- Text Tool Pane -->
+    <div class="lp-pane" id="lpText" style="display:none">
+      <div class="panel-section">
+        <div class="ps-label">Add Text</div>
+        <div class="form-row">
+          <label class="flbl">Text Content</label>
+          <textarea class="finp" id="quickTextContent" rows="2" placeholder="Your text here…"></textarea>
+        </div>
+        <div class="row2">
+          <div class="form-row">
+            <label class="flbl">Font</label>
+            <select class="finp" id="quickFont">
+              <option>Arial</option><option>Georgia</option><option>Impact</option>
+              <option>Verdana</option><option>Courier New</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="flbl">Size</label>
+            <input type="number" class="finp" id="quickFontSize" value="40" min="8" max="400">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="form-row">
+            <label class="flbl">Color</label>
+            <input type="color" class="finp" id="quickFontColor" value="#ffffff" style="height:26px;padding:2px">
+          </div>
+          <div class="form-row">
+            <label class="flbl">Align</label>
+            <select class="finp" id="quickFontAlign">
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        </div>
+        <button class="pri-btn" onclick="addTextWithOptions()"><i class="fa fa-font me-1"></i>Add Text</button>
+
+        <!-- Text Effects -->
+        <div class="ps-label" style="margin-top:10px">Text Effects</div>
+        <div id="textEffectsGrid">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+            <button class="sec-btn" onclick="applyTextEffect('shadow')"><i class="fa fa-sun me-1"></i>Shadow</button>
+            <button class="sec-btn" onclick="applyTextEffect('glow')"><i class="fa fa-star me-1"></i>Glow</button>
+            <button class="sec-btn" onclick="applyTextEffect('outline')"><i class="fa fa-circle-dot me-1"></i>Outline</button>
+            <button class="sec-btn" onclick="applyTextEffect('neon')"><i class="fa fa-bolt me-1"></i>Neon</button>
+            <button class="sec-btn" onclick="applyTextEffect('retro')"><i class="fa fa-film me-1"></i>Retro 3D</button>
+            <button class="sec-btn" onclick="applyTextEffect('curved')"><i class="fa fa-circle-notch me-1"></i>Curved</button>
+            <button class="sec-btn" onclick="applyTextEffect('gradient')"><i class="fa fa-fill-drip me-1"></i>Gradient</button>
+            <button class="sec-btn err" onclick="removeTextEffect()"><i class="fa fa-xmark me-1"></i>Reset FX</button>
+          </div>
+          <!-- Effect params -->
+          <div style="margin-top:6px;padding:6px;background:var(--bg3);border-radius:4px;border:1px solid var(--bdr)">
+            <div class="filter-row"><span class="filter-lbl">Shadow X</span><input type="range" class="filter-slider" id="fxShadowX" min="-20" max="20" value="4" oninput="liveTextFx()"><span class="filter-val" id="fxShadowXV">4</span></div>
+            <div class="filter-row"><span class="filter-lbl">Shadow Y</span><input type="range" class="filter-slider" id="fxShadowY" min="-20" max="20" value="4" oninput="liveTextFx()"><span class="filter-val" id="fxShadowYV">4</span></div>
+            <div class="filter-row"><span class="filter-lbl">Shadow Blur</span><input type="range" class="filter-slider" id="fxShadowBlur" min="0" max="30" value="5" oninput="liveTextFx()"><span class="filter-val" id="fxShadowBlurV">5</span></div>
+            <div class="filter-row">
+              <span class="filter-lbl">Shadow Color</span>
+              <input type="color" class="colorpick" id="fxShadowColor" value="#000000" oninput="liveTextFx()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ════ CANVAS AREA ═════════════════════════════════════ -->
+  <main class="canvas-area" id="canvasArea">
+
+    <!-- Rulers -->
+    <div class="canvas-ruler-row">
+      <div class="canvas-ruler-corner"></div>
+      <div class="canvas-ruler-h" id="rulerHWrap"><canvas id="rulerH"></canvas></div>
+    </div>
+    <div class="canvas-main-row" style="flex:1;min-height:0;display:flex">
+      <div class="canvas-ruler-v" id="rulerVWrap"><canvas id="rulerV"></canvas></div>
+
+      <div class="canvas-scroll-wrap" id="canvasScrollWrap">
+        <!-- Loading overlay -->
+        <div class="canvas-overlay" id="canvasOverlay" style="display:none">
+          <div class="spin"></div>
+          <span style="font-size:12px;color:var(--txt2)" id="overlayMsg">Processing…</span>
+          <div class="batch-progress" style="width:200px" id="overlayProgress" style="display:none">
+            <div class="batch-prog-bar" id="overlayProgBar"></div>
+          </div>
+        </div>
+
+        <!-- Inpainting toolbar (shown when inpaint tool active) -->
+        <div class="inp-toolbar" id="inpaintToolbar" style="display:none">
+          <span style="font-size:10px;color:var(--txt2)">Mask:</span>
+          <button class="ob-btn active" id="inpBrushBtn" onclick="setInpaintMode('brush')"><i class="fa fa-paintbrush"></i> Brush</button>
+          <button class="ob-btn" id="inpEraseBtn" onclick="setInpaintMode('erase')"><i class="fa fa-eraser"></i> Erase</button>
+          <div class="ob-sep"></div>
+          <span class="ob-lbl">Size</span>
+          <input type="range" id="inpBrushSize" min="5" max="100" value="30" style="width:70px;accent-color:var(--acc)">
+          <div class="ob-sep"></div>
+          <input type="text" class="ob-input" id="inpPrompt" placeholder="What to paint…" style="width:160px">
+          <button class="ob-btn active" onclick="runInpainting()" style="background:var(--acc);color:#fff;border-color:var(--acc)">
+            <i class="fa fa-wand-magic-sparkles"></i> Apply ⬡5
+          </button>
+          <button class="ob-btn err" onclick="setTool('select')"><i class="fa fa-times"></i> Exit</button>
+        </div>
+
+        <!-- Crop overlay -->
+        <div class="crop-overlay" id="cropOverlay"></div>
+        <div class="crop-selection" id="cropSelection" style="display:none"></div>
+
+        <!-- The Fabric.js canvas -->
+        <div class="canvas-container-wrapper" id="canvasWrapper">
+          <canvas id="editorCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Palette Strip -->
+    <div class="palette-strip" id="paletteStrip">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span id="stCanvas">1024 × 1024</span>
+      <div class="sb-sep"></div>
+      <span id="stTool">Select</span>
+      <div class="sb-sep"></div>
+      <span id="stPos">x: — y: —</span>
+      <div class="sb-sep"></div>
+      <span id="stSel">No selection</span>
+      <div class="sb-sep"></div>
+      <span id="stObjs">0 obj</span>
+      <div class="sb-sep"></div>
+      <span id="stHist">H:0/0</span>
+      <div class="sb-sep"></div>
+      <div class="sb-zoom">
+        <button onclick="zoomCanvas(-.25)" style="background:transparent;border:none;color:var(--txt3);font-size:10px;padding:0 2px">−</button>
+        <input type="number" id="zoomInput" value="100" min="5" max="3200" onchange="zoomTo(+this.value)" style="">
+        <span style="font-size:10px;color:var(--txt3)">%</span>
+        <button onclick="zoomCanvas(.25)" style="background:transparent;border:none;color:var(--txt3);font-size:10px;padding:0 2px">+</button>
+      </div>
+      <button onclick="zoomFit()" style="background:transparent;border:none;color:var(--txt3);font-size:10px;padding:0 4px" title="Fit to screen">Fit</button>
+    </div>
+  </main>
+
+  <!-- ════ PAGE PANEL ══════════════════════════════════════ -->
+  <aside class="page-panel" id="pagePanel">
+    <div class="pp-header">
+      <span class="pp-title">Pages</span>
+      <div class="pp-actions">
+        <button class="pp-btn" onclick="addPage()" title="Add page"><i class="fa fa-plus"></i></button>
+        <button class="pp-btn" onclick="duplicatePage()" title="Duplicate page"><i class="fa fa-clone"></i></button>
+        <button class="pp-btn danger" onclick="deletePage()" title="Delete page"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+    <div class="page-list" id="pageList">
+      <!-- Thumbnails injected by JS -->
+    </div>
+    <div class="pp-footer">
+      <span class="pp-page-info" id="pageInfo">1 / 1</span>
+      <button class="pp-btn" onclick="reorderPagesModal()" title="Reorder"><i class="fa fa-sort"></i></button>
+    </div>
+    <!-- Canvas size per-page -->
+    <div style="padding:5px 6px;border-top:1px solid var(--bdr);font-size:10px">
+      <div style="color:var(--txt3);margin-bottom:3px">Canvas Size</div>
+      <select class="finp" id="canvasSizePreset" style="height:22px;font-size:10px" onchange="applyCanvasSizePreset(this.value)">
+        <option value="">Custom…</option>
+        <optgroup label="Screen">
+          <option value="1920x1080">1080p HD</option>
+          <option value="2560x1440">1440p QHD</option>
+          <option value="3840x2160">4K UHD</option>
+          <option value="1280x720">720p</option>
+          <option value="1024x768">SVGA</option>
+        </optgroup>
+        <optgroup label="Print (300dpi)">
+          <option value="2480x3508">A4 Portrait</option>
+          <option value="3508x2480">A4 Landscape</option>
+          <option value="1748x2480">A5 Portrait</option>
+          <option value="2550x3300">Letter</option>
+          <option value="3300x2550">Letter Land</option>
+        </optgroup>
+        <optgroup label="Social">
+          <option value="1080x1080">Square 1080</option>
+          <option value="1080x1350">Instagram</option>
+          <option value="1080x1920">Story/Reel</option>
+          <option value="1200x628">FB/OG Banner</option>
+          <option value="1500x500">Twitter Header</option>
+          <option value="2560x1440">YouTube Art</option>
+        </optgroup>
+      </select>
+      <div style="display:flex;gap:3px;margin-top:3px">
+        <input type="number" class="finp" id="canvasW" value="1024" min="1" max="8000" style="height:22px;font-size:10px" placeholder="W">
+        <input type="number" class="finp" id="canvasH" value="1024" min="1" max="8000" style="height:22px;font-size:10px" placeholder="H">
+        <button class="sec-btn" onclick="applyCustomCanvasSize()" style="flex-shrink:0;padding:0 6px;height:22px">OK</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════ RIGHT PANEL (Layers + Properties) ═══════════════ -->
+  <aside class="right-panel" id="rightPanel">
+    <div class="rp-tabs">
+      <button class="rp-tab active" onclick="switchRTab('layers')" id="rtLayers">⬛ Layers</button>
+      <button class="rp-tab" onclick="switchRTab('shapes')" id="rtShapes">Shapes</button>
+      <button class="rp-tab" onclick="switchRTab('history')" id="rtHistory">Hist</button>
+    </div>
+
+    <!-- Layers Pane -->
+    <div class="rp-pane" id="rpLayers">
+      <!-- Blend mode + opacity for selected layer -->
+      <div class="opacity-row" style="border-bottom:1px solid var(--bdr);padding:4px 8px">
+        <span class="opacity-label" style="min-width:30px">Blend</span>
+        <select class="blend-select" id="layerBlend" onchange="setLayerBlend(this.value)">
+          <option value="source-over">Normal</option>
+          <option value="multiply">Multiply</option>
+          <option value="screen">Screen</option>
+          <option value="overlay">Overlay</option>
+          <option value="darken">Darken</option>
+          <option value="lighten">Lighten</option>
+          <option value="color-dodge">Color Dodge</option>
+          <option value="color-burn">Color Burn</option>
+          <option value="soft-light">Soft Light</option>
+          <option value="hard-light">Hard Light</option>
+          <option value="difference">Difference</option>
+          <option value="exclusion">Exclusion</option>
+        </select>
+      </div>
+      <div class="opacity-row" style="border-bottom:1px solid var(--bdr)">
+        <span class="opacity-label">Opacity</span>
+        <input type="range" class="opacity-slider" id="layerOpacity" min="0" max="1" step="0.01"
+          oninput="setLayerOpacity(+this.value);document.getElementById('layerOpVal').textContent=Math.round(this.value*100)+'%'">
+        <span class="opacity-val" id="layerOpVal">100%</span>
+      </div>
+
+      <!-- Layer action buttons -->
+      <div class="layer-header">
+        <button class="layer-hbtn" onclick="addLayer()" title="New Layer"><i class="fa fa-plus"></i></button>
+        <button class="layer-hbtn" onclick="duplicateLayer()" title="Duplicate"><i class="fa fa-clone"></i></button>
+        <button class="layer-hbtn" onclick="groupSelected()" title="Group"><i class="fa fa-object-group"></i></button>
+        <button class="layer-hbtn" onclick="mergeDown()" title="Merge Down"><i class="fa fa-compress"></i></button>
+        <div style="flex:1"></div>
+        <button class="layer-hbtn err" onclick="deleteSelected()" title="Delete"><i class="fa fa-trash"></i></button>
+      </div>
+
+      <!-- Layer list -->
+      <div id="layersList" style="flex:1;overflow-y:auto">
+        <div style="padding:14px 10px;text-align:center;font-size:11px;color:var(--txt3)">Canvas is empty</div>
+      </div>
+    </div>
+
+    <!-- Shapes Library Pane -->
+    <div class="rp-pane" id="rpShapes" style="display:none">
+      <div style="padding:8px">
+        <div class="ps-label">Basic Shapes</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px">
+          <button class="sec-btn" onclick="addShape('rect')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-square" style="font-size:16px"></i>Rect</button>
+          <button class="sec-btn" onclick="addShape('rounded')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-square" style="font-size:16px;border-radius:4px"></i>Round</button>
+          <button class="sec-btn" onclick="addShape('circle')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-circle" style="font-size:16px"></i>Circle</button>
+          <button class="sec-btn" onclick="addShape('ellipse')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-circle" style="font-size:14px;transform:scaleX(.6)"></i>Ellipse</button>
+          <button class="sec-btn" onclick="addShape('triangle')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-play" style="font-size:14px;transform:rotate(-90deg)"></i>Triangle</button>
+          <button class="sec-btn" onclick="addShape('star')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-star" style="font-size:16px"></i>Star</button>
+          <button class="sec-btn" onclick="addShape('line')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-minus" style="font-size:16px"></i>Line</button>
+          <button class="sec-btn" onclick="addShape('arrow')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-arrow-right" style="font-size:16px"></i>Arrow</button>
+          <button class="sec-btn" onclick="addShape('heart')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-heart" style="font-size:16px"></i>Heart</button>
+          <button class="sec-btn" onclick="addShape('diamond')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-diamond" style="font-size:14px"></i>Diamond</button>
+          <button class="sec-btn" onclick="addShape('polygon')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-hexagon" style="font-size:14px"></i>Hex</button>
+          <button class="sec-btn" onclick="addShape('speech')" style="flex-direction:column;gap:2px;height:44px;font-size:10px"><i class="fa fa-comment" style="font-size:14px"></i>Speech</button>
+        </div>
+
+        <div class="ps-label">Stickers</div>
+        <div class="sticker-grid" id="stickerGrid"></div>
+
+        <div class="ps-label" style="margin-top:8px">Frames</div>
+        <div class="frame-grid" id="frameGrid"></div>
+      </div>
+    </div>
+
+    <!-- History Pane -->
+    <div class="rp-pane" id="rpHistory" style="display:none">
+      <div style="padding:6px 8px;border-bottom:1px solid var(--bdr);display:flex;gap:4px;flex-shrink:0">
+        <button class="layer-hbtn" onclick="histUndo()"><i class="fa fa-rotate-left"></i> Undo</button>
+        <button class="layer-hbtn" onclick="histRedo()"><i class="fa fa-rotate-right"></i> Redo</button>
+        <div style="flex:1"></div>
+        <button class="layer-hbtn err" onclick="histClear()"><i class="fa fa-trash"></i> Clear</button>
+      </div>
+      <div id="historyList" style="flex:1;overflow-y:auto">
+        <div style="padding:14px;text-align:center;font-size:11px;color:var(--txt3)">No history yet</div>
+      </div>
+    </div>
+  </aside>
+
+</div><!-- /app-shell -->
+
+<!-- ═══════════════════════════════════════════════════════
+     MODALS
+     ═══════════════════════════════════════════════════════ -->
+
+<!-- EXPORT MODAL -->
+<div class="modal-back" id="exportModal" style="display:none" onclick="if(event.target===this)closeModal('exportModal')">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <span class="modal-title"><i class="fa fa-file-export me-2" style="color:var(--acc)"></i>Export As</span>
+      <button class="modal-close" onclick="closeModal('exportModal')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="ps-label">Format</div>
+      <div class="export-format-grid" id="exportFormatGrid">
+        <!-- Injected by JS -->
+      </div>
+      <div style="margin-top:12px" id="exportOptions">
+        <div class="row2">
+          <div class="form-row">
+            <label class="flbl">Quality (JPEG/WebP)</label>
+            <input type="range" class="finp" id="exportQuality" min="0.1" max="1" step="0.05" value="0.92" style="height:24px;padding:6px 0">
+          </div>
+          <div class="form-row">
+            <label class="flbl">Scale</label>
+            <select class="finp" id="exportScale">
+              <option value="1">1× (Original)</option>
+              <option value="2">2× (Double)</option>
+              <option value="0.5">0.5× (Half)</option>
+              <option value="0.75">0.75×</option>
+              <option value="3">3×</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="flbl">Which pages to export</label>
+          <select class="finp" id="exportPages">
+            <option value="current">Current page only</option>
+            <option value="all">All pages (ZIP)</option>
+            <option value="range">Page range…</option>
+          </select>
+        </div>
+        <div class="form-row" id="exportRangeRow" style="display:none">
+          <label class="flbl">Page Range (e.g. 1-3,5)</label>
+          <input type="text" class="finp" id="exportPageRange" placeholder="1-3,5,7">
+        </div>
+        <div class="form-row">
+          <label class="flbl">Filename</label>
+          <input type="text" class="finp" id="exportFilename" value="artwork" placeholder="filename (no extension)">
+        </div>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="modal-ghost-btn" onclick="closeModal('exportModal')">Cancel</button>
+      <button class="modal-pri-btn" onclick="doExport()"><i class="fa fa-download me-1"></i>Export</button>
+    </div>
+  </div>
+</div>
+
+<!-- BATCH PROCESSING MODAL -->
+<div class="modal-back" id="batchModal" style="display:none" onclick="if(event.target===this)closeModal('batchModal')">
+  <div class="modal-box lg">
+    <div class="modal-hdr">
+      <span class="modal-title"><i class="fa fa-layer-group me-2" style="color:var(--acc)"></i>Batch Processing</span>
+      <button class="modal-close" onclick="closeModal('batchModal')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <!-- Drop zone -->
+      <div class="batch-drop" id="batchDrop" onclick="document.getElementById('batchFileInput').click()"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="handleBatchDrop(event)">
+        <i class="fa fa-cloud-arrow-up"></i>
+        <p>Drop images here or click to browse</p>
+        <p style="font-size:10px;color:var(--txt3);margin-top:4px">Supports: JPG, PNG, WebP, GIF, BMP, TIFF, SVG</p>
+      </div>
+
+      <!-- File list -->
+      <div class="batch-file-list" id="batchFileList" style="display:none">
+        <!-- Injected by JS -->
+      </div>
+
+      <!-- Operations -->
+      <div class="ps-label">Select Operation</div>
+      <div class="batch-op-grid" id="batchOpGrid">
+        <div class="batch-op-card sel" data-op="crop" onclick="selectBatchOp('crop')">
+          <i class="fa fa-crop-simple"></i>
+          <div class="batch-op-title">Batch Crop</div>
+          <div class="batch-op-desc">Crop all images to a specific size or aspect ratio</div>
+        </div>
+        <div class="batch-op-card" data-op="resize" onclick="selectBatchOp('resize')">
+          <i class="fa fa-expand-arrows-alt"></i>
+          <div class="batch-op-title">Batch Resize</div>
+          <div class="batch-op-desc">Resize all images to specific dimensions</div>
+        </div>
+        <div class="batch-op-card" data-op="bgremove" onclick="selectBatchOp('bgremove')">
+          <i class="fa fa-wand-magic-sparkles"></i>
+          <div class="batch-op-title">Batch BG Remove <small style="color:var(--coin)">⬡2/img</small></div>
+          <div class="batch-op-desc">Remove background from all images using AI</div>
+        </div>
+        <div class="batch-op-card" data-op="convert" onclick="selectBatchOp('convert')">
+          <i class="fa fa-file-image"></i>
+          <div class="batch-op-title">Batch Convert</div>
+          <div class="batch-op-desc">Convert images to different format (PNG, JPG, WebP…)</div>
+        </div>
+        <div class="batch-op-card" data-op="filter" onclick="selectBatchOp('filter')">
+          <i class="fa fa-palette"></i>
+          <div class="batch-op-title">Batch Filter</div>
+          <div class="batch-op-desc">Apply filter/adjustment to all images</div>
+        </div>
+        <div class="batch-op-card" data-op="watermark" onclick="selectBatchOp('watermark')">
+          <i class="fa fa-copyright"></i>
+          <div class="batch-op-title">Batch Watermark</div>
+          <div class="batch-op-desc">Add text or image watermark to all files</div>
+        </div>
+      </div>
+
+      <!-- Op-specific settings -->
+      <div id="batchOpSettings" style="background:var(--bg3);border-radius:6px;padding:10px;border:1px solid var(--bdr)">
+        <!-- Crop settings (default) -->
+        <div id="bos-crop">
+          <div class="row3">
+            <div class="form-row">
+              <label class="flbl">Crop Width</label>
+              <input type="number" class="finp" id="batchCropW" value="800" min="1">
+            </div>
+            <div class="form-row">
+              <label class="flbl">Crop Height</label>
+              <input type="number" class="finp" id="batchCropH" value="600" min="1">
+            </div>
+            <div class="form-row">
+              <label class="flbl">Anchor Point</label>
+              <select class="finp" id="batchCropAnchor">
+                <option value="center">Center</option>
+                <option value="top-left">Top-Left</option>
+                <option value="top-right">Top-Right</option>
+                <option value="bottom-left">Bottom-Left</option>
+                <option value="bottom-right">Bottom-Right</option>
+                <option value="top">Top Center</option>
+                <option value="bottom">Bottom Center</option>
+              </select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="form-row">
+              <label class="flbl">Aspect Ratio (optional)</label>
+              <select class="finp" id="batchCropRatio">
+                <option value="">Free / Custom size</option>
+                <option value="1:1">1:1 Square</option>
+                <option value="16:9">16:9 Widescreen</option>
+                <option value="9:16">9:16 Portrait</option>
+                <option value="4:3">4:3</option>
+                <option value="3:2">3:2</option>
+                <option value="2:3">2:3</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label class="flbl">Output Format</label>
+              <select class="finp" id="batchCropFmt">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+                <option value="webp">WebP</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="bos-resize" style="display:none">
+          <div class="row3">
+            <div class="form-row"><label class="flbl">Width (px)</label><input type="number" class="finp" id="batchResW" value="1920" min="1"></div>
+            <div class="form-row"><label class="flbl">Height (px)</label><input type="number" class="finp" id="batchResH" value="1080" min="1"></div>
+            <div class="form-row"><label class="flbl">Keep Ratio</label><select class="finp" id="batchResRatio"><option value="yes">Yes</option><option value="no">No</option></select></div>
+          </div>
+        </div>
+        <div id="bos-bgremove" style="display:none">
+          <p style="font-size:11px;color:var(--txt2)">AI will remove background from each image.<br>Cost: <span style="color:var(--coin)">⬡2 per image</span>. Results download as PNG with transparency.</p>
+        </div>
+        <div id="bos-convert" style="display:none">
+          <div class="row2">
+            <div class="form-row"><label class="flbl">Output Format</label>
+              <select class="finp" id="batchConvFmt">
+                <option value="png">PNG</option><option value="jpeg">JPEG</option>
+                <option value="webp">WebP</option><option value="gif">GIF</option>
+              </select>
+            </div>
+            <div class="form-row"><label class="flbl">Quality (JPEG/WebP)</label>
+              <input type="range" class="finp" id="batchConvQ" min="0.1" max="1" step="0.05" value="0.9" style="height:24px;padding:6px 0">
+            </div>
+          </div>
+        </div>
+        <div id="bos-filter" style="display:none">
+          <div class="row3">
+            <div class="form-row"><label class="flbl">Filter</label>
+              <select class="finp" id="batchFilterType">
+                <option value="grayscale">Grayscale (B&W)</option>
+                <option value="sepia">Sepia</option>
+                <option value="invert">Invert</option>
+                <option value="brightness">Brightness</option>
+                <option value="contrast">Contrast</option>
+                <option value="blur">Blur</option>
+              </select>
+            </div>
+            <div class="form-row"><label class="flbl">Intensity</label><input type="range" class="finp" id="batchFilterVal" min="0" max="100" value="50" style="height:24px;padding:6px 0"></div>
+            <div class="form-row"><label class="flbl">Output Format</label>
+              <select class="finp" id="batchFilterFmt"><option value="png">PNG</option><option value="jpeg">JPEG</option><option value="webp">WebP</option></select>
+            </div>
+          </div>
+        </div>
+        <div id="bos-watermark" style="display:none">
+          <div class="row2">
+            <div class="form-row"><label class="flbl">Watermark Text</label><input type="text" class="finp" id="batchWmText" value="© AkkuChatbot" placeholder="Your watermark text"></div>
+            <div class="form-row"><label class="flbl">Position</label>
+              <select class="finp" id="batchWmPos">
+                <option value="bottom-right">Bottom Right</option>
+                <option value="bottom-left">Bottom Left</option>
+                <option value="top-right">Top Right</option>
+                <option value="top-left">Top Left</option>
+                <option value="center">Center</option>
+              </select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="form-row"><label class="flbl">Font Size</label><input type="number" class="finp" id="batchWmSize" value="24" min="8" max="200"></div>
+            <div class="form-row"><label class="flbl">Color + Opacity</label>
+              <div style="display:flex;gap:4px;align-items:center">
+                <input type="color" class="colorpick" id="batchWmColor" value="#ffffff" style="width:34px;height:26px">
+                <input type="range" style="flex:1;accent-color:var(--acc)" id="batchWmOpacity" min="0.1" max="1" step="0.05" value="0.7">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div id="batchProgressWrap" style="display:none;margin-top:10px">
+        <div style="font-size:11px;color:var(--txt2);margin-bottom:4px" id="batchProgressMsg">Processing 0 / 0…</div>
+        <div class="batch-progress"><div class="batch-prog-bar" id="batchProgBar"></div></div>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="modal-ghost-btn" onclick="closeModal('batchModal')">Cancel</button>
+      <button class="modal-pri-btn" id="batchRunBtn" onclick="runBatchProcess()">
+        <i class="fa fa-play me-1"></i>Run Batch
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- COLLAGE BUILDER MODAL -->
+<div class="modal-back" id="collageModal" style="display:none" onclick="if(event.target===this)closeModal('collageModal')">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <span class="modal-title"><i class="fa fa-table-cells me-2" style="color:var(--acc)"></i>Collage Builder</span>
+      <button class="modal-close" onclick="closeModal('collageModal')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="ps-label">Layout</div>
+      <div class="collage-grid" id="collageLayoutGrid"></div>
+      <div class="row2">
+        <div class="form-row"><label class="flbl">Canvas Size</label>
+          <select class="finp" id="collageSize">
+            <option value="1080x1080">1080×1080 (Square)</option>
+            <option value="1920x1080">1920×1080 (Wide)</option>
+            <option value="1080x1920">1080×1920 (Portrait)</option>
+            <option value="2480x3508">A4 Portrait</option>
+          </select>
+        </div>
+        <div class="form-row"><label class="flbl">Gap (px)</label>
+          <input type="number" class="finp" id="collageGap" value="8" min="0" max="50">
+        </div>
+      </div>
+      <div class="form-row"><label class="flbl">Background Color</label>
+        <input type="color" class="finp" id="collageBg" value="#000000" style="height:26px;padding:2px">
+      </div>
+      <button class="pri-btn" onclick="buildCollage()"><i class="fa fa-table-cells me-1"></i>Build Collage</button>
+    </div>
+    <div class="modal-ftr">
+      <button class="modal-ghost-btn" onclick="closeModal('collageModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE ARTWORK MODAL -->
+<div class="modal-back" id="saveModal" style="display:none" onclick="if(event.target===this)closeModal('saveModal')">
+  <div class="modal-box sm">
+    <div class="modal-hdr">
+      <span class="modal-title"><i class="fa fa-floppy-disk me-2" style="color:var(--ok)"></i>Save Artwork</span>
+      <button class="modal-close" onclick="closeModal('saveModal')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label class="flbl">Artwork Name</label>
+        <input type="text" class="finp" id="saveTitle" placeholder="My Artwork" maxlength="100">
+      </div>
+      <div id="saveMsg" style="font-size:11px;color:var(--txt3);margin-top:6px"></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="modal-ghost-btn" onclick="closeModal('saveModal')">Cancel</button>
+      <button class="modal-pri-btn" onclick="doSaveArtwork()"><i class="fa fa-floppy-disk me-1"></i>Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOAD ARTWORK MODAL -->
+<div class="modal-back" id="loadModal" style="display:none" onclick="if(event.target===this)closeModal('loadModal')">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <span class="modal-title"><i class="fa fa-folder-open me-2" style="color:var(--acc)"></i>My Saved Artworks</span>
+      <button class="modal-close" onclick="closeModal('loadModal')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="art-grid" id="artGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px">
+        <div style="padding:20px;text-align:center;font-size:11px;color:var(--txt3);grid-column:1/-1">Loading…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW DOCUMENT MODAL -->
+<div class="modal-back" id="newDocModal" style="display:none" onclick="if(event.target===this)closeModal('newDocModal')">
+  <div class="modal-box sm">
+    <div class="modal-hdr">
+      <span class="modal-title"><i class="fa fa-file me-2" style="color:var(--acc)"></i>New Document</span>
+      <button class="modal-close" onclick="closeModal('newDocModal')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label class="flbl">Preset</label>
+        <select class="finp" id="newDocPreset" onchange="applyNewDocPreset(this.value)">
+          <option value="">Custom</option>
+          <option value="1920x1080">1920×1080 HD</option>
+          <option value="3840x2160">3840×2160 4K</option>
+          <option value="1080x1080">1080×1080 Square</option>
+          <option value="2480x3508">A4 Portrait (300dpi)</option>
+          <option value="1024x1024">1024×1024</option>
+        </select>
+      </div>
+      <div class="row2">
+        <div class="form-row"><label class="flbl">Width (px)</label><input type="number" class="finp" id="newDocW" value="1024" min="1" max="8000"></div>
+        <div class="form-row"><label class="flbl">Height (px)</label><input type="number" class="finp" id="newDocH" value="1024" min="1" max="8000"></div>
+      </div>
+      <div class="form-row">
+        <label class="flbl">Background</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="color" class="colorpick" id="newDocBg" value="#ffffff" style="width:34px;height:26px">
+          <button class="sec-btn" onclick="document.getElementById('newDocBg').value='#000000'" >Black</button>
+          <button class="sec-btn" onclick="document.getElementById('newDocBg').value='#ffffff'">White</button>
+          <button class="sec-btn" onclick="document.getElementById('newDocBg').value='transparent'">Transparent</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="modal-ghost-btn" onclick="closeModal('newDocModal')">Cancel</button>
+      <button class="modal-pri-btn" onclick="createNewDocument()"><i class="fa fa-file me-1"></i>Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- FG/BG COLOR PICKER -->
+<div class="modal-back" id="fgBgModal" style="display:none" onclick="if(event.target===this)closeModal('fgBgModal')">
+  <div class="modal-box sm">
+    <div class="modal-hdr">
+      <span class="modal-title">Foreground / Background Color</span>
+      <button class="modal-close" onclick="closeModal('fgBgModal')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="row2">
+        <div class="form-row">
+          <label class="flbl">Foreground</label>
+          <input type="color" class="finp" id="fgColorPick" value="#5d7cf8" oninput="setFgColor(this.value)" style="height:40px;padding:2px">
+        </div>
+        <div class="form-row">
+          <label class="flbl">Background</label>
+          <input type="color" class="finp" id="bgColorPick" value="#000000" oninput="setBgColor(this.value)" style="height:40px;padding:2px">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast dock -->
+<div class="toast-dock" id="toastDock"></div>
+
+@Html.AntiForgeryToken()
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Load the main V2 JS -->
+<script src="~/js/editor-v2/core.js"></script>
+<script src="~/js/editor-v2/tools.js"></script>
+<script src="~/js/editor-v2/layers.js"></script>
+<script src="~/js/editor-v2/pages.js"></script>
+<script src="~/js/editor-v2/ai.js"></script>
+<script src="~/js/editor-v2/batch.js"></script>
+<script src="~/js/editor-v2/export.js"></script>
+<script src="~/js/editor-v2/filters.js"></script>
+<script src="~/js/editor-v2/text-effects.js"></script>
+<script src="~/js/editor-v2/stickers.js"></script>
+<script src="~/js/editor-v2/collage.js"></script>
+</body>
+</html>

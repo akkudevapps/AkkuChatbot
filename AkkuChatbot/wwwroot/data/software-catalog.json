@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "name": "VLC Media Player",
+    "description": "Free multimedia player that plays most multimedia files, DVDs, Audio CDs, VCDs, and streaming protocols.",
+    "version": "3.0.21",
+    "category": "Media Players",
+    "license": "Freeware",
+    "downloadUrl": "https://www.videolan.org/vlc/",
+    "icon": "🎬",
+    "fileSizeMB": 40,
+    "updatedAt": "2024-12-01T00:00:00",
+    "downloads": 98500
+  },
+  {
+    "id": 2,
+    "name": "7-Zip",
+    "description": "File archiver with high compression ratio. Supports 7z, ZIP, RAR, and many formats.",
+    "version": "24.08",
+    "category": "File Management",
+    "license": "Freeware",
+    "downloadUrl": "https://www.7-zip.org/download.html",
+    "icon": "📦",
+    "fileSizeMB": 2,
+    "updatedAt": "2024-11-15T00:00:00",
+    "downloads": 87300
+  },
+  {
+    "id": 3,
+    "name": "Notepad++",
+    "description": "Free source code editor and Notepad replacement. Supports several programming languages.",
+    "version": "8.7",
+    "category": "Text Editors",
+    "license": "Freeware",
+    "downloadUrl": "https://notepad-plus-plus.org/downloads/",
+    "icon": "📝",
+    "fileSizeMB": 4,
+    "updatedAt": "2024-10-20T00:00:00",
+    "downloads": 76200
+  },
+  {
+    "id": 4,
+    "name": "GIMP",
+    "description": "GNU Image Manipulation Program - a cross-platform image editor.",
+    "version": "2.10.38",
+    "category": "Image Editing",
+    "license": "Freeware",
+    "downloadUrl": "https://www.gimp.org/downloads/",
+    "icon": "🎨",
+    "fileSizeMB": 230,
+    "updatedAt": "2024-09-10T00:00:00",
+    "downloads": 65400
+  },
+  {
+    "id": 5,
+    "name": "Audacity",
+    "description": "Free, open source audio editor and recorder for Windows, Mac, and Linux.",
+    "version": "3.7.0",
+    "category": "Audio",
+    "license": "Freeware",
+    "downloadUrl": "https://www.audacityteam.org/download/",
+    "icon": "🎵",
+    "fileSizeMB": 35,
+    "updatedAt": "2024-11-01T00:00:00",
+    "downloads": 54300
+  }
+]
